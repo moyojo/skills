@@ -20,5 +20,8 @@ Validate a skill with:
 
 ```bash
 python3 $CODEX_HOME/skills/.system/skill-creator/scripts/quick_validate.py skills/xiuzhen-art-generator
+python3 skills/xiuzhen-art-generator/scripts/validate_pools.py
 ```
 
+The xiuzhen generator's element pools live in `skills/xiuzhen-art-generator/data/pools.md`.
+Edit that text file for facets, elements, refinements, theme biases, condition aliases, and composite parent models.

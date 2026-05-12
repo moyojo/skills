@@ -8,93 +8,32 @@ import json
 import random
 import textwrap
 import time
+from pathlib import Path
 from dataclasses import asdict, dataclass, replace
 from typing import Iterable
 
+from pool_parser import parse_pool_file
 
-ELEMENTS = {
-    "存在": {
-        "气": "流动的能量、生命力、场、势",
-        "形": "结构、形体、器官、阵型、山川脉络",
-        "质": "材料、本质、属性、五金百草、骨血皮肉",
-        "性": "寒热燥湿、刚柔清浊、善恶毒净等内在倾向",
-        "名": "定义、符号、契约、真名、咒名、封号",
-        "数": "数量、比例、节律、天机算法、命数",
-        "象": "形象、征兆、卦象、星象、梦象",
-        "灵": "意识、魂魄、神智、万物有灵",
-        "虚": "空、无、间隙、潜能、未显之物",
-        "实": "实体、结果、显化、可触可用之物",
-    },
-    "变化": {
-        "生": "诞生、创造、萌发、孕育",
-        "长": "成长、壮大、积累、繁衍",
-        "化": "转化、炼化、变形、蜕变",
-        "灭": "腐朽、死亡、湮灭、终结",
-        "合": "融合、缔结、婚配、炼合、聚众",
-        "分": "分解、剖析、离散、裂魂、解构",
-        "升": "精炼、飞升、升华、提纯",
-        "降": "沉淀、镇压、降服、入世",
-        "藏": "隐匿、封存、养势、潜伏",
-        "显": "显圣、启示、照见、暴露",
-        "转": "轮回、循环、迁移、变轨",
-        "逆": "逆天、返祖、回溯、反制、倒因果",
-    },
-    "秩序": {
-        "阴阳": "对立、互根、转化",
-        "五行": "生克、流转、物性系统",
-        "时序": "春夏秋冬、昼夜、衰旺、节气",
-        "因果": "种因得果、报应、牵连",
-        "命运": "定数、变数、劫数、机缘",
-        "平衡": "守恒、均衡、调和、代价",
-        "律令": "规则、禁制、法度、天条",
-        "等级": "尊卑、阶序、品秩、位格",
-        "循环": "轮回、周天、潮汐、呼吸",
-        "边界": "内外、彼此、封印、界限",
-        "中心": "核心、主宰、枢纽、君位",
-        "方位": "东西南北、八卦、九宫、星宿定位",
-    },
-    "关系": {
-        "感应": "天人感应、血脉感应、灵犀",
-        "交换": "祭祀、买卖、代价、献祭",
-        "寄生": "蛊、咒、夺舍、附体",
-        "共生": "灵兽、伴生法宝、宗门气运",
-        "支配": "御兽、控火、役鬼、掌兵",
-        "契约": "誓言、盟约、主仆、天契",
-        "召唤": "请神、唤灵、召兽、招魂",
-        "模仿": "拟态、变化、傀儡、画皮",
-        "映照": "镜、影、梦、分身、替身",
-        "污染": "毒、瘟、魔染、诅咒",
-        "净化": "祓除、医治、渡化、洗炼",
-        "传承": "血脉、师承、碑文、香火",
-    },
-    "认知": {
-        "观": "看见真相、观星、观气、观人",
-        "听": "听风、听心、听命、听天音",
-        "嗅": "辨药、寻踪、识妖、闻灾",
-        "尝": "尝百草、品灵气、辨毒",
-        "触": "摸骨、探脉、感地气",
-        "觉": "直觉、预感、灵觉、危机感",
-        "梦": "梦占、入梦、梦中修行",
-        "忆": "记忆、前世、史书、传承",
-        "忘": "忘情、忘我、斩念、洗心",
-        "悟": "顿悟、参禅、明心见性",
-        "算": "推演、卜筮、阵算、天机",
-        "言": "咒语、诗文、律令、真言",
-    },
-    "价值": {
-        "欲": "贪求、修炼动力、魔道根基",
-        "情": "亲情、爱情、怨恨、执念",
-        "德": "功德、仁德、善行、庇佑",
-        "罪": "业障、血债、诅咒、刑罚",
-        "功": "功业、战功、劳绩、封赏",
-        "愿": "宏愿、誓愿、香火愿力",
-        "信": "信仰、信任、信物、神道",
-        "礼": "祭祀、婚丧、朝拜、宗法",
-        "义": "盟义、侠义、道义、因义成道",
-        "利": "商道、交易、财货、资源流动",
-        "权": "统御、王朝、官职、号令",
-    },
-}
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+DATA_DIR = SCRIPT_DIR.parent / "data"
+
+
+POOL_DATA = parse_pool_file(DATA_DIR / "pools.md")
+ELEMENTS = POOL_DATA["elements"]
+REFINEMENTS = POOL_DATA["refinements"]
+THEMES = POOL_DATA["themes"]
+THEME_ELEMENTS = POOL_DATA["theme_elements"]
+CONDITION_ALIASES = POOL_DATA["condition_aliases"]
+CUSTOM_ELEMENTS = POOL_DATA["custom_elements"]
+COMPOSITE_PARENT_MODELS = POOL_DATA["composite_parent_models"]
+SWORD_BRANCH_MODELS = POOL_DATA["sword_branch_models"]
+SWORD_MOMENTUM_STORAGE_CONTEXTS = POOL_DATA["sword_momentum_storage_contexts"]
+SWORD_MOMENTUM_FIXED_CONTEXTS = POOL_DATA["sword_momentum_fixed_contexts"]
+SWORD_MOMENTUM_BORROW_CONTEXTS = POOL_DATA["sword_momentum_borrow_contexts"]
+SWORD_MOMENTUM_BY_SOURCE = POOL_DATA["sword_momentum_by_source"]
+HIGH_SCALE_REFINEMENTS = POOL_DATA["high_scale_refinements"]
+HIGH_RISK_ELEMENTS = POOL_DATA["high_risk_elements"]
 
 TYPES = ("法术", "功法", "秘籍", "法宝", "神通", "百艺", "剑法")
 REALMS = ("练气", "筑基", "金丹", "元婴", "化神", "炼虚", "合体", "大乘")
@@ -709,234 +648,6 @@ REALM_COMPLEXITY = {
     "合体": {"maturity": "顶阶身道合一", "heavens": (4, 7), "quality": (1.8, 3.6)},
     "大乘": {"maturity": "顶级铸天为一", "heavens": (5, 8), "quality": (2.2, 4.5)},
 }
-THEMES = (
-    "丹药食养",
-    "器械工巧",
-    "符箓契令",
-    "阵禁界域",
-    "医毒蛊疫",
-    "灵植御兽",
-    "魂梦心识",
-    "鬼神幽冥",
-    "卜筮星数",
-    "营造舟舆",
-    "兵备战策",
-    "艺道通玄",
-    "剑道",
-)
-THEME_ELEMENTS = {
-    "丹药食养": ("生", "长", "化", "质", "尝", "净化"),
-    "器械工巧": ("形", "质", "实", "化", "名", "律令"),
-    "符箓契令": ("名", "言", "律令", "契约", "象", "信"),
-    "阵禁界域": ("方位", "边界", "中心", "循环", "律令", "平衡"),
-    "医毒蛊疫": ("性", "触", "嗅", "尝", "污染", "净化", "寄生"),
-    "灵植御兽": ("生", "长", "共生", "支配", "感应", "灵"),
-    "魂梦心识": ("灵", "梦", "忆", "忘", "悟", "觉", "映照"),
-    "鬼神幽冥": ("灵", "罪", "愿", "信", "召唤", "传承", "契约"),
-    "卜筮星数": ("数", "象", "算", "因果", "命运", "方位", "时序"),
-    "营造舟舆": ("形", "质", "中心", "方位", "边界", "实"),
-    "兵备战策": ("形", "支配", "方位", "感应", "律令", "功"),
-    "艺道通玄": ("象", "情", "悟", "言", "礼", "传承"),
-}
-REFINEMENTS = {
-    "气": ("灵力", "生命力", "场势", "剑气"),
-    "形": ("器官", "阵型", "山川脉络", "剑形"),
-    "质": ("五金", "百草", "骨血", "玉石"),
-    "性": ("寒热", "刚柔", "清浊", "毒净"),
-    "名": ("真名", "封号", "咒名", "名分"),
-    "数": ("比例", "周期", "极限", "命数"),
-    "象": ("卦象", "星象", "梦象", "征兆"),
-    "灵": ("魂魄", "神智", "器灵", "万物有灵"),
-    "虚": ("间隙", "潜能", "未显", "空处"),
-    "实": ("实体", "结果", "显化", "可触之物"),
-    "生": ("萌发", "孕育", "创造", "复苏"),
-    "长": ("积累", "繁衍", "壮大", "年岁"),
-    "化": ("炼化", "蜕变", "变形", "转质"),
-    "灭": ("腐朽", "死亡", "湮灭", "终结"),
-    "合": ("融合", "缔结", "聚众", "炼合"),
-    "分": ("解构", "离散", "剖析", "裂魂"),
-    "升": ("精炼", "升华", "提纯", "飞升"),
-    "降": ("镇压", "沉淀", "降服", "入世"),
-    "藏": ("隐匿", "封存", "蓄势", "潜伏"),
-    "显": ("照见", "启示", "显圣", "暴露"),
-    "转": ("轮回", "循环", "迁移", "变轨"),
-    "逆": ("回溯", "反制", "返祖", "倒因果"),
-    "阴阳": ("对立", "互根", "转化", "消长"),
-    "五行": ("生克", "流转", "物性", "归藏"),
-    "时序": ("节气", "昼夜", "衰旺", "春秋"),
-    "因果": ("种因", "得果", "报应", "牵连"),
-    "命运": ("定数", "变数", "劫数", "机缘"),
-    "平衡": ("守恒", "均衡", "代价", "调和"),
-    "律令": ("禁制", "法度", "天条", "号令"),
-    "等级": ("位格", "品秩", "尊卑", "阶序"),
-    "循环": ("周天", "潮汐", "呼吸", "轮回"),
-    "边界": ("内外", "彼此", "封印", "界限"),
-    "中心": ("核心", "枢纽", "主宰", "君位"),
-    "方位": ("八卦", "九宫", "星宿定位", "南北"),
-    "感应": ("血脉感应", "灵犀", "气机牵引", "天人感应"),
-    "交换": ("祭祀", "买卖", "献祭", "代价"),
-    "寄生": ("蛊", "附体", "夺舍", "咒胎"),
-    "共生": ("伴生法宝", "灵兽", "宗门气运", "灵植共生"),
-    "支配": ("控火", "御兽", "役鬼", "掌兵"),
-    "契约": ("誓言", "主仆", "天契", "盟约"),
-    "召唤": ("请神", "唤灵", "召兽", "招魂"),
-    "模仿": ("拟态", "傀儡", "画皮", "变化"),
-    "映照": ("镜", "影", "替身", "分身"),
-    "污染": ("毒", "瘟", "魔染", "诅咒"),
-    "净化": ("祓除", "渡化", "洗炼", "医治"),
-    "传承": ("血脉", "师承", "碑文", "香火"),
-    "观": ("观星", "观气", "观人", "照见真相"),
-    "听": ("听风", "听心", "听命", "天音"),
-    "嗅": ("寻踪", "辨药", "闻灾", "识妖"),
-    "尝": ("品灵气", "辨毒", "尝百草", "食气"),
-    "触": ("摸骨", "探脉", "地气触觉", "手印"),
-    "觉": ("直觉", "预感", "灵觉", "危机感"),
-    "梦": ("入梦", "梦占", "梦中修行", "醒梦边界"),
-    "忆": ("前世", "史书", "记忆", "传承记忆"),
-    "忘": ("斩念", "忘情", "洗心", "忘我"),
-    "悟": ("顿悟", "参禅", "明心", "见性"),
-    "算": ("推演", "卜筮", "阵算", "天机"),
-    "言": ("真言", "咒语", "诗文", "律令之言"),
-    "欲": ("贪求", "执念", "魔道根基", "修炼动力"),
-    "情": ("亲情", "爱情", "怨恨", "执念"),
-    "德": ("功德", "仁德", "善行", "庇佑"),
-    "罪": ("业障", "血债", "刑罚", "诅咒"),
-    "功": ("战功", "功业", "劳绩", "封赏"),
-    "愿": ("宏愿", "誓愿", "香火愿力", "未竟愿"),
-    "信": ("信仰", "信任", "信物", "神道"),
-    "礼": ("祭祀", "婚丧", "宗法", "朝拜"),
-    "义": ("盟义", "侠义", "道义", "因义成道"),
-    "利": ("交易", "财货", "资源流动", "商道"),
-    "权": ("统御", "官职", "号令", "王朝位格"),
-    "剑": ("剑气", "剑势", "剑胆", "剑心", "剑意", "剑道"),
-}
-
-CUSTOM_ELEMENTS = {
-    "剑": ("复合", "道形统合标记；多天位共同铸道为剑，六纲由真实天位绑定解释"),
-}
-
-COMPOSITE_PARENT_MODELS = {
-    "剑": {
-        "definition": "剑之道形：多天位共同铸道为剑；六纲是整体道形中的天位槽位，不是上下层级或固定能力。",
-        "branches": ("剑气", "剑势", "剑胆", "剑心", "剑意", "剑道"),
-        "branch_notes": {
-            "剑气": "力量成形",
-            "剑势": "势态界分",
-            "剑胆": "意义承压",
-            "剑心": "本心守持",
-            "剑意": "意志塑刃",
-            "剑道": "自性成规",
-        },
-    },
-}
-
-SWORD_BRANCH_MODELS = {
-    "剑气": {
-        "vulgar": "属性剑气、灵力外放、把力量拉成剑芒",
-        "essence": "深层写法：说明某种具体力量如何被约束成可承压、可转折、可离体的锋刃形体",
-        "min_realm": "筑基",
-        "quality": 0.9,
-        "contexts": ("气", "形", "质", "灵力", "场势", "剑气", "剑形", "收束", "成形", "器"),
-    },
-    "剑势": {
-        "vulgar": "临势、借势或蓄势压迫；低阶只会把节奏、距离和退路逼窄，但不是固定不动或摆威风",
-        "essence": "深层写法：说明局势如何随步法、敌我位移、气机强弱、视线、距离和节奏不断重划界限；只有抽到大势、阵禁或固定地形上下文时，才写成长期布势",
-        "min_realm": "金丹",
-        "quality": 1.15,
-        "contexts": ("边界", "方位", "中心", "时序", "因果", "局势", "阵", "军", "势", "界限", "藏", "蓄势"),
-    },
-    "剑胆": {
-        "vulgar": "勇敢、爆种、遇强则强、临阵不退",
-        "essence": "深层写法：说明义、愿、罪、功、守护或决断如何替修士承受代价与反压",
-        "min_realm": "金丹",
-        "quality": 1.2,
-        "contexts": ("义", "愿", "罪", "功", "德", "信", "守护", "决断", "阻力", "誓"),
-    },
-    "剑心": {
-        "vulgar": "道心坚定、性格冷硬、心无杂念",
-        "essence": "深层写法：说明修士在诱惑、恐惧、名利、情债中用什么稳定标准维持剑性",
-        "min_realm": "元婴",
-        "quality": 1.35,
-        "contexts": ("心", "本心", "情", "欲", "名", "利", "忘", "悟", "道心", "守持"),
-    },
-    "剑意": {
-        "vulgar": "剑招变成山河风雷、意境特效、远程斩击",
-        "essence": "深层写法：说明某种意志如何决定斩击的形状、方向、尺度、终点与失败条件",
-        "min_realm": "元婴",
-        "quality": 1.5,
-        "contexts": ("意", "志", "观", "悟", "言", "象", "山河", "形塑", "斩击", "尺度"),
-    },
-    "剑道": {
-        "vulgar": "无形斩、无招胜有招、见什么都能斩",
-        "essence": "深层写法：说明修士自性如何变成一种可被世界承认的锋刃规则，而不是万能斩击",
-        "min_realm": "化神",
-        "quality": 1.8,
-        "contexts": ("自性", "性", "道", "边界", "分", "悟", "虚", "实", "法则", "铸道"),
-    },
-}
-
-SWORD_MOMENTUM_STORAGE_CONTEXTS = (
-    "藏",
-    "蓄势",
-    "养势",
-    "封存",
-    "潜伏",
-    "未发",
-    "压缩",
-)
-SWORD_MOMENTUM_FIXED_CONTEXTS = (
-    "大势",
-    "阵",
-    "阵禁",
-    "山门",
-    "峡",
-    "关隘",
-    "洞府",
-    "守门",
-    "守关",
-    "地形",
-    "城",
-    "宗门",
-)
-SWORD_MOMENTUM_BORROW_CONTEXTS = (
-    "借势",
-    "方位",
-    "时序",
-    "中心",
-    "军",
-    "兵",
-    "潮汐",
-    "风雨",
-    "地势",
-)
-SWORD_BRANCH_FOCUS = {
-    "剑气": ("气", "形", "质", "性", "实", "虚", "化", "显", "灵", "感应"),
-    "剑势": ("气", "形", "边界", "方位", "中心", "时序", "因果", "等级", "权", "名", "数", "象", "藏", "显", "支配", "感应"),
-    "剑胆": ("义", "愿", "信", "德", "罪", "功", "情", "权", "契约", "平衡", "逆", "灭"),
-    "剑心": ("性", "欲", "情", "忘", "悟", "观", "觉", "信", "礼", "平衡", "中心", "名"),
-    "剑意": ("观", "悟", "言", "象", "梦", "忆", "数", "方位", "时序", "分", "合", "转"),
-    "剑道": ("性", "分", "边界", "虚", "实", "因果", "命运", "律令", "悟", "名", "等级", "中心"),
-}
-SWORD_MOMENTUM_BY_SOURCE = {
-    "气": "气势：以气机强弱、呼吸断续和护体灵光涨落改写交锋节奏",
-    "形": "形势：以身位、剑路、器物和阵型让敌方下一步变窄",
-    "边界": "局势：以进退、内外、敌我和生死线重划可斩边界",
-    "方位": "方位之势：以八方、背向、夹角和落点制造必应之线",
-    "中心": "中枢之势：夺取场中关键点，让敌方每次变招都先失一拍",
-    "时序": "时势：借昼夜、节律、先后手和气息旧新决定何时一剑最重",
-    "因果": "因果之势：让前一剑的选择成为后一剑无法回避的债",
-    "等级": "位势：以境界、名分或品秩压出迟疑，但必须付出反噬或名分代价",
-    "权": "权势：以号令、统属或战场指挥使敌我行动向剑路收束",
-    "名": "名势：借名号、约定、誓词或众人认知令对手不敢破某条线",
-    "数": "数势：用步数、剑数、距离和循环次数累积必中的节点",
-    "象": "象势：以征兆、星象、影像或假象牵引敌方判断",
-    "藏": "蓄势：将未出之剑压入身、鞘、息或局中；一旦同级对手察觉，必须打断、逼出或立刻退线",
-    "显": "显势：显露破绽或真相后让局面骤然偏向一剑",
-    "支配": "军势：以控兵、御器、役使或阵列把多点压力合成一线",
-    "感应": "感势：凭血脉、气机或灵犀提前贴住敌方选择",
-}
-
-
 @dataclass(frozen=True)
 class ElementDraw:
     role: str
@@ -1017,37 +728,8 @@ HEAVEN_STRUCTURE_ROLES = (
 LOW_REALMS = {"练气", "筑基"}
 MID_REALMS = {"金丹", "元婴"}
 HIGH_REALMS = {"化神", "炼虚", "合体", "大乘"}
-HIGH_SCALE_REFINEMENTS = {
-    "裂魂": "破绽分割",
-    "湮灭": "熄灭余势",
-    "死亡": "止息生机",
-    "终结": "终止小循环",
-    "倒因果": "反制余波",
-    "回溯": "回看痕迹",
-    "飞升": "提纯一线",
-    "主宰": "局部核心",
-    "天条": "门规禁令",
-    "位格": "品阶标记",
-    "夺舍": "附念侵扰",
-    "宗门气运": "小脉气数",
-    "剑道": "粗浅剑路",
-    "法则": "术理痕迹",
-}
-HIGH_RISK_ELEMENTS = {"灭", "逆", "因果", "命运", "权", "召唤", "寄生", "罪", "虚", "升"}
 LOW_REALM_OUTPUT_CAP = {"练气": 55, "筑基": 70}
 LOW_REALM_QUALITY_CAP = {"练气": 0.95, "筑基": 1.1}
-
-CONDITION_ALIASES = {
-    "不纯攻击": ("净化", "感应", "观", "触", "藏", "平衡"),
-    "不要纯攻击": ("净化", "感应", "观", "触", "藏", "平衡"),
-    "辅助": ("藏", "感应", "净化", "平衡", "传承", "梦"),
-    "保命": ("藏", "感应", "边界", "平衡", "转", "梦"),
-    "避劫": ("因果", "命运", "藏", "边界", "梦", "转"),
-    "散修": ("藏", "转", "利", "感应", "边界", "实"),
-    "低资源": ("实", "形", "质", "触", "观", "藏"),
-    "索敌": ("感应", "观", "听", "因果", "方位", "名"),
-}
-
 LOW_USABILITY_STYLES = (
     "志怪乡谈",
     "汉乐府",
@@ -1309,7 +991,7 @@ def choose_many(
     return tuple(draws)
 
 
-def bind_sword_branches(
+def bind_composite_branches(
     rng: random.Random,
     realm: str,
     heavens: tuple[ElementDraw, ...],
@@ -1317,19 +999,21 @@ def bind_sword_branches(
     humans: tuple[ElementDraw, ...],
     extras: tuple[ElementDraw, ...],
 ) -> tuple[ElementDraw, ...]:
-    sword_indexes = [index for index, item in enumerate(heavens) if item.name == "剑"]
-    if not sword_indexes:
+    composite_indexes = [index for index, item in enumerate(heavens) if item.name in COMPOSITE_PARENT_MODELS]
+    if not composite_indexes:
         return heavens
-    selected = [item for item in (*heavens, *earths, *humans, *extras) if item.name != "剑"]
-    selected_by_name = {item.name: item for item in selected}
-    element_names = [name for name in all_elements() if name != "剑"]
 
     rebound = list(heavens)
-    for index in sword_indexes:
-        sword = rebound[index]
+    for index in composite_indexes:
+        parent = rebound[index]
+        model = COMPOSITE_PARENT_MODELS[parent.name]
+        branch_biases = model.get("branch_biases", {})
+        selected = [item for item in (*heavens, *earths, *humans, *extras) if item.name != parent.name]
+        selected_by_name = {item.name: item for item in selected}
+        element_names = [name for name in all_elements() if name != parent.name]
         bindings: list[tuple[str, str, str]] = []
-        for branch in COMPOSITE_PARENT_MODELS["剑"]["branches"]:
-            preferred = SWORD_BRANCH_FOCUS[branch]
+        for branch in model["branches"]:
+            preferred = tuple(branch_biases.get(branch, ()))
             focused_selected_heavens = [
                 name
                 for name in preferred
@@ -1365,7 +1049,7 @@ def bind_sword_branches(
                 expression, _ = forced_expression(source, refinement, realm)
             bindings.append((branch, source, expression))
 
-        rebound[index] = replace(sword, branch_bindings=tuple(bindings))
+        rebound[index] = replace(parent, branch_bindings=tuple(bindings))
     return tuple(rebound)
 
 
@@ -1501,10 +1185,7 @@ def build_prompt(draw: Draw) -> str:
             if item.name == "剑":
                 parent_guides.append(format_sword_pattern_guide(item, draw, model))
             else:
-                branches = "、".join(
-                    f"{branch}={model['branch_notes'][branch]}" for branch in model["branches"]
-                )
-                parent_guides.append(f"{model['definition']} 常见纲目不是固定必齐，而是随境界取用：{branches}。")
+                parent_guides.append(format_composite_pattern_guide(item, model))
     if parent_guides:
         lines.extend(["", "生成用机制约束："])
         lines.extend(f"- {guide}" for guide in parent_guides)
@@ -1522,7 +1203,7 @@ def build_prompt(draw: Draw) -> str:
         [
             "",
             "生成要求：",
-            "- 这些要素来自人类理解世界的底层范畴：存在、变化、秩序、关系、认知、价值；允许继续细分，但细分必须服务机制。",
+            "- 这些要素来自扩展 PMEST 八分面：本体、属性、过程、互作、场域、时序、符号、目的；也可简称体、性、化、缘、域、时、识、愿。允许继续细分，但细分必须服务机制。",
             "- 先给一个符合类型的名称。不要默认命名为 XX经；只有根本传承、顶级经文或刻意古典风才使用 经。优先按命名方案选择器型、招式、图谱、真解、秘录、剑诀、神通等不同结构。",
             "- 名称要有文体/语体来源，像从诗、骚、乐府、骈赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、算经、历法、医书、兵书、道佛科仪、志怪话本、农书水经、棋谱营造等古老文本里长出来，而不是古风词堆叠。每个名字体现至少一个来源、形制、功能、意象、境界或机制。",
             "- 文体/语体来源不等于世界内来历。默认不要因为名称取法甲骨、金文、诗骚、山海经、道佛科仪或古书语气，就把作品写成上古遗物、仙古残篇、仙人真传、遗迹出土或禁忌神物；只有基调明确为「上古失传」「仙古残篇」或用户指定相关来历时，才使用这种背景。",
@@ -1615,11 +1296,12 @@ def format_element(item: ElementDraw) -> str:
         if item.role.startswith("天位")
         else ""
     )
-    branch_text = f"复合纲目：{item.composite_branch}；" if item.composite_branch else ""
+    branch_text = f"本次侧重纲目：{item.composite_branch}；" if item.composite_branch else ""
     bindings_text = ""
     if item.branch_bindings:
+        label_text = "六纲天位抽样" if item.name == "剑" else "分支天位抽样"
         pairs = "、".join(f"{branch}取{source}/{expression}" for branch, source, expression in item.branch_bindings)
-        bindings_text = f"六纲天位抽样：{pairs}；"
+        bindings_text = f"{label_text}：{pairs}；"
     return (
         f"- {item.role}：{item.name}（{item.category}；{item.meaning}；"
         f"本次细分：{item.refinement}；"
@@ -1714,6 +1396,32 @@ def format_sword_pattern_guide(
     )
 
 
+def format_composite_pattern_guide(
+    item: ElementDraw,
+    model: dict[str, object],
+) -> str:
+    bindings = {branch: (source, expression) for branch, source, expression in item.branch_bindings}
+    branch_lines = []
+    for branch in model["branches"]:
+        note = model["branch_notes"][branch]
+        if branch in bindings:
+            source, expression = bindings[branch]
+            branch_lines.append(f"{branch}={note}，本次由「{source}/{expression}」解释")
+        else:
+            branch_lines.append(f"{branch}={note}")
+    binding_text = ""
+    if item.branch_bindings:
+        binding_text = " 本次分支天位抽样：" + "、".join(
+            f"{branch}={source}/{expression}" for branch, source, expression in item.branch_bindings
+        ) + "。"
+    return (
+        f"{model['definition']} "
+        f"这些分支是整体道形中的功能槽位，必须由真实天位、地位或人位解释，不要写成静态目录。"
+        f"{binding_text}"
+        f"分支处理表：{'；'.join(branch_lines)}。"
+    )
+
+
 def default_counts(mode: str, rng: random.Random, realm: str) -> tuple[int, int, int]:
     realm_min, realm_max = REALM_COMPLEXITY[realm]["heavens"]
     if mode == "单纯":
@@ -1796,7 +1504,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
     for _ in range(args.extra_count):
         extras.append(choose_element("附加", rng, None, used, excluded, realm, preferred=preferred))
 
-    heavens = bind_sword_branches(rng, realm, heavens, earths, humans, tuple(extras))
+    heavens = bind_composite_branches(rng, realm, heavens, earths, humans, tuple(extras))
 
     naming = build_naming(kind, rng, realm, rarity, theme, args.name_style)
     all_draws = (*heavens, *earths, *humans, *extras)
