@@ -17,6 +17,7 @@ from pool_parser import parse_pool_file
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DATA_DIR = SCRIPT_DIR.parent / "data"
+ROOT_DIR = SCRIPT_DIR.parent
 
 
 POOL_DATA = parse_pool_file(DATA_DIR / "pools.md")
@@ -34,9 +35,28 @@ SWORD_MOMENTUM_BORROW_CONTEXTS = POOL_DATA["sword_momentum_borrow_contexts"]
 SWORD_MOMENTUM_BY_SOURCE = POOL_DATA["sword_momentum_by_source"]
 HIGH_SCALE_REFINEMENTS = POOL_DATA["high_scale_refinements"]
 HIGH_RISK_ELEMENTS = POOL_DATA["high_risk_elements"]
+REFERENCE_CONTEXT_FILES = (
+    ("修真要素参考", ROOT_DIR / "references" / "elements.md"),
+    ("境界体系参考", ROOT_DIR / "references" / "realm-system.md"),
+    ("命名参考", ROOT_DIR / "references" / "naming.md"),
+    ("范畴要素池", DATA_DIR / "pools.md"),
+)
+MAINTENANCE_CONTEXT_PATTERNS = (
+    "权威池数据在",
+    "`data/pools.md`",
+    "修改池子后运行",
+    "python3 ",
+    "scripts/",
+    "validate_pools",
+    "格式约定",
+    "要素行格式",
+    "关联池用",
+    "分支偏置` 写成",
+)
 
 TYPES = ("法术", "功法", "秘籍", "法宝", "神通", "百艺", "剑法")
 REALMS = ("练气", "筑基", "金丹", "元婴", "化神", "炼虚", "合体", "大乘")
+RANDOM_MODES = ("usable", "force")
 REALM_RANK = {realm: index for index, realm in enumerate(REALMS)}
 REALM_CONTEXT = {
     "练气": {
@@ -60,8 +80,8 @@ REALM_CONTEXT = {
     "元婴": {
         "status": "大宗高层或老祖，也可以是强大散修、游方老怪、隐洞修士、客卿或避债避劫的逍遥修士",
         "lifespan": "千年以上；元婴可出窍，存在夺舍可能",
-        "scale": "高端威慑与个人自由并存；可影响宗门战争，也可为远遁、避劫、闭关、断因果、保元婴而修",
-        "fit": "辅助功能必须有高阶分量，可是护宗镇城，也可以是魂魄出窍、远遁保命、洞府防护、断因果、避天机、保化身或破大阵",
+        "scale": "高端威慑与个人自由并存；可影响宗门战争，也可服务远遁、避劫、闭关、断因果、生存、化身或洞府经营",
+        "fit": "功能必须有高阶分量，具体效用由人位决定；可落在魂魄出窍、远遁保命、洞府防护、断因果、避天机、保化身、破大阵或战略威慑",
     },
     "化神": {
         "status": "超级势力太上长老、隐世老祖、域中支柱，也可以是独行求道者",
@@ -92,7 +112,7 @@ REALM_STAGE_FOCUS = {
     "练气": "引气、辨性、开感官、立基本循环、养出最小媒介；配低阶侦测、护身或小术。",
     "筑基": "稳道基、固媒介、定主辅结构；配身法、护法、基础攻击或百艺专长。",
     "金丹": "结成核心权柄，压缩、统筹或封存前两阶所得；配本命术、丹域雏形、镇压、破阵或炼宝法。",
-    "元婴": "让神魂、元婴、化身、远遁、生存或因果操作成为核心；配出窍、护婴、避劫、洞府防护或断追索术。",
+    "元婴": "进入神魂、元婴、化身、远遁、生存、因果或高阶威慑尺度；配套术法按本次人位决定，可表现为出窍、避劫、洞府防护、断追索、化身经营或其他同阶用途。",
     "化神": "将元婴经验外化为法域、道痕、类法则或神识威压；配领域、跨域感应、规则干涉或灾劫应对。",
     "炼虚": "处理虚空、界面与法则缝隙；配跨域、开界、避界灾或虚实转化法。",
     "合体": "身与道、法与域高度合一；配身道合一、领域合一、镇族镇宗或族运宗运级法门。",
@@ -578,7 +598,7 @@ NAMING_POOLS = {
             "[数字]+[身体/魂魄]+[功/诀/变]",
             "[大道/哲学]+[极致动词]+[典/篇]",
         ),
-        "avoid": "不要默认 XX经；除非是宗门根本传承或顶级经文，否则优先用功、诀、真解、秘录、变、金章等。",
+        "avoid": "除非是宗门根本传承或顶级经文，否则优先用功、诀、真解、秘录、变、金章等。",
     },
     "秘籍": {
         "suffixes": ("篇", "卷", "残卷", "真解", "秘录", "图", "谱", "录", "赋", "问", "答"),
@@ -597,7 +617,7 @@ NAMING_POOLS = {
             "[来历/神话]+[数字/形容]+[器型]",
             "[材质/属性]+[动作/效果]+[器型]",
         ),
-        "avoid": "法宝必须有具象器型，避免叫 XX经、XX诀。",
+        "avoid": "法宝必须有具象器型。",
     },
     "法术": {
         "suffixes": ("术", "法", "咒", "禁", "诀", "印", "掌", "指", "光", "影", "遁", "火", "雷"),
@@ -648,6 +668,18 @@ REALM_COMPLEXITY = {
     "合体": {"maturity": "顶阶身道合一", "heavens": (4, 7), "quality": (1.8, 3.6)},
     "大乘": {"maturity": "顶级铸天为一", "heavens": (5, 8), "quality": (2.2, 4.5)},
 }
+
+ROLE_COMPLEXITY = {
+    "练气": {"earths": (1, 2), "humans": (1, 2)},
+    "筑基": {"earths": (2, 2), "humans": (2, 2)},
+    "金丹": {"earths": (2, 3), "humans": (2, 3)},
+    "元婴": {"earths": (2, 3), "humans": (2, 3)},
+    "化神": {"earths": (2, 4), "humans": (2, 4)},
+    "炼虚": {"earths": (3, 4), "humans": (3, 4)},
+    "合体": {"earths": (3, 5), "humans": (3, 5)},
+    "大乘": {"earths": (3, 5), "humans": (3, 5)},
+}
+
 @dataclass(frozen=True)
 class ElementDraw:
     role: str
@@ -673,6 +705,7 @@ class ElementDraw:
 class Draw:
     request: dict[str, object]
     seed: int
+    random_mode: str
     kind: str
     realm: str
     rarity: str
@@ -1133,6 +1166,85 @@ def naming_scale_note(style: str, realm: str, explicit: bool) -> tuple[str, ...]
     return ()
 
 
+def strip_fenced_blocks(lines: Iterable[str]) -> list[str]:
+    result: list[str] = []
+    in_fence = False
+    for line in lines:
+        if line.strip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if not in_fence:
+            result.append(line)
+    return result
+
+
+def trim_repeated_blank_lines(lines: Iterable[str]) -> list[str]:
+    result: list[str] = []
+    previous_blank = False
+    for line in lines:
+        blank = not line.strip()
+        if blank and previous_blank:
+            continue
+        result.append(line)
+        previous_blank = blank
+    while result and not result[0].strip():
+        result.pop(0)
+    while result and not result[-1].strip():
+        result.pop()
+    return result
+
+
+def skip_maintenance_sections(label_text: str, lines: list[str]) -> list[str]:
+    if label_text != "修真要素参考":
+        return lines
+    result: list[str] = []
+    skip_until_heading = False
+    for line in lines:
+        if line.strip() == "选择规则：":
+            skip_until_heading = True
+            continue
+        if skip_until_heading and line.startswith("## "):
+            skip_until_heading = False
+        if not skip_until_heading:
+            result.append(line)
+    return result
+
+
+def creative_context_text(label_text: str, path: Path) -> str:
+    lines = path.read_text(encoding="utf-8").splitlines()
+    if label_text == "范畴要素池":
+        try:
+            start = lines.index("# 范畴")
+            lines = lines[start:]
+        except ValueError:
+            pass
+    lines = skip_maintenance_sections(label_text, lines)
+    lines = strip_fenced_blocks(lines)
+    filtered = [
+        line
+        for line in lines
+        if not any(pattern in line for pattern in MAINTENANCE_CONTEXT_PATTERNS)
+    ]
+    filtered = trim_repeated_blank_lines(filtered)
+    return "\n".join(filtered)
+
+
+def build_reference_context() -> str:
+    lines = [
+        "以下是修真百艺创作上下文。",
+    ]
+    for label_text, path in REFERENCE_CONTEXT_FILES:
+        lines.extend(
+            [
+                "",
+                f"===== BEGIN {label_text} =====",
+                creative_context_text(label_text, path),
+                f"===== END {label_text} =====",
+            ]
+        )
+    return "\n".join(lines)
+
+
 def build_prompt(draw: Draw) -> str:
     realm = REALM_CONTEXT[draw.realm]
     lines = [
@@ -1143,7 +1255,11 @@ def build_prompt(draw: Draw) -> str:
         "组合模式：{mode}。".format(mode=draw.composition_mode),
         *([f"主题偏向：{draw.theme}。"] if draw.theme else []),
         "复合成熟度：{maturity}。".format(maturity=draw.maturity),
-        "生成策略：默认以小说中可直接使用为优先；用户强制指定的参数必须保留，但会被降尺度、补限制或改细分来适配境界。",
+        (
+            "生成策略：强制随机模式，未指定项按全池随机抽取；用户强制指定的参数必须保留，最终仍会被降尺度、补限制或改细分来适配境界。"
+            if draw.random_mode == "force"
+            else "生成策略：默认以小说中可直接使用为优先；用户强制指定的参数必须保留，但会被降尺度、补限制或改细分来适配境界。"
+        ),
         "",
         "境界尺度：",
         f"- 身份地位：{realm['status']}。",
@@ -1156,6 +1272,14 @@ def build_prompt(draw: Draw) -> str:
     if draw.diagnostics:
         lines.extend(["", "自动合理化诊断："])
         lines.extend(f"- {diagnostic}" for diagnostic in draw.diagnostics)
+    if draw.earths and draw.humans:
+        lines.extend(
+            [
+                "",
+                "三位配工提示：",
+                "- 默认至少让一组地位/人位负责制造或承载效果，另一组负责锁定、传递、约束目标或区分敌我；若本次地位/人位少于两项，必须说明同一媒介或目的如何兼任这两个职责。",
+            ]
+        )
     lines.extend(
         [
             "",
@@ -1214,13 +1338,17 @@ def build_prompt(draw: Draw) -> str:
             "- 输出重心必须符合修真小说世界观设定的比重：天位动力学与复合结构约占 45%-55%，施展/效果/代价/境界约占 25%-35%，诸名约占 10%-15%，设定集正文负责收束。不要让命名解释占据开头或最长篇幅。",
             "- 先立设定总览、核心三位、天位动力学和复合结构，再写诸名。名称是世界内流传层，不是正文主结构。",
             "- 「诸名」至少三个，默认五个，按与类型、机制、境界、文体和流传语境的贴合度排序。不要把它们称为候选，也不要强行指定唯一正名；万物在宗门、坊市、敌人口耳、修士手札、典籍和后世传说中本就有多种叫法。",
-            "- 每个名字后只附一句短说明，写清谁会这样叫、取法什么文体或语体、为什么贴合本设定；说明必须短于机制段落。不要默认命名为 XX经；只有根本传承、顶级经文或刻意古典风才使用 经。",
+            "- 每个名字后只附一句短说明，写清谁会这样叫、取法什么文体或语体、为什么贴合本设定；说明必须短于机制段落。只有根本传承、顶级经文或刻意古典风才使用 经。",
             "- 名称要有文体/语体来源，像从诗、骚、乐府、骈赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、算经、历法、医书、兵书、道佛科仪、志怪话本、农书水经、棋谱营造、题跋问答、行旅手札等文本里长出来，而不是古风词堆叠。每个名字体现至少一个来源、形制、功能、意象、境界、机制或流传语境。",
             "- 反对浅层掉书袋。不要只把古书词、典故词、生僻字贴在一起；要吸收文体的真实功能：诏敕有命令落下的压力，方志有地理物产和异闻口吻，医书有辨证、脉象和药性手感，题跋问答有具体人事和留白，乡谈笔记有像亲眼听来的怪事。",
             "- 至少一个名字可以尝试浅白见深：用平淡日常、行旅小记、器物记名、问答题跋、乡谈笔记或僧道手札的低姿态语气承载高阶仙意。关键是具体场景、人物关系、留白和大义隐伏，不要靠宏大词自夸。",
             "- 文体/语体来源不等于世界内来历。默认不要因为名称取法甲骨、金文、诗骚、山海经、道佛科仪或古书语气，就把作品写成上古遗物、仙古残篇、仙人真传、遗迹出土或禁忌神物；只有基调明确为「上古失传」「仙古残篇」或用户指定相关来历时，才使用这种背景。",
             "- 避免九霄、归墟、灭世、镇魔、弑神、无上、玄天、神霄这类高频玄幻词连续堆叠；除非用户指定该风格。",
-            "- 默认目标是小说可用率，不是全池真随机。凡是自动合理化诊断中写出的降尺度、浅层表达、补配限制，都必须体现在最终设定里。",
+            (
+                "- 本次启用强制随机模式：未指定项按全池随机抽取，但凡是自动合理化诊断中写出的降尺度、浅层表达、补配限制，都必须体现在最终设定里。"
+                if draw.random_mode == "force"
+                else "- 默认目标是小说可用率，不是全池真随机。凡是自动合理化诊断中写出的降尺度、浅层表达、补配限制，都必须体现在最终设定里。"
+            ),
             "- 用户强制指定的天/地/人、类型、境界或命名来源必须保留；如果它们与境界冲突，不得删除，只能写成误读、残式、浅层用法、旁门代价、局部小术或高阶传承的低阶入口。",
             "- 对每个天位分别解释来源、增长方式、衰竭点、失控形态和度量方法；不要把天位当作装饰词。",
             "- 天位数量与质量要匹配境界和复合成熟度：低阶可以随意选取一两个粗糙天位；中阶应有君臣佐使或主次制衡；高阶应纲目分明；顶阶才追求铸天为一、结构完美、质量顶级。",
@@ -1234,14 +1362,14 @@ def build_prompt(draw: Draw) -> str:
             "- 解释多天位如何在整体道形中组合：就位、相乘、相加、互补、制衡、冲突、纯化。若组合不纯，说明代价。",
             "- 若组合模式为「纯化」，必须说明哪一个天位被削弱、舍弃、上收为整体道形、下放为地位/人位或保留为残留，以及为什么这样反而更强。",
             "- 让地位成为具体媒介：身体、材料、符号、器物、仪轨、空间、梦境、数术等均可。",
-            "- 让人位决定实际用途。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制。",
-            "- 匹配境界尺度但保留修士个人追求：高阶作品必须有高阶分量、资源消耗、风险或道途意义；元婴及以上可以是护宗镇城，也可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、护元婴或求道自由，不能只写成日常小便利。",
+            "- 让人位决定实际用途。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制；非攻击型法门也要说明作用对象如何被识别、触达或排除。",
+            "- 匹配境界尺度但保留修士个人追求：高阶作品必须有高阶分量、资源消耗、风险或道途意义；元婴及以上可以是护宗镇城，也可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、化身经营或求道自由，不能只写成日常小便利。元婴只规定层级，不规定固定效用，具体效果必须由本次人位决定。",
             "- 说明该作品为什么适合此境界，以及低一大境界为何难以承受或完整使用，高一大境界为何可能嫌其不足或需纯化升级。",
             *(
                 [
                     "- 因类型为功法，必须写功法等阶链：先写总纲，再从练气逐阶写到目标境界。每阶都要有独立修炼重心、标志性效果、配套术法或应用法门、限制代价，并说明它如何向目标境界靠拢。",
                     "- 功法等阶链要判断自身属于递进式、拆分式或先拆后合式：递进式让同类效果逐阶强化；拆分式让每阶各掌一支能力，高阶合一；先拆后合式先分修气、身、魂、器、术、势等支脉，中高阶建立君臣佐使并由整体道形收束。",
-                    "- 不要把低阶只写成最高阶的弱化版。低阶应承担根基、媒介、校准、索敌、护身、蓄势、结丹准备、护婴准备等功能中的至少一种。",
+                    "- 不要把低阶只写成最高阶的弱化版。低阶应承担根基、媒介、校准、索敌、护身、蓄势、结丹准备、元婴层级铺垫等功能中的至少一种；具体职责由本次人位决定，不要默认某个境界的法门必须何种作用。",
                 ]
                 if draw.kind == "功法"
                 else []
@@ -1292,7 +1420,7 @@ def format_cultivation_method_chain(draw: Draw) -> list[str]:
         "- 先写总纲：说明此功法把哪些天位、地位、人位收束为同一条修行主轴，为什么各阶都属于同一部功法。",
         "- 选择结构类型：递进式、拆分式、先拆后合式三者择一或混合，但必须解释选择理由。",
         "- 逐阶写到目标境界；每阶都要有自己的特殊之处、修炼重心、配套术法或应用法门、限制代价，并说明如何向最高阶靠拢。",
-        "- 低阶不能只是最高阶效果的缩水版；它们应承担根基、媒介、分支、校准、护身、索敌、蓄势、成丹、护婴、法域准备等不同职责。",
+        "- 低阶不能只是最高阶效果的缩水版；它们应承担根基、媒介、分支、校准、护身、索敌、蓄势、成丹、元婴层级铺垫、法域准备等不同职责。具体职责由人位决定，不要把元婴功法默认写成某个固定功能。",
         *stage_lines,
     ]
 
@@ -1431,21 +1559,40 @@ def format_composite_pattern_guide(
     )
 
 
-def default_counts(mode: str, rng: random.Random, realm: str) -> tuple[int, int, int]:
+def bounded_count(rng: random.Random, bounds: tuple[int, int]) -> int:
+    lower, upper = bounds
+    return rng.randint(lower, upper)
+
+
+def default_counts(mode: str, rng: random.Random, realm: str, kind: str) -> tuple[int, int, int]:
     realm_min, realm_max = REALM_COMPLEXITY[realm]["heavens"]
+    role_complexity = ROLE_COMPLEXITY[realm]
+    earth_min, earth_max = role_complexity["earths"]
+    human_min, human_max = role_complexity["humans"]
+    is_sword = kind == "剑法"
+    sword_bonus = 1 if is_sword and realm_max > realm_min else 0
+
     if mode == "单纯":
-        return realm_min, 1, 1
+        heaven = min(realm_max, realm_min + sword_bonus)
+        return heaven, earth_min, human_min
     if mode == "多天位":
         lower = min(max(2, realm_min), realm_max)
-        return rng.randint(lower, realm_max), 1, rng.randint(1, 2)
+        if is_sword:
+            lower = min(realm_max, lower + 1)
+        return rng.randint(lower, realm_max), earth_min, bounded_count(rng, (human_min, human_max))
     if mode == "多媒介":
-        return realm_min, rng.randint(2, 3), 1
+        heaven = min(realm_max, realm_min + sword_bonus)
+        return heaven, bounded_count(rng, (max(2, earth_min), earth_max)), human_min
     if mode == "多目的":
-        return realm_min, 1, rng.randint(2, 3)
+        heaven = min(realm_max, realm_min + sword_bonus)
+        return heaven, earth_min, bounded_count(rng, (max(2, human_min), human_max))
     if mode == "纯化":
         lower = min(max(2, realm_min), realm_max)
-        return rng.randint(lower, realm_max), 1, 1
-    return rng.randint(realm_min, realm_max), rng.randint(1, 3), rng.randint(1, 3)
+        if is_sword:
+            lower = min(realm_max, lower + 1)
+        return rng.randint(lower, realm_max), earth_min, human_min
+    heaven_lower = min(realm_max, realm_min + sword_bonus)
+    return rng.randint(heaven_lower, realm_max), bounded_count(rng, (earth_min, earth_max)), bounded_count(rng, (human_min, human_max))
 
 
 def build_draw(args: argparse.Namespace) -> Draw:
@@ -1454,10 +1601,15 @@ def build_draw(args: argparse.Namespace) -> Draw:
     used: set[str] = set()
     excluded = set(parse_csv(args.exclude))
     conditions = tuple(args.condition or ())
+    random_mode = args.random_mode or "usable"
+    if args.force_random:
+        if args.random_mode == "usable":
+            raise SystemExit("--random-mode usable conflicts with --force-random")
+        random_mode = "force"
 
     kind = args.type or rng.choice(TYPES)
     realm = args.realm or rng.choice(REALMS)
-    rarity = args.rarity or choose_default_rarity(rng, realm)
+    rarity = args.rarity or (rng.choice(RARITIES) if random_mode == "force" else choose_default_rarity(rng, realm))
     raw_fixed_heavens = parse_csv(args.heaven)
     fixed_heavens = list(raw_fixed_heavens)
     fixed_earths = parse_csv(args.earth)
@@ -1477,8 +1629,11 @@ def build_draw(args: argparse.Namespace) -> Draw:
         composition_mode = "单纯"
 
     complexity = REALM_COMPLEXITY[realm]
-    heaven_count, earth_count, human_count = default_counts(composition_mode, rng, realm)
-    heaven_count = max(heaven_count, len(fixed_heavens), args.heaven_count or 0)
+    heaven_count, earth_count, human_count = default_counts(composition_mode, rng, realm, kind)
+    sword_marker_count = 1 if "剑" in fixed_heavens else 0
+    fixed_non_sword_heavens = len([name for name in fixed_heavens if name != "剑"])
+    requested_non_sword_heavens = max(heaven_count, fixed_non_sword_heavens, args.heaven_count or 0)
+    heaven_count = requested_non_sword_heavens + sword_marker_count
     earth_count = max(earth_count, len(fixed_earths), args.earth_count or 0)
     human_count = max(human_count, len(fixed_humans), args.human_count or 0)
     theme = infer_theme(kind, conditions, args.theme)
@@ -1515,13 +1670,15 @@ def build_draw(args: argparse.Namespace) -> Draw:
 
     heavens = bind_composite_branches(rng, realm, heavens, earths, humans, tuple(extras))
 
-    naming = build_naming(kind, rng, realm, rarity, theme, args.name_style)
+    naming = build_naming(kind, rng, realm, rarity, theme, args.name_style, random_mode)
     all_draws = (*heavens, *earths, *humans, *extras)
     diagnostics = list(naming_scale_note(str(naming["style"]), realm, args.name_style is not None))
     forced = raw_fixed_heavens + fixed_earths + fixed_humans + parse_csv(args.include)
     if forced:
         diagnostics.append(f"保留用户强制要素：{'、'.join(forced)}；其余随机项围绕这些要素合理化。")
-    if args.rarity is None:
+    if random_mode == "force":
+        diagnostics.append("强制随机模式：未指定项按全池随机抽取；最终仍按境界合理化。")
+    elif args.rarity is None:
         diagnostics.append(f"默认稀有度按{realm}小说可用率加权抽取，避免普通低中阶作品频繁落成上古/仙古来历。")
     condition_bias = condition_elements(conditions)
     if condition_bias:
@@ -1530,6 +1687,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
     diagnostics_tuple = tuple(dict.fromkeys(diagnostics))
     request = {
         "type": args.type,
+        "random_mode": random_mode,
         "realm": args.realm,
         "rarity": args.rarity,
         "composition_mode": args.composition_mode,
@@ -1547,6 +1705,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
     draft = Draw(
         request=request,
         seed=seed,
+        random_mode=random_mode,
         kind=kind,
         realm=realm,
         rarity=rarity,
@@ -1572,9 +1731,14 @@ def build_naming(
     rarity: str,
     theme: str | None,
     explicit_style: str | None,
+    random_mode: str,
 ) -> dict[str, object]:
     pool = NAMING_POOLS.get(kind, NAMING_POOLS["功法"])
-    style = explicit_style or weighted_choice(rng, usability_weighted_styles(kind, realm, rarity, theme))
+    style = explicit_style or (
+        rng.choice(NAME_STYLES)
+        if random_mode == "force"
+        else weighted_choice(rng, usability_weighted_styles(kind, realm, rarity, theme))
+    )
     profile = NAME_STYLE_PROFILES[style]
     suffix_pool = list(pool["suffixes"])
     if (
@@ -1716,6 +1880,8 @@ def main() -> None:
     parser.add_argument("--composition-mode", choices=COMPOSITION_MODES, help="How multiple elements should combine.")
     parser.add_argument("--theme", choices=THEMES, help="Preferred xiuzhen art family/theme.")
     parser.add_argument("--name-style", choices=NAME_STYLES, help="Literary naming style.")
+    parser.add_argument("--random-mode", choices=RANDOM_MODES, help="Random strategy for unspecified fields.")
+    parser.add_argument("--force-random", action="store_true", help="Shortcut for --random-mode force.")
     parser.add_argument("--realm", choices=REALMS, help="Target cultivation realm.")
     parser.add_argument("--rarity", choices=RARITIES, help="Rarity or provenance.")
     parser.add_argument("--condition", action="append", help="Additional user condition.")
@@ -1733,6 +1899,7 @@ def main() -> None:
         payload = asdict(draw)
         payload["effective"] = {
             "type": draw.kind,
+            "random_mode": draw.random_mode,
             "realm": draw.realm,
             "rarity": draw.rarity,
             "composition_mode": draw.composition_mode,
@@ -1747,7 +1914,11 @@ def main() -> None:
 
     print(f"Seed: {draw.seed}")
     print()
+    print(build_reference_context())
+    print()
+    print("===== BEGIN generated-request =====")
     print(textwrap.dedent(draw.prompt).strip())
+    print("===== END generated-request =====")
 
 
 if __name__ == "__main__":

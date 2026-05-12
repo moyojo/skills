@@ -231,7 +231,9 @@ def parse_pool_file(path: Path) -> dict[str, Any]:
         "condition_aliases": condition_aliases,
         "custom_elements": custom_elements,
         "composite_parent_models": composite_parent_models,
-        "sword_branch_models": sword_branch_models,
+        "sword_branch_models": {
+            branch: {"min_realm": "练气", **model} for branch, model in sword_branch_models.items()
+        },
         "sword_branch_focus": sword_branch_focus,
         "sword_momentum_storage_contexts": sword_momentum_storage_contexts,
         "sword_momentum_fixed_contexts": sword_momentum_fixed_contexts,
