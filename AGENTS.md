@@ -34,6 +34,12 @@ Python scripts should target Python 3, use 4-space indentation, type hints where
 
 代码标识符、CLI 参数、文件路径和机器读取的 schema key 可以保留英文以维持兼容性。不要因为项目其他部分使用英文，就把概念性说明也写成英文；中文措辞本身就是提示词语境的一部分，会引导模型进入更合适的文化和文学表达。
 
+## Random Generation Policy
+
+禁止小池随机/缩池随机。生成器需要随机抽取天位、地位、人位或其他核心设定要素时，默认候选集必须保持为完整大池；主题、类型、用户条件、境界或上下文只能作为权重、后处理、解释绑定、约束校验或显式强制项，不能把候选集缩成少数预设元素再随机。
+
+例如，剑法可以自动补入 `剑` 作为道形统合标记，表示本次多天位要铸道为剑；但其他天位仍必须从完整天位池抽样，剑性六纲应在抽样后绑定解释来源。不能把“剑道主题”缩成 `分/边界/义/灭/观/感应` 之类的小池。只有用户明确指定 `--heaven`、`--earth`、`--human`、`--include`、`--exclude` 等硬约束时，才允许直接固定或排除对应元素。
+
 ## Testing Guidelines
 
 Before submitting changes, run the skill validator and at least one representative script invocation. For generator logic, test both random and constrained paths, including seeded output:

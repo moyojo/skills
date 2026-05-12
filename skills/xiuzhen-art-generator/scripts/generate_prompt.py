@@ -160,6 +160,16 @@ REALM_STAGE_FOCUS = {
     "大乘": "面向飞升、天劫、界面规则和族群存亡；配替劫、飞升准备、镇界或渡劫法。",
 }
 RARITIES = ("坊市常见", "宗门秘传", "旁门异术", "上古失传", "仙古残篇")
+DEFAULT_RARITY_WEIGHTS = {
+    "练气": (("坊市常见", 10), ("宗门秘传", 5), ("旁门异术", 3), ("上古失传", 1), ("仙古残篇", 0)),
+    "筑基": (("坊市常见", 8), ("宗门秘传", 7), ("旁门异术", 4), ("上古失传", 1), ("仙古残篇", 0)),
+    "金丹": (("坊市常见", 3), ("宗门秘传", 9), ("旁门异术", 5), ("上古失传", 1), ("仙古残篇", 0)),
+    "元婴": (("坊市常见", 1), ("宗门秘传", 8), ("旁门异术", 5), ("上古失传", 2), ("仙古残篇", 0)),
+    "化神": (("坊市常见", 0), ("宗门秘传", 5), ("旁门异术", 4), ("上古失传", 3), ("仙古残篇", 1)),
+    "炼虚": (("坊市常见", 0), ("宗门秘传", 4), ("旁门异术", 3), ("上古失传", 4), ("仙古残篇", 2)),
+    "合体": (("坊市常见", 0), ("宗门秘传", 3), ("旁门异术", 2), ("上古失传", 5), ("仙古残篇", 3)),
+    "大乘": (("坊市常见", 0), ("宗门秘传", 2), ("旁门异术", 2), ("上古失传", 5), ("仙古残篇", 4)),
+}
 COMPOSITION_MODES = ("单纯", "多天位", "多媒介", "多目的", "复合法门", "纯化")
 NAME_STYLE_PROFILES = {
     "诗经国风": {
@@ -727,7 +737,6 @@ THEME_ELEMENTS = {
     "营造舟舆": ("形", "质", "中心", "方位", "边界", "实"),
     "兵备战策": ("形", "支配", "方位", "感应", "律令", "功"),
     "艺道通玄": ("象", "情", "悟", "言", "礼", "传承"),
-    "剑道": ("剑", "分", "边界", "义", "灭", "观", "感应"),
 }
 REFINEMENTS = {
     "气": ("灵力", "生命力", "场势", "剑气"),
@@ -803,20 +812,20 @@ REFINEMENTS = {
 }
 
 CUSTOM_ELEMENTS = {
-    "剑": ("复合", "聚力成锋、分断界限、承担决断、化志为行"),
+    "剑": ("复合", "道形统合标记；多天位共同铸道为剑，六纲由真实天位绑定解释"),
 }
 
 COMPOSITE_PARENT_MODELS = {
     "剑": {
-        "definition": "剑作为复合父级天位，不是单纯兵器或金属锋刃，而是聚力成锋、分断界限、承担决断、化志为行。",
+        "definition": "剑之道形：多天位共同铸道为剑；六纲是整体道形中的天位槽位，不是上下层级或固定能力。",
         "branches": ("剑气", "剑势", "剑胆", "剑心", "剑意", "剑道"),
         "branch_notes": {
-            "剑气": "以何力量收束为形体",
-            "剑势": "以何局势划分界限",
-            "剑胆": "以何意义承担阻力",
-            "剑心": "以何本心守持剑性",
-            "剑意": "以何意志形塑斩击",
-            "剑道": "以何自性自成锋刃",
+            "剑气": "力量成形",
+            "剑势": "势态界分",
+            "剑胆": "意义承压",
+            "剑心": "本心守持",
+            "剑意": "意志塑刃",
+            "剑道": "自性成规",
         },
     },
 }
@@ -824,46 +833,107 @@ COMPOSITE_PARENT_MODELS = {
 SWORD_BRANCH_MODELS = {
     "剑气": {
         "vulgar": "属性剑气、灵力外放、把力量拉成剑芒",
-        "essence": "考验以何力量收束为形体：力量不是颜色或属性，而是被约束成可承压、可转折、可离体的锋刃形体",
+        "essence": "深层写法：说明某种具体力量如何被约束成可承压、可转折、可离体的锋刃形体",
         "min_realm": "筑基",
         "quality": 0.9,
         "contexts": ("气", "形", "质", "灵力", "场势", "剑气", "剑形", "收束", "成形", "器"),
     },
     "剑势": {
-        "vulgar": "蓄势、压迫感、高手气场、开打前摆出威风",
-        "essence": "考验以何局势划分界限：势不是气氛，而是把进退、生死、敌我、虚实切成必须顺剑而行的局面",
+        "vulgar": "临势、借势或蓄势压迫；低阶只会把节奏、距离和退路逼窄，但不是固定不动或摆威风",
+        "essence": "深层写法：说明局势如何随步法、敌我位移、气机强弱、视线、距离和节奏不断重划界限；只有抽到大势、阵禁或固定地形上下文时，才写成长期布势",
         "min_realm": "金丹",
         "quality": 1.15,
-        "contexts": ("边界", "方位", "中心", "时序", "因果", "局势", "阵", "军", "势", "界限"),
+        "contexts": ("边界", "方位", "中心", "时序", "因果", "局势", "阵", "军", "势", "界限", "藏", "蓄势"),
     },
     "剑胆": {
         "vulgar": "勇敢、爆种、遇强则强、临阵不退",
-        "essence": "考验以何意义承担阻力：胆不是热血，而是用义、愿、罪、功、守护或决断承受代价与反压",
+        "essence": "深层写法：说明义、愿、罪、功、守护或决断如何替修士承受代价与反压",
         "min_realm": "金丹",
         "quality": 1.2,
         "contexts": ("义", "愿", "罪", "功", "德", "信", "守护", "决断", "阻力", "誓"),
     },
     "剑心": {
         "vulgar": "道心坚定、性格冷硬、心无杂念",
-        "essence": "考验以何本心守持剑性：心不是性格标签，而是在诱惑、恐惧、名利、情债中维持何者仍可称为剑",
+        "essence": "深层写法：说明修士在诱惑、恐惧、名利、情债中用什么稳定标准维持剑性",
         "min_realm": "元婴",
         "quality": 1.35,
         "contexts": ("心", "本心", "情", "欲", "名", "利", "忘", "悟", "道心", "守持"),
     },
     "剑意": {
         "vulgar": "剑招变成山河风雷、意境特效、远程斩击",
-        "essence": "考验以何意志形塑斩击：意不是画面，而是令斩击按某种意志取得形状、方向、尺度和终点",
+        "essence": "深层写法：说明某种意志如何决定斩击的形状、方向、尺度、终点与失败条件",
         "min_realm": "元婴",
         "quality": 1.5,
         "contexts": ("意", "志", "观", "悟", "言", "象", "山河", "形塑", "斩击", "尺度"),
     },
     "剑道": {
         "vulgar": "无形斩、无招胜有招、见什么都能斩",
-        "essence": "考验以何自性自成锋刃：道不是万能斩击，而是修士自性与剑性合一，自己成为分断世界的锋刃规则",
+        "essence": "深层写法：说明修士自性如何变成一种可被世界承认的锋刃规则，而不是万能斩击",
         "min_realm": "化神",
         "quality": 1.8,
         "contexts": ("自性", "性", "道", "边界", "分", "悟", "虚", "实", "法则", "铸道"),
     },
+}
+
+SWORD_MOMENTUM_STORAGE_CONTEXTS = (
+    "藏",
+    "蓄势",
+    "养势",
+    "封存",
+    "潜伏",
+    "未发",
+    "压缩",
+)
+SWORD_MOMENTUM_FIXED_CONTEXTS = (
+    "大势",
+    "阵",
+    "阵禁",
+    "山门",
+    "峡",
+    "关隘",
+    "洞府",
+    "守门",
+    "守关",
+    "地形",
+    "城",
+    "宗门",
+)
+SWORD_MOMENTUM_BORROW_CONTEXTS = (
+    "借势",
+    "方位",
+    "时序",
+    "中心",
+    "军",
+    "兵",
+    "潮汐",
+    "风雨",
+    "地势",
+)
+SWORD_BRANCH_FOCUS = {
+    "剑气": ("气", "形", "质", "性", "实", "虚", "化", "显", "灵", "感应"),
+    "剑势": ("气", "形", "边界", "方位", "中心", "时序", "因果", "等级", "权", "名", "数", "象", "藏", "显", "支配", "感应"),
+    "剑胆": ("义", "愿", "信", "德", "罪", "功", "情", "权", "契约", "平衡", "逆", "灭"),
+    "剑心": ("性", "欲", "情", "忘", "悟", "观", "觉", "信", "礼", "平衡", "中心", "名"),
+    "剑意": ("观", "悟", "言", "象", "梦", "忆", "数", "方位", "时序", "分", "合", "转"),
+    "剑道": ("性", "分", "边界", "虚", "实", "因果", "命运", "律令", "悟", "名", "等级", "中心"),
+}
+SWORD_MOMENTUM_BY_SOURCE = {
+    "气": "气势：以气机强弱、呼吸断续和护体灵光涨落改写交锋节奏",
+    "形": "形势：以身位、剑路、器物和阵型让敌方下一步变窄",
+    "边界": "局势：以进退、内外、敌我和生死线重划可斩边界",
+    "方位": "方位之势：以八方、背向、夹角和落点制造必应之线",
+    "中心": "中枢之势：夺取场中关键点，让敌方每次变招都先失一拍",
+    "时序": "时势：借昼夜、节律、先后手和气息旧新决定何时一剑最重",
+    "因果": "因果之势：让前一剑的选择成为后一剑无法回避的债",
+    "等级": "位势：以境界、名分或品秩压出迟疑，但必须付出反噬或名分代价",
+    "权": "权势：以号令、统属或战场指挥使敌我行动向剑路收束",
+    "名": "名势：借名号、约定、誓词或众人认知令对手不敢破某条线",
+    "数": "数势：用步数、剑数、距离和循环次数累积必中的节点",
+    "象": "象势：以征兆、星象、影像或假象牵引敌方判断",
+    "藏": "蓄势：将未出之剑压入身、鞘、息或局中；一旦同级对手察觉，必须打断、逼出或立刻退线",
+    "显": "显势：显露破绽或真相后让局面骤然偏向一剑",
+    "支配": "军势：以控兵、御器、役使或阵列把多点压力合成一线",
+    "感应": "感势：凭血脉、气机或灵犀提前贴住敌方选择",
 }
 
 
@@ -874,6 +944,7 @@ class ElementDraw:
     category: str
     meaning: str
     refinement: str
+    usable_expression: str
     skill_degree: int
     output_ceiling: int
     structure_role: str
@@ -882,10 +953,14 @@ class ElementDraw:
     composite_branch: str | None
     skill_label: str
     output_label: str
+    forced: bool
+    diagnostics: tuple[str, ...]
+    branch_bindings: tuple[tuple[str, str, str], ...] = ()
 
 
 @dataclass(frozen=True)
 class Draw:
+    request: dict[str, object]
     seed: int
     kind: str
     realm: str
@@ -899,6 +974,7 @@ class Draw:
     humans: tuple[ElementDraw, ...]
     extras: tuple[ElementDraw, ...]
     conditions: tuple[str, ...]
+    diagnostics: tuple[str, ...]
     prompt: str
 
 
@@ -932,11 +1008,84 @@ HEAVEN_STRUCTURE_ROLES = (
     "核心纲领",
     "供能主源",
     "辅助供能",
-    "分支天位",
+    "纲位天位",
     "制衡天位",
     "纯化候选",
     "残留/借势",
 )
+
+LOW_REALMS = {"练气", "筑基"}
+MID_REALMS = {"金丹", "元婴"}
+HIGH_REALMS = {"化神", "炼虚", "合体", "大乘"}
+HIGH_SCALE_REFINEMENTS = {
+    "裂魂": "破绽分割",
+    "湮灭": "熄灭余势",
+    "死亡": "止息生机",
+    "终结": "终止小循环",
+    "倒因果": "反制余波",
+    "回溯": "回看痕迹",
+    "飞升": "提纯一线",
+    "主宰": "局部核心",
+    "天条": "门规禁令",
+    "位格": "品阶标记",
+    "夺舍": "附念侵扰",
+    "宗门气运": "小脉气数",
+    "剑道": "粗浅剑路",
+    "法则": "术理痕迹",
+}
+HIGH_RISK_ELEMENTS = {"灭", "逆", "因果", "命运", "权", "召唤", "寄生", "罪", "虚", "升"}
+LOW_REALM_OUTPUT_CAP = {"练气": 55, "筑基": 70}
+LOW_REALM_QUALITY_CAP = {"练气": 0.95, "筑基": 1.1}
+
+CONDITION_ALIASES = {
+    "不纯攻击": ("净化", "感应", "观", "触", "藏", "平衡"),
+    "不要纯攻击": ("净化", "感应", "观", "触", "藏", "平衡"),
+    "辅助": ("藏", "感应", "净化", "平衡", "传承", "梦"),
+    "保命": ("藏", "感应", "边界", "平衡", "转", "梦"),
+    "避劫": ("因果", "命运", "藏", "边界", "梦", "转"),
+    "散修": ("藏", "转", "利", "感应", "边界", "实"),
+    "低资源": ("实", "形", "质", "触", "观", "藏"),
+    "索敌": ("感应", "观", "听", "因果", "方位", "名"),
+}
+
+LOW_USABILITY_STYLES = (
+    "志怪乡谈",
+    "汉乐府",
+    "山水田园",
+    "竹枝歌谣",
+    "医书本草",
+    "农书月令",
+    "水经地理",
+    "营造工匠",
+    "侠义小说",
+    "元曲散曲",
+    "茶香琴谱",
+)
+MID_USABILITY_STYLES = (
+    "雅颂礼乐",
+    "金文钟鼎",
+    "建安风骨",
+    "边塞诗",
+    "晚唐苦吟",
+    "祝盟誓辞",
+    "符箓云篆",
+    "兵书奇正",
+    "方志地记",
+    "谱录品评",
+)
+HIGH_USABILITY_STYLES = (
+    "大赋都邑",
+    "诏敕令",
+    "山海经气",
+    "道教科仪",
+    "密教仪轨",
+    "佛经题名",
+    "河洛象数",
+    "历法推步",
+    "洛神神美",
+    "李白豪逸",
+)
+HIGH_SCALE_STYLES = {"大赋都邑", "诏敕令", "山海经气", "颂赞庙堂", "密教仪轨"}
 
 
 def all_elements() -> dict[str, tuple[str, str]]:
@@ -957,10 +1106,80 @@ def parse_csv(values: Iterable[str] | None) -> list[str]:
     return parsed
 
 
+def weighted_choice(rng: random.Random, weighted_items: Iterable[tuple[str, int]]) -> str:
+    items = [(item, weight) for item, weight in weighted_items if weight > 0]
+    total = sum(weight for _, weight in items)
+    pick = rng.randint(1, total)
+    upto = 0
+    for item, weight in items:
+        upto += weight
+        if pick <= upto:
+            return item
+    return items[-1][0]
+
+
+def choose_default_rarity(rng: random.Random, realm: str) -> str:
+    return weighted_choice(rng, DEFAULT_RARITY_WEIGHTS[realm])
+
+
+def condition_elements(conditions: tuple[str, ...]) -> tuple[str, ...]:
+    text = " ".join(conditions)
+    result: list[str] = []
+    for key, names in CONDITION_ALIASES.items():
+        if key in text:
+            result.extend(names)
+    return tuple(dict.fromkeys(result))
+
+
+def forced_expression(name: str, refinement: str, realm: str) -> tuple[str, tuple[str, ...]]:
+    if realm not in LOW_REALMS:
+        return refinement, ()
+    replacement = HIGH_SCALE_REFINEMENTS.get(refinement)
+    if replacement:
+        return replacement, (f"低境界将「{refinement}」合理化为「{replacement}」，避免越级到战略/魂魄/法则尺度。",)
+    if name in HIGH_RISK_ELEMENTS:
+        expression = f"低阶可承受的{refinement}"
+        return expression, (f"保留用户指定或抽到的高风险要素「{name}」，但限定为{realm}可使用的浅层表达。",)
+    return refinement, ()
+
+
+def tune_scores_for_realm(
+    role: str,
+    name: str,
+    realm: str,
+    forced: bool,
+    quality: float,
+    skill_degree: int,
+    output_ceiling: int,
+) -> tuple[float, int, int, tuple[str, ...]]:
+    diagnostics: list[str] = []
+    if realm in LOW_REALMS:
+        max_output = LOW_REALM_OUTPUT_CAP[realm]
+        max_quality = LOW_REALM_QUALITY_CAP[realm]
+        if role.startswith("天位") and quality > max_quality:
+            diagnostics.append(f"{realm}默认追求小说可用率，将天位质量从 {quality:.2f} 压到 {max_quality:.2f}。")
+            quality = max_quality
+        if output_ceiling > max_output:
+            diagnostics.append(f"{realm}出力上限不应越级，将 {output_ceiling}/100 降为 {max_output}/100。")
+            output_ceiling = max_output
+        if skill_degree > 80 and not forced:
+            skill_degree = rng_style_value(skill_degree, 65)
+    elif realm == "金丹":
+        output_ceiling = min(output_ceiling, 88)
+    return round(quality, 2), skill_degree, output_ceiling, tuple(diagnostics)
+
+
+def rng_style_value(value: int, cap: int) -> int:
+    return min(value, cap)
+
+
 def make_element(
     role: str,
     name: str,
     rng: random.Random,
+    realm: str,
+    forced: bool = False,
+    structure_role: str | None = None,
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> ElementDraw:
     elements = all_elements()
@@ -978,21 +1197,29 @@ def make_element(
         skill_degree = rng.randint(1, 100)
         output_ceiling = rng.randint(1, 100)
     composite_branch = None
+    diagnostics: list[str] = []
     if role.startswith("天位") and name in CUSTOM_ELEMENTS:
-        structure_role = "统摄父级"
+        structure_role = structure_role or "道形统合"
         model = COMPOSITE_PARENT_MODELS.get(name)
         if model:
             composite_branch = rng.choice(model["branches"])
     elif role.startswith("天位"):
-        structure_role = rng.choice(HEAVEN_STRUCTURE_ROLES)
+        structure_role = structure_role or "供能主源"
     else:
         structure_role = "角色权重不适用"
+    usable_expression, expression_diagnostics = forced_expression(name, refinement, realm)
+    diagnostics.extend(expression_diagnostics)
+    quality, skill_degree, output_ceiling, score_diagnostics = tune_scores_for_realm(
+        role, name, realm, forced, quality, skill_degree, output_ceiling
+    )
+    diagnostics.extend(score_diagnostics)
     return ElementDraw(
         role=role,
         name=name,
         category=category,
         meaning=meaning,
         refinement=refinement,
+        usable_expression=usable_expression,
         skill_degree=skill_degree,
         output_ceiling=output_ceiling,
         structure_role=structure_role,
@@ -1001,6 +1228,8 @@ def make_element(
         composite_branch=composite_branch,
         skill_label=label(skill_degree),
         output_label=label(output_ceiling),
+        forced=forced,
+        diagnostics=tuple(diagnostics),
     )
 
 
@@ -1010,6 +1239,8 @@ def choose_element(
     fixed: str | None,
     used: set[str],
     excluded: set[str],
+    realm: str,
+    structure_role: str | None = None,
     preferred: tuple[str, ...] = (),
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> ElementDraw:
@@ -1017,19 +1248,42 @@ def choose_element(
         if fixed in excluded:
             raise SystemExit(f"Element '{fixed}' is excluded but was fixed as {role}.")
         used.add(fixed)
-        return make_element(role, fixed, rng, quality_range)
+        return make_element(role, fixed, rng, realm, forced=True, structure_role=structure_role, quality_range=quality_range)
 
-    preferred_choices = [
-        name for name in preferred if name in all_elements() and name not in used and name not in excluded
-    ]
-    choices = preferred_choices or [
-        name for name in all_elements() if name not in used and name not in excluded
-    ]
-    if not choices:
+    fallback_choices = [name for name in all_elements() if name not in used and name not in excluded]
+    if not fallback_choices:
         raise SystemExit("No elements remain after applying exclusions.")
-    name = rng.choice(choices)
+    preferred_set = {
+        name for name in preferred if name in all_elements() and name not in used and name not in excluded
+    }
+    if preferred_set:
+        name = weighted_choice(rng, [(choice, 4 if choice in preferred_set else 1) for choice in fallback_choices])
+    else:
+        name = rng.choice(fallback_choices)
     used.add(name)
-    return make_element(role, name, rng, quality_range)
+    return make_element(role, name, rng, realm, structure_role=structure_role, quality_range=quality_range)
+
+
+def heaven_structure_roles(names: list[str], mode: str) -> list[str]:
+    if not names:
+        return []
+    if len(names) == 1:
+        return ["道形统合" if names[0] in CUSTOM_ELEMENTS else "供能主源"]
+    roles: list[str] = []
+    for index, name in enumerate(names):
+        if name in CUSTOM_ELEMENTS:
+            roles.append("道形统合")
+        elif index == 0:
+            roles.append("核心纲领")
+        elif index == 1:
+            roles.append("供能主源")
+        elif mode == "纯化" and index == len(names) - 1:
+            roles.append("纯化候选")
+        elif index == len(names) - 1 and len(names) >= 4:
+            roles.append("制衡天位")
+        else:
+            roles.append("纲位天位")
+    return roles
 
 
 def choose_many(
@@ -1039,28 +1293,90 @@ def choose_many(
     count: int,
     used: set[str],
     excluded: set[str],
+    realm: str,
+    structure_roles: tuple[str | None, ...] = (),
     preferred: tuple[str, ...] = (),
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> tuple[ElementDraw, ...]:
     draws: list[ElementDraw] = []
-    for name in fixed:
-        draws.append(choose_element(role, rng, name, used, excluded, quality_range=quality_range))
+    for index, name in enumerate(fixed):
+        structure_role = structure_roles[index] if index < len(structure_roles) else None
+        draws.append(choose_element(role, rng, name, used, excluded, realm, structure_role, quality_range=quality_range))
     while len(draws) < count:
-        draws.append(choose_element(role, rng, None, used, excluded, preferred, quality_range))
+        index = len(draws)
+        structure_role = structure_roles[index] if index < len(structure_roles) else None
+        draws.append(choose_element(role, rng, None, used, excluded, realm, structure_role, preferred, quality_range))
     return tuple(draws)
+
+
+def bind_sword_branches(
+    rng: random.Random,
+    realm: str,
+    heavens: tuple[ElementDraw, ...],
+    earths: tuple[ElementDraw, ...],
+    humans: tuple[ElementDraw, ...],
+    extras: tuple[ElementDraw, ...],
+) -> tuple[ElementDraw, ...]:
+    sword_indexes = [index for index, item in enumerate(heavens) if item.name == "剑"]
+    if not sword_indexes:
+        return heavens
+    selected = [item for item in (*heavens, *earths, *humans, *extras) if item.name != "剑"]
+    selected_by_name = {item.name: item for item in selected}
+    element_names = [name for name in all_elements() if name != "剑"]
+
+    rebound = list(heavens)
+    for index in sword_indexes:
+        sword = rebound[index]
+        bindings: list[tuple[str, str, str]] = []
+        for branch in COMPOSITE_PARENT_MODELS["剑"]["branches"]:
+            preferred = SWORD_BRANCH_FOCUS[branch]
+            focused_selected_heavens = [
+                name
+                for name in preferred
+                if name in selected_by_name and selected_by_name[name].role.startswith("天位")
+            ]
+            focused_selected = focused_selected_heavens or [name for name in preferred if name in selected_by_name]
+            if focused_selected:
+                weighted = [
+                    (
+                        name,
+                        8
+                        + (8 if selected_by_name[name].role.startswith("天位") else 0)
+                        + (4 if selected_by_name[name].forced else 0),
+                    )
+                    for name in focused_selected
+                ]
+            else:
+                weighted = []
+                for name in element_names:
+                    weight = 1
+                    if name in preferred:
+                        weight += 10
+                    if name in selected_by_name:
+                        weight += 8
+                        if selected_by_name[name].role.startswith("天位"):
+                            weight += 4
+                    weighted.append((name, weight))
+            source = weighted_choice(rng, weighted)
+            if source in selected_by_name:
+                expression = selected_by_name[source].usable_expression
+            else:
+                refinement = rng.choice(REFINEMENTS.get(source, (all_elements()[source][1],)))
+                expression, _ = forced_expression(source, refinement, realm)
+            bindings.append((branch, source, expression))
+
+        rebound[index] = replace(sword, branch_bindings=tuple(bindings))
+    return tuple(rebound)
 
 
 def infer_theme(kind: str, conditions: tuple[str, ...], explicit: str | None) -> str | None:
     if explicit:
         return explicit
-    if kind == "剑法":
-        return "剑道"
     text = " ".join(conditions)
     for theme in THEMES:
         if theme in text:
             return theme
     aliases = {
-        "剑": "剑道",
         "毒": "医毒蛊疫",
         "蛊": "医毒蛊疫",
         "梦": "魂梦心识",
@@ -1078,6 +1394,61 @@ def infer_theme(kind: str, conditions: tuple[str, ...], explicit: str | None) ->
     return None
 
 
+def preferred_elements(theme: str | None, conditions: tuple[str, ...]) -> tuple[str, ...]:
+    names: list[str] = []
+    names.extend(THEME_ELEMENTS.get(theme or "", ()))
+    names.extend(condition_elements(conditions))
+    return tuple(dict.fromkeys(names))
+
+
+def usability_weighted_styles(
+    kind: str,
+    realm: str,
+    rarity: str,
+    theme: str | None,
+) -> list[tuple[str, int]]:
+    weights = {style: 1 for style in NAME_STYLES}
+    if realm in LOW_REALMS:
+        for style in LOW_USABILITY_STYLES:
+            weights[style] = weights.get(style, 1) + 8
+        for style in HIGH_SCALE_STYLES:
+            weights[style] = 0 if rarity == "坊市常见" else 1
+    elif realm in MID_REALMS:
+        for style in MID_USABILITY_STYLES:
+            weights[style] = weights.get(style, 1) + 6
+        for style in LOW_USABILITY_STYLES:
+            weights[style] = weights.get(style, 1) + 2
+    else:
+        for style in HIGH_USABILITY_STYLES:
+            weights[style] = weights.get(style, 1) + 6
+        for style in MID_USABILITY_STYLES:
+            weights[style] = weights.get(style, 1) + 2
+    if kind == "法宝":
+        for style in ("营造工匠", "金文钟鼎", "谱录品评", "算经穷理", "数算穷理"):
+            weights[style] = weights.get(style, 1) + 3
+    if kind == "剑法":
+        for style in ("建安风骨", "侠义小说", "边塞诗", "盛唐空灵", "羚羊挂角"):
+            weights[style] = weights.get(style, 1) + 4
+    if theme == "医毒蛊疫":
+        weights["医书本草"] = weights.get("医书本草", 1) + 8
+        weights["志怪乡谈"] = weights.get("志怪乡谈", 1) + 3
+    if theme == "剑道":
+        weights["建安风骨"] = weights.get("建安风骨", 1) + 6
+        weights["侠义小说"] = weights.get("侠义小说", 1) + 4
+    if kind == "剑法":
+        weights["建安风骨"] = weights.get("建安风骨", 1) + 6
+        weights["侠义小说"] = weights.get("侠义小说", 1) + 4
+    return list(weights.items())
+
+
+def naming_scale_note(style: str, realm: str, explicit: bool) -> tuple[str, ...]:
+    if style in HIGH_SCALE_STYLES and realm in LOW_REALMS:
+        if explicit:
+            return (f"用户强制命名来源「{style}」，保留文体气质，但必须缩小为{realm}可用的小器、小术或仿古残式。",)
+        return (f"命名来源「{style}」尺度偏高，已要求输出时收束为{realm}可用形制。",)
+    return ()
+
+
 def build_prompt(draw: Draw) -> str:
     realm = REALM_CONTEXT[draw.realm]
     lines = [
@@ -1088,6 +1459,7 @@ def build_prompt(draw: Draw) -> str:
         "组合模式：{mode}。".format(mode=draw.composition_mode),
         *([f"主题偏向：{draw.theme}。"] if draw.theme else []),
         "复合成熟度：{maturity}。".format(maturity=draw.maturity),
+        "生成策略：默认以小说中可直接使用为优先；用户强制指定的参数必须保留，但会被降尺度、补限制或改细分来适配境界。",
         "",
         "境界尺度：",
         f"- 身份地位：{realm['status']}。",
@@ -1105,29 +1477,36 @@ def build_prompt(draw: Draw) -> str:
         f"- 推荐后缀池：{'、'.join(draw.naming['suffixes'])}",
         f"- 推荐模板：{draw.naming['pattern']}",
         f"- 命名避坑：{draw.naming['avoid']}",
-        "",
-        "天位/动力：",
-        *[format_element(item) for item in draw.heavens],
-        "",
-        "地位/媒介：",
-        *[format_element(item) for item in draw.earths],
-        "",
-        "人位/目的：",
-        *[format_element(item) for item in draw.humans],
     ]
+    if draw.diagnostics:
+        lines.extend(["", "自动合理化诊断："])
+        lines.extend(f"- {diagnostic}" for diagnostic in draw.diagnostics)
+    lines.extend(
+        [
+            "",
+            "天位/动力：",
+            *[format_element(item) for item in draw.heavens],
+            "",
+            "地位/媒介：",
+            *[format_element(item) for item in draw.earths],
+            "",
+            "人位/目的：",
+            *[format_element(item) for item in draw.humans],
+        ]
+    )
     parent_guides = []
     for item in draw.heavens:
         model = COMPOSITE_PARENT_MODELS.get(item.name)
         if model:
             if item.name == "剑":
-                parent_guides.append(format_sword_parent_guide(item, draw, model))
+                parent_guides.append(format_sword_pattern_guide(item, draw, model))
             else:
                 branches = "、".join(
                     f"{branch}={model['branch_notes'][branch]}" for branch in model["branches"]
                 )
                 parent_guides.append(f"{model['definition']} 常见纲目不是固定必齐，而是随境界取用：{branches}。")
     if parent_guides:
-        lines.extend(["", "复合父级提示："])
+        lines.extend(["", "生成用机制约束："])
         lines.extend(f"- {guide}" for guide in parent_guides)
     if draw.extras:
         lines.extend(["", "附加要素："])
@@ -1146,15 +1525,21 @@ def build_prompt(draw: Draw) -> str:
             "- 这些要素来自人类理解世界的底层范畴：存在、变化、秩序、关系、认知、价值；允许继续细分，但细分必须服务机制。",
             "- 先给一个符合类型的名称。不要默认命名为 XX经；只有根本传承、顶级经文或刻意古典风才使用 经。优先按命名方案选择器型、招式、图谱、真解、秘录、剑诀、神通等不同结构。",
             "- 名称要有文体/语体来源，像从诗、骚、乐府、骈赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、算经、历法、医书、兵书、道佛科仪、志怪话本、农书水经、棋谱营造等古老文本里长出来，而不是古风词堆叠。每个名字体现至少一个来源、形制、功能、意象、境界或机制。",
+            "- 文体/语体来源不等于世界内来历。默认不要因为名称取法甲骨、金文、诗骚、山海经、道佛科仪或古书语气，就把作品写成上古遗物、仙古残篇、仙人真传、遗迹出土或禁忌神物；只有基调明确为「上古失传」「仙古残篇」或用户指定相关来历时，才使用这种背景。",
             "- 避免九霄、归墟、灭世、镇魔、弑神、无上、玄天、神霄这类高频玄幻词连续堆叠；除非用户指定该风格。",
+            "- 默认目标是小说可用率，不是全池真随机。凡是自动合理化诊断中写出的降尺度、浅层表达、补配限制，都必须体现在最终设定里。",
+            "- 用户强制指定的天/地/人、类型、境界或命名来源必须保留；如果它们与境界冲突，不得删除，只能写成误读、残式、浅层用法、旁门代价、局部小术或高阶传承的低阶入口。",
             "- 对每个天位分别解释来源、增长方式、衰竭点、失控形态和度量方法；不要把天位当作装饰词。",
             "- 天位数量与质量要匹配境界和复合成熟度：低阶可以随意选取一两个粗糙天位；中阶应有君臣佐使或主次制衡；高阶应纲目分明；顶阶才追求铸天为一、结构完美、质量顶级。",
             "- 天位质量以1.00为同境界正常水平，可高可低，不是比例上限。低质天位可能拖累结构；高质天位可以越阶支撑，但必须有代价。",
-            "- 复合天位不是简单权重相加。先判断是否存在更具象、更复杂的统摄父级概念，如剑、丹、阵、符、医、兵等；若存在，先定义父级概念的本质，再说明它如何统筹多个基础天位。",
-            "- 写剑修或剑法时，必须把剑先理解为「聚力成锋、分断界限、承担决断、化志为行」的复合父级。剑性六纲的深浅由提示中的判定决定：浅层时可以写成属性剑气、蓄势、勇气、道心、剑招意境、无形斩等通俗理解；深层时必须进入对应本质考验，不得把六纲只写成装饰词。",
-            "- 对每个天位使用给定复合结构角色：统摄父级、核心纲领、供能主源、辅助供能、分支天位、制衡天位、纯化候选、残留/借势。主辅只是最简单的特例，不得把所有复合结构都写成主辅权重。",
-            "- 解释多天位如何在父级概念下组合：统摄、分支、相乘、相加、互补、制衡、冲突、纯化。若组合不纯，说明代价。",
-            "- 若组合模式为「纯化」，必须说明哪一个天位被削弱、舍弃、上收为父级概念、下放为地位/人位或保留为残留，以及为什么这样反而更强。",
+            "- 复合天位不是简单权重相加。先判断是否存在更具象、更复杂的整体道形，如剑、丹、阵、符、医、兵等；若存在，先说明各天位如何在整体中就位，而不是写成上位概念统摄子项。",
+            "- 写剑修或剑法时，把生成用机制约束只用于构造机制，不要把六纲定义句、整体道形总纲或提示词解释原样写入任何输出小节，尤其不要写进设定集正文。浅层时可以写属性剑气、蓄势、勇气、道心、剑招意境、无形斩等通俗形态；深层时必须转译为具体力量运行、局势变化、承压方式、本心约束、斩击形态或自性规则。",
+            "- 剑修默认比同境界普通修士更强势，且极善杀伐。剑法要体现杀伤、破防、抢先手、压迫敌方选择、越过防御资源或终结战斗的优势；不要为了平衡强行给剑法本身添加削弱。剑修的难处通常在修士侧：难练、难学、难精，极于剑时容易被剑性六纲反塑，心性、判断、行事和道途走偏锋。若本次剑法确有缺陷，必须来自抽样结构或用户条件，例如残篇、误修、低质、多天位冲突、旁门或克制关系。",
+            "- 剑性六纲中的每一纲都不是固定能力，而是一个天位槽位：剑气、剑势、剑胆、剑心、剑意、剑道都必须从已抽到或绑定的真实天位解释。尤其剑势可以是气势、局势、形势、时势、名势、权势、军势、数势、象势、蓄势等；根据绑定天位写法变化，不得默认只有一两种势。",
+            "- 若剑势绑定「藏/蓄势/养势」，蓄势必须写成同级对手必须处理的危险信号：越久不破，出剑越重或越难避；不能写成单纯前摇过长、只能守固定地点、还不如不蓄势的弱点。只有绑定大势、阵禁、山门、峡道、洞府、城池等上下文时，才写成长期经营的固定杀局。",
+            "- 对每个天位使用给定复合结构角色：道形统合、核心纲领、供能主源、辅助供能、纲位天位、制衡天位、纯化候选、残留/借势。主辅只是最简单的特例，不得把所有复合结构都写成主辅权重。",
+            "- 解释多天位如何在整体道形中组合：就位、相乘、相加、互补、制衡、冲突、纯化。若组合不纯，说明代价。",
+            "- 若组合模式为「纯化」，必须说明哪一个天位被削弱、舍弃、上收为整体道形、下放为地位/人位或保留为残留，以及为什么这样反而更强。",
             "- 让地位成为具体媒介：身体、材料、符号、器物、仪轨、空间、梦境、数术等均可。",
             "- 让人位决定实际用途。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制。",
             "- 匹配境界尺度但保留修士个人追求：高阶作品必须有高阶分量、资源消耗、风险或道途意义；元婴及以上可以是护宗镇城，也可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、护元婴或求道自由，不能只写成日常小便利。",
@@ -1162,14 +1547,21 @@ def build_prompt(draw: Draw) -> str:
             *(
                 [
                     "- 因类型为功法，必须写功法等阶链：先写总纲，再从练气逐阶写到目标境界。每阶都要有独立修炼重心、标志性效果、配套术法或应用法门、限制代价，并说明它如何向目标境界靠拢。",
-                    "- 功法等阶链要判断自身属于递进式、拆分式或先拆后合式：递进式让同类效果逐阶强化；拆分式让每阶各掌一支能力，高阶合一；先拆后合式先分修气、身、魂、器、术、势等支脉，中高阶建立君臣佐使并由父级概念统摄。",
+                    "- 功法等阶链要判断自身属于递进式、拆分式或先拆后合式：递进式让同类效果逐阶强化；拆分式让每阶各掌一支能力，高阶合一；先拆后合式先分修气、身、魂、器、术、势等支脉，中高阶建立君臣佐使并由整体道形收束。",
                     "- 不要把低阶只写成最高阶的弱化版。低阶应承担根基、媒介、校准、索敌、护身、蓄势、结丹准备、护婴准备等功能中的至少一种。",
                 ]
                 if draw.kind == "功法"
                 else []
             ),
             "- 同时体现技艺程度与出力上限：高技艺低出力偏精细，低技艺高出力偏粗暴危险。",
-            "- 给出限制、代价、反噬和至少一个适配场景。",
+            *(
+                [
+                    "- 给出修炼门槛、掌控难度、修士被剑性反塑的风险和至少一个适配场景；不要把这些默认写成功法本身为了平衡而自带的削弱。",
+                ]
+                if draw.kind == "剑法"
+                else ["- 给出限制、代价、反噬和至少一个适配场景。"]
+            ),
+            "- 设定集正文必须像小说资料条目，不像提示词解析。不要出现任何元说明、判据名、提示词小标题、抽样诊断或世界观大纲原句；要用具体物象、动作、资源、禁忌和后果来表现。",
             "",
             "按以下结构输出：",
             "1. 名称",
@@ -1186,7 +1578,11 @@ def build_prompt(draw: Draw) -> str:
                 else []
             ),
             f"{10 if draw.kind == '功法' else 9}. 效果",
-            f"{11 if draw.kind == '功法' else 10}. 限制与代价",
+            (
+                f"{11 if draw.kind == '功法' else 10}. 修炼门槛与修士风险"
+                if draw.kind == "剑法"
+                else f"{11 if draw.kind == '功法' else 10}. 限制与代价"
+            ),
             f"{12 if draw.kind == '功法' else 11}. 境界适配与等阶差距",
             f"{13 if draw.kind == '功法' else 12}. 失控或反噬",
             f"{14 if draw.kind == '功法' else 13}. 适配场景",
@@ -1212,16 +1608,25 @@ def format_cultivation_method_chain(draw: Draw) -> list[str]:
 
 
 def format_element(item: ElementDraw) -> str:
+    forced_text = "用户强制；" if item.forced else ""
+    usable_text = f"小说可用表达：{item.usable_expression}；" if item.usable_expression != item.refinement else ""
     structure_text = (
         f"复合结构角色：{item.structure_role}；天位质量 {item.quality:.2f}「{item.quality_label}」；"
         if item.role.startswith("天位")
         else ""
     )
     branch_text = f"复合纲目：{item.composite_branch}；" if item.composite_branch else ""
+    bindings_text = ""
+    if item.branch_bindings:
+        pairs = "、".join(f"{branch}取{source}/{expression}" for branch, source, expression in item.branch_bindings)
+        bindings_text = f"六纲天位抽样：{pairs}；"
     return (
         f"- {item.role}：{item.name}（{item.category}；{item.meaning}；"
         f"本次细分：{item.refinement}；"
+        f"{usable_text}"
+        f"{forced_text}"
         f"{branch_text}"
+        f"{bindings_text}"
         f"{structure_text}"
         f"技艺程度 {item.skill_degree}/100「{item.skill_label}」；"
         f"出力上限 {item.output_ceiling}/100「{item.output_label}」）"
@@ -1234,6 +1639,7 @@ def sword_branch_depth(
     parent_quality: float,
     conditions: tuple[str, ...],
     selected_names: tuple[str, ...],
+    binding: tuple[str, str] | None = None,
 ) -> tuple[str, str, str]:
     model = SWORD_BRANCH_MODELS[branch]
     text = " ".join((*conditions, *selected_names))
@@ -1241,23 +1647,47 @@ def sword_branch_depth(
     realm_ready = REALM_RANK[realm] >= REALM_RANK[model["min_realm"]]
     quality_ready = parent_quality >= model["quality"]
     if realm_ready and (quality_ready or context_hit):
-        return "深层", model["essence"], "境界、质量或上下文足以触及本质考验。"
+        interpretation = model["essence"]
+        if binding:
+            source, expression = binding
+            if branch == "剑势":
+                style = SWORD_MOMENTUM_BY_SOURCE.get(source, f"势态：以「{source}/{expression}」决定局面如何倾斜")
+                interpretation = (
+                    f"{interpretation} 本纲本次以「{source}/{expression}」为真实天位，具体写成{style}。"
+                    "势会随交锋变化；除非绑定大势、阵禁或固定地形，不要默认写成只能守一处的杀局。"
+                )
+            else:
+                interpretation = f"{interpretation} 本纲本次以「{source}/{expression}」为真实天位，不得只写成固定标签。"
+        return "深层", interpretation, "境界、质量或天位绑定足以触及本质机制。"
+    if binding:
+        source, expression = binding
+        if branch == "剑势":
+            style = SWORD_MOMENTUM_BY_SOURCE.get(source, f"势态：以「{source}/{expression}」形成低解析度压迫")
+            shallow = (
+                f"{model['vulgar']}；本纲本次抽到「{source}/{expression}」，浅层写成{style}，"
+                "不要脱离天位写成通用气场或固定杀局"
+            )
+        else:
+            shallow = f"{model['vulgar']}；本纲本次抽到「{source}/{expression}」，浅层也要带出这个天位的味道"
+    else:
+        shallow = model["vulgar"]
     reason = []
     if not realm_ready:
         reason.append(f"未到{model['min_realm']}")
     if not quality_ready:
-        reason.append(f"父级剑天位质量低于{model['quality']:.2f}")
+        reason.append(f"剑之道形质量低于{model['quality']:.2f}")
     if not context_hit:
         reason.append("缺少对应上下文牵引")
-    return "浅层", model["vulgar"], "、".join(reason) + "，故暂按通俗/庸俗理解处理。"
+    return "浅层", shallow, "、".join(reason) + "，故暂按通俗/庸俗理解处理。"
 
 
-def format_sword_parent_guide(
+def format_sword_pattern_guide(
     item: ElementDraw,
     draw: Draw,
     model: dict[str, object],
 ) -> str:
     selected_names = tuple(element.name for element in (*draw.heavens, *draw.earths, *draw.humans, *draw.extras))
+    bindings = {branch: (source, expression) for branch, source, expression in item.branch_bindings}
     branch_lines = []
     for branch in model["branches"]:
         level, interpretation, reason = sword_branch_depth(
@@ -1266,13 +1696,21 @@ def format_sword_parent_guide(
             item.quality,
             draw.conditions,
             selected_names,
+            bindings.get(branch),
         )
         branch_lines.append(f"{branch}[{level}]：{interpretation}（{reason}）")
+    binding_text = ""
+    if item.branch_bindings:
+        binding_text = " 本次六纲天位抽样：" + "、".join(
+            f"{branch}={source}/{expression}" for branch, source, expression in item.branch_bindings
+        ) + "。"
     branches = "；".join(branch_lines)
     return (
-        f"{model['definition']} 剑性六纲是成熟地图，不是必填清单；"
-        f"低阶、低质或缺少上下文时应按浅层剑法理解，只有某纲达到境界/质量门槛或被上下文牵引时才展开本质。"
-        f"本次六纲判定：{branches}。"
+        f"{model['definition']} "
+        f"每一纲都必须由某个真实天位解释，不能把剑势、剑胆、剑意等当作独立固定能力，也不能写成某个上位概念下的子项。"
+        f"{binding_text}"
+        f"低阶、低质或缺少上下文时按浅层剑法生成，只有某纲达到境界/质量门槛或被上下文牵引时才展开深层机制。"
+        f"六纲处理表：{branches}。"
     )
 
 
@@ -1302,12 +1740,15 @@ def build_draw(args: argparse.Namespace) -> Draw:
 
     kind = args.type or rng.choice(TYPES)
     realm = args.realm or rng.choice(REALMS)
-    rarity = args.rarity or rng.choice(RARITIES)
-    fixed_heavens = parse_csv(args.heaven)
-    if kind == "剑法" and "剑" not in fixed_heavens:
-        fixed_heavens.insert(0, "剑")
+    rarity = args.rarity or choose_default_rarity(rng, realm)
+    raw_fixed_heavens = parse_csv(args.heaven)
+    fixed_heavens = list(raw_fixed_heavens)
     fixed_earths = parse_csv(args.earth)
     fixed_humans = parse_csv(args.human)
+    auto_sword_added = False
+    if kind == "剑法" and "剑" not in fixed_heavens:
+        fixed_heavens.insert(0, "剑")
+        auto_sword_added = True
     fixed_total = len(fixed_heavens) + len(fixed_earths) + len(fixed_humans)
     if args.composition_mode:
         composition_mode = args.composition_mode
@@ -1324,23 +1765,70 @@ def build_draw(args: argparse.Namespace) -> Draw:
     earth_count = max(earth_count, len(fixed_earths), args.earth_count or 0)
     human_count = max(human_count, len(fixed_humans), args.human_count or 0)
     theme = infer_theme(kind, conditions, args.theme)
-    preferred = THEME_ELEMENTS.get(theme or "", ())
+    preferred = preferred_elements(theme, conditions)
 
     quality_range = complexity["quality"]
-    heavens = choose_many("天位/动力", rng, fixed_heavens, heaven_count, used, excluded, preferred, quality_range)
-    earths = choose_many("地位/媒介", rng, fixed_earths, earth_count, used, excluded, preferred)
-    humans = choose_many("人位/目的", rng, fixed_humans, human_count, used, excluded, preferred)
+    heaven_names_for_roles = fixed_heavens + [""] * max(0, heaven_count - len(fixed_heavens))
+    heaven_roles = tuple(heaven_structure_roles(heaven_names_for_roles, composition_mode))
+    heavens = choose_many(
+        "天位/动力",
+        rng,
+        fixed_heavens,
+        heaven_count,
+        used,
+        excluded,
+        realm,
+        heaven_roles,
+        preferred,
+        quality_range,
+    )
+    if auto_sword_added and heavens:
+        heavens = (replace(heavens[0], forced=False), *heavens[1:])
+    earths = choose_many("地位/媒介", rng, fixed_earths, earth_count, used, excluded, realm, preferred=preferred)
+    humans = choose_many("人位/目的", rng, fixed_humans, human_count, used, excluded, realm, preferred=preferred)
 
     extras: list[ElementDraw] = []
     for fixed in parse_csv(args.include):
         if fixed not in used:
             used.add(fixed)
-            extras.append(make_element("附加", fixed, rng))
+            extras.append(make_element("附加", fixed, rng, realm, forced=True))
 
     for _ in range(args.extra_count):
-        extras.append(choose_element("附加", rng, None, used, excluded, preferred))
+        extras.append(choose_element("附加", rng, None, used, excluded, realm, preferred=preferred))
+
+    heavens = bind_sword_branches(rng, realm, heavens, earths, humans, tuple(extras))
+
+    naming = build_naming(kind, rng, realm, rarity, theme, args.name_style)
+    all_draws = (*heavens, *earths, *humans, *extras)
+    diagnostics = list(naming_scale_note(str(naming["style"]), realm, args.name_style is not None))
+    forced = raw_fixed_heavens + fixed_earths + fixed_humans + parse_csv(args.include)
+    if forced:
+        diagnostics.append(f"保留用户强制要素：{'、'.join(forced)}；其余随机项围绕这些要素合理化。")
+    if args.rarity is None:
+        diagnostics.append(f"默认稀有度按{realm}小说可用率加权抽取，避免普通低中阶作品频繁落成上古/仙古来历。")
+    condition_bias = condition_elements(conditions)
+    if condition_bias:
+        diagnostics.append(f"用户条件已转为可用率偏置：{'、'.join(condition_bias)}。")
+    diagnostics.extend(message for item in all_draws for message in item.diagnostics)
+    diagnostics_tuple = tuple(dict.fromkeys(diagnostics))
+    request = {
+        "type": args.type,
+        "realm": args.realm,
+        "rarity": args.rarity,
+        "composition_mode": args.composition_mode,
+        "theme": args.theme,
+        "name_style": args.name_style,
+        "heaven": tuple(raw_fixed_heavens),
+        "earth": tuple(fixed_earths),
+        "human": tuple(fixed_humans),
+        "conditions": conditions,
+        "include": tuple(parse_csv(args.include)),
+        "exclude": tuple(parse_csv(args.exclude)),
+        "extra_count": args.extra_count,
+    }
 
     draft = Draw(
+        request=request,
         seed=seed,
         kind=kind,
         realm=realm,
@@ -1348,12 +1836,13 @@ def build_draw(args: argparse.Namespace) -> Draw:
         composition_mode=composition_mode,
         theme=theme,
         maturity=complexity["maturity"],
-        naming=build_naming(kind, rng, realm, rarity, args.name_style),
+        naming=naming,
         heavens=heavens,
         earths=earths,
         humans=humans,
         extras=tuple(extras),
         conditions=conditions,
+        diagnostics=diagnostics_tuple,
         prompt="",
     )
     return replace(draft, prompt=build_prompt(draft))
@@ -1364,10 +1853,11 @@ def build_naming(
     rng: random.Random,
     realm: str,
     rarity: str,
+    theme: str | None,
     explicit_style: str | None,
 ) -> dict[str, object]:
     pool = NAMING_POOLS.get(kind, NAMING_POOLS["功法"])
-    style = explicit_style or rng.choice(NAME_STYLES)
+    style = explicit_style or weighted_choice(rng, usability_weighted_styles(kind, realm, rarity, theme))
     profile = NAME_STYLE_PROFILES[style]
     suffix_pool = list(pool["suffixes"])
     if (
@@ -1375,7 +1865,23 @@ def build_naming(
         and realm not in {"化神", "炼虚", "合体", "大乘"}
         and rarity not in {"上古失传", "仙古残篇"}
     ):
-        suffix_pool = [suffix for suffix in suffix_pool if suffix not in {"经", "剑经"}]
+        suffix_pool = [
+            suffix
+            for suffix in suffix_pool
+            if suffix not in {"经", "剑经", "剑道", "剑纲", "剑藏"}
+        ]
+    patterns = list(pool["patterns"])
+    if kind == "剑法" and realm in LOW_REALMS:
+        patterns = [
+            pattern
+            for pattern in patterns
+            if "极高阶" not in pattern
+            and "剑道/剑经" not in pattern
+            and "剑纲" not in pattern
+            and "剑藏" not in pattern
+        ]
+    if kind == "功法" and realm in LOW_REALMS:
+        patterns = [pattern for pattern in patterns if "大道/哲学" not in pattern]
     style_suffix_bias = {
         "诗经国风": {"筐", "铃", "符", "束", "简", "环", "索", "鼓", "镰", "佩", "笛", "法"},
         "祭文悲怆": {"匣", "印", "砚", "符", "铃", "券", "仪", "咒", "法", "碑", "简"},
@@ -1450,7 +1956,7 @@ def build_naming(
         "tokens": tuple(rng.sample(profile["tokens"], k=min(6, len(profile["tokens"])))),
         "examples": tuple(rng.sample(profile["examples"], k=min(4, len(profile["examples"])))),
         "suffixes": suffixes,
-        "pattern": rng.choice(pool["patterns"]),
+        "pattern": rng.choice(patterns or list(pool["patterns"])),
         "avoid": pool["avoid"],
     }
 
@@ -1476,7 +1982,7 @@ def main() -> None:
     parser.add_argument("--include", action="append", help="Comma-separated required extra elements.")
     parser.add_argument("--exclude", action="append", help="Comma-separated excluded elements.")
     parser.add_argument("--extra-count", type=int, default=0, help="Number of random extra elements.")
-    parser.add_argument("--json", action="store_true", help="Output machine-readable JSON.")
+    parser.add_argument("--json", action="store_true", help="Debug/integration only: output machine-readable JSON instead of the creative prompt.")
     args = parser.parse_args()
 
     if args.extra_count < 0:
@@ -1484,7 +1990,19 @@ def main() -> None:
 
     draw = build_draw(args)
     if args.json:
-        print(json.dumps(asdict(draw), ensure_ascii=False, indent=2))
+        payload = asdict(draw)
+        payload["effective"] = {
+            "type": draw.kind,
+            "realm": draw.realm,
+            "rarity": draw.rarity,
+            "composition_mode": draw.composition_mode,
+            "theme": draw.theme,
+            "naming_style": draw.naming["style"],
+            "heavens": [item.name for item in draw.heavens],
+            "earths": [item.name for item in draw.earths],
+            "humans": [item.name for item in draw.humans],
+        }
+        print(json.dumps(payload, ensure_ascii=False, indent=2))
         return
 
     print(f"Seed: {draw.seed}")
