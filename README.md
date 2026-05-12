@@ -1,6 +1,8 @@
 # Agent Skills
 
-本仓库存放 Codex/agent skills。每个 skill 都应放在 `skills/<skill-name>/` 下，并以 `SKILL.md` 作为入口；脚本、数据池、参考资料等资源随 skill 自包含维护。
+本仓库存放可安装到 Codex 等 coding agent 的 skills。每个 skill 都放在 `skills/<skill-name>/` 下，并以 `SKILL.md` 作为入口；脚本、数据池、参考资料等资源随 skill 自包含维护。
+
+推荐在 `GPT-5.5` 且 reasoning effort 设为 `high` 的 Codex 会话中使用本仓库的创作型 skill。该配置更适合处理长设定、多约束、中文文化语境和命名风格一致性。
 
 ## 当前 Skill
 
@@ -10,6 +12,78 @@
 
 ```text
 法门 = 天位(动力/力量来源) x 地位(媒介/承载方式) x 人位(目的/作用)
+```
+
+## 安装
+
+推荐使用 `skills` CLI 从 GitHub 链接安装。下面的命令会从 `https://github.com/moyojo/skills` 拉取 skill，不依赖本地仓库路径。
+
+先查看仓库中可安装的 skills：
+
+```bash
+npx skills add https://github.com/moyojo/skills --list
+```
+
+安装到当前项目，供 Codex 在该项目内使用：
+
+```bash
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --copy --yes
+```
+
+这会把 skill 安装到当前项目的 `.agents/skills/xiuzhen-art-generator/`。`--copy` 会复制文件而不是创建符号链接，适合 Windows 或不希望依赖符号链接的环境。
+
+安装为全局 Codex skill，供所有项目使用：
+
+```bash
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --global --copy --yes
+```
+
+Codex 的全局安装位置通常是 `~/.codex/skills/xiuzhen-art-generator/`。
+
+查看已安装 skills：
+
+```bash
+npx skills list --agent codex
+```
+
+更新时重新运行同一条 GitHub 安装命令即可：
+
+```bash
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --copy --yes
+```
+
+如果是在本仓库内开发或调试，也可以从本地目录安装当前工作区版本：
+
+```bash
+npx skills add . --skill xiuzhen-art-generator --agent codex --copy --yes
+```
+
+## 使用
+
+安装后，在 Codex 中直接提出修真/仙侠设定生成需求即可触发 skill。也可以显式点名 skill：
+
+```text
+$xiuzhen-art-generator 生成一个金丹境剑法，偏追索、破障和宗门秘传风格
+```
+
+更多示例：
+
+```text
+生成三门适合筑基修士的防护法术，要求各自的天位、地位、人位不要重复
+```
+
+```text
+设计一件偏因果与梦境的元婴期法宝，给出名称、来历、使用代价和克制方式
+```
+
+```text
+接着上一批宗门秘传生成，偏防护和追索，不要重复上一批核心意象
+```
+
+如果只想生成结构化提示词，也可以直接运行脚本：
+
+```bash
+python3 skills/xiuzhen-art-generator/scripts/generate_prompt.py --type 功法 --realm 金丹
 ```
 
 ## 目录结构
