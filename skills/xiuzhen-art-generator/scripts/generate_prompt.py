@@ -924,8 +924,12 @@ def make_element(
             chosen_composite_branch = rng.choice(model["branches"])
     elif role.startswith("天位"):
         structure_role = structure_role or "供能主源"
+    elif role.startswith("地位"):
+        structure_role = structure_role or "主承载媒介"
+    elif role.startswith("人位"):
+        structure_role = structure_role or "主效用"
     else:
-        structure_role = "角色权重不适用"
+        structure_role = structure_role or "附加牵引"
     usable_expression, expression_diagnostics = forced_expression(name, refinement, realm)
     diagnostics.extend(expression_diagnostics)
     quality, skill_degree, output_ceiling, score_diagnostics = tune_scores_for_realm(
@@ -1021,6 +1025,34 @@ def heaven_structure_roles(names: list[str], mode: str) -> list[str]:
         else:
             roles.append("纲位天位")
     return roles
+
+
+def earth_structure_roles(count: int, mode: str) -> tuple[str, ...]:
+    if count <= 0:
+        return ()
+    if count == 1:
+        return ("主承载媒介",)
+    if mode == "多媒介":
+        pattern = ("主承载媒介", "传导/触发媒介", "锁定/感知媒介", "稳态/约束媒介", "代价/反噬承载")
+    elif mode == "纯化":
+        pattern = ("主承载媒介", "纯化候选媒介", "残留/代价媒介", "稳态/约束媒介")
+    else:
+        pattern = ("主承载媒介", "锁定/感知媒介", "传导/触发媒介", "稳态/约束媒介", "代价/反噬承载")
+    return tuple(pattern[index] if index < len(pattern) else f"辅助媒介{index + 1}" for index in range(count))
+
+
+def human_structure_roles(count: int, mode: str) -> tuple[str, ...]:
+    if count <= 0:
+        return ()
+    if count == 1:
+        return ("主效用",)
+    if mode == "多目的":
+        pattern = ("主效用", "索敌/识别", "约束/封锁", "收束/终局", "副效用/代价转换")
+    elif mode == "纯化":
+        pattern = ("主效用", "纯化候选目的", "残留副效用", "约束/封锁")
+    else:
+        pattern = ("主效用", "索敌/识别", "传递/扩散", "约束/封锁", "收束/终局")
+    return tuple(pattern[index] if index < len(pattern) else f"辅助目的{index + 1}" for index in range(count))
 
 
 def choose_many(
@@ -1313,7 +1345,8 @@ def build_prompt(draw: Draw) -> str:
             [
                 "",
                 "三位配工提示：",
-                "- 默认至少让一组地位/人位负责制造或承载效果，另一组负责锁定、传递、约束目标或区分敌我；若本次地位/人位少于两项，必须说明同一媒介或目的如何兼任这两个职责。",
+                "- 多个天位、地位或人位都不是平行罗列，必须落入一个能自圆其说的构型。按各项标注的结构角色组织：地位要说明主承载、传导/触发、锁定/感知、稳态/约束或代价承载如何接力；人位要说明主效用、索敌/识别、传递/扩散、约束/封锁或收束/终局如何凝聚为一个目的链。",
+                "- 若本次地位或人位只有一项，必须说明同一媒介或目的如何兼任生成、承载、锁定、传递或约束职责；若有多项，不得写成两个途径两个效果并列，必须判断主辅、先后、互补、制衡、转化或纯化关系。",
             ]
         )
     lines.extend(
@@ -1371,6 +1404,7 @@ def build_prompt(draw: Draw) -> str:
             "",
             "生成要求：",
             "- 这些要素来自扩展 PMEST 八分面：本体、属性、过程、互作、场域、时序、符号、目的；也可简称体、性、化、缘、域、时、识、愿。允许继续细分，但细分必须服务机制。",
+            "- 五行是低中阶修士和百艺体系最常用的公共语法，因为它能把药性、材性、脉性、阵性、器性等偏性整理成可教学、可交易、可诊断、可配伍的生克旺衰关系；但五行不是唯一真理，也不能替代本次天位的来源、增长、衰竭、失控和度量。",
             "- 输出重心必须符合修真小说世界观设定的比重：天位动力学与复合结构约占 45%-55%，施展/效果/代价/境界约占 25%-35%，诸名约占 10%-15%，设定集正文负责收束。不要让命名解释占据开头或最长篇幅。",
             "- 先立设定总览、核心三位、天位动力学和复合结构，再写诸名。名称是世界内流传层，不是正文主结构。",
             "- 「诸名」输出三到五个，宁缺毋滥；内部先拟不少于八个草名，再淘汰标签名、机制说明名、套模板名、只换后缀名、过长题解名和删掉说明就不成立的名字。若五个里只有一个好名，宁可输出三个，不补烂名。",
@@ -1399,11 +1433,11 @@ def build_prompt(draw: Draw) -> str:
             "- 剑法命名要有境界下限：练气可用剑谱、剑式、剑招、剑步；筑基到金丹可用剑图、剑章；金丹到元婴应优先剑诀、剑阵、剑意、剑心诀。金丹剑法的主名必须有长老级秘传、镇守一方或同阶斗法的分量，不要把第一名写成弟子入门册、小队撤退术或凡俗武馆招式。",
             "- 剑性六纲中的每一纲都不是固定能力，而是一个天位槽位：剑气、剑势、剑胆、剑心、剑意、剑道都必须从已抽到或绑定的真实天位解释。尤其剑势可以是气势、局势、形势、时势、名势、权势、军势、数势、象势、蓄势等；根据绑定天位写法变化，不得默认只有一两种势。",
             "- 若剑势绑定「藏/蓄势/养势」，蓄势必须写成同级对手必须处理的危险信号：越久不破，出剑越重或越难避；不能写成单纯前摇过长、只能守固定地点、还不如不蓄势的弱点。只有绑定大势、阵禁、山门、峡道、洞府、城池等上下文时，才写成长期经营的固定杀局。",
-            "- 对每个天位使用给定复合结构角色：道形统合、核心纲领、供能主源、辅助供能、纲位天位、制衡天位、纯化候选、残留/借势。主辅只是最简单的特例，不得把所有复合结构都写成主辅权重。",
+            "- 对每个天位、地位、人位都使用给定结构角色。天位可为道形统合、核心纲领、供能主源、纲位天位、制衡天位、纯化候选；地位可为主承载、传导/触发、锁定/感知、稳态/约束、代价承载；人位可为主效用、索敌/识别、传递/扩散、约束/封锁、收束/终局。主辅只是最简单的特例，不得把所有复合结构都写成主辅权重。",
             "- 解释多天位如何在整体道形中组合：就位、相乘、相加、互补、制衡、冲突、纯化。若组合不纯，说明代价。",
             "- 若组合模式为「纯化」，必须说明哪一个天位被削弱、舍弃、上收为整体道形、下放为地位/人位或保留为残留，以及为什么这样反而更强。",
-            "- 让地位成为具体媒介：身体、材料、符号、器物、仪轨、空间、梦境、数术等均可。",
-            "- 让人位决定实际用途。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制；非攻击型法门也要说明作用对象如何被识别、触达或排除。",
+            "- 让地位成为具体媒介：身体、材料、符号、器物、仪轨、空间、梦境、数术等均可。多个地位必须组成媒介链或媒介阵列，例如一个负责承载伤害，一个负责感知锁定，一个负责传导触发，一个负责稳态约束；不能把两个地位写成两条互不相干的施法途径。",
+            "- 让人位决定实际用途。多个人位必须凝聚为目的链，例如主效用负责杀伤/封印/治疗，索敌负责识别对象，约束负责边界和敌我，收束负责终局后果；不能写成两个同等独立效果并列。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制；非攻击型法门也要说明作用对象如何被识别、触达或排除。",
             "- 匹配境界尺度但保留修士个人追求：高阶作品必须有高阶分量、资源消耗、风险或道途意义；元婴及以上可以是护宗镇城，也可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、化身经营或求道自由，不能只写成日常小便利。元婴只规定层级，不规定固定效用，具体效果必须由本次人位决定。",
             "- 说明该作品为什么适合此境界，以及低一大境界为何难以承受或完整使用，高一大境界为何可能嫌其不足或需纯化升级。",
             *(
@@ -1469,11 +1503,12 @@ def format_cultivation_method_chain(draw: Draw) -> list[str]:
 def format_element(item: ElementDraw) -> str:
     forced_text = "用户强制；" if item.forced else ""
     usable_text = f"小说可用表达：{item.usable_expression}；" if item.usable_expression != item.refinement else ""
-    structure_text = (
-        f"复合结构角色：{item.structure_role}；天位质量 {item.quality:.2f}「{item.quality_label}」；"
-        if item.role.startswith("天位")
-        else ""
-    )
+    if item.role.startswith("天位"):
+        structure_text = f"复合结构角色：{item.structure_role}；天位质量 {item.quality:.2f}「{item.quality_label}」；"
+    elif item.role.startswith(("地位", "人位")):
+        structure_text = f"结构角色：{item.structure_role}；"
+    else:
+        structure_text = f"结构角色：{item.structure_role}；" if item.structure_role != "附加牵引" else ""
     branch_text = f"本次侧重纲目：{item.composite_branch}；" if item.composite_branch else ""
     bindings_text = ""
     if item.branch_bindings:
@@ -1699,8 +1734,30 @@ def build_draw(args: argparse.Namespace) -> Draw:
     )
     if auto_sword_added and heavens:
         heavens = (replace(heavens[0], forced=False), *heavens[1:])
-    earths = choose_many("地位/媒介", rng, fixed_earths, earth_count, used, excluded, realm, preferred=preferred)
-    humans = choose_many("人位/目的", rng, fixed_humans, human_count, used, excluded, realm, preferred=preferred)
+    earth_roles = earth_structure_roles(earth_count, composition_mode)
+    human_roles = human_structure_roles(human_count, composition_mode)
+    earths = choose_many(
+        "地位/媒介",
+        rng,
+        fixed_earths,
+        earth_count,
+        used,
+        excluded,
+        realm,
+        earth_roles,
+        preferred=preferred,
+    )
+    humans = choose_many(
+        "人位/目的",
+        rng,
+        fixed_humans,
+        human_count,
+        used,
+        excluded,
+        realm,
+        human_roles,
+        preferred=preferred,
+    )
 
     extras: list[ElementDraw] = []
     for fixed in parse_csv(args.include):
