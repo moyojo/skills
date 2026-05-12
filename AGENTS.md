@@ -8,7 +8,6 @@ This repository stores Codex/agent skills. Each skill lives under `skills/<skill
 - `skills/xiuzhen-art-generator/scripts/`: executable helper scripts, currently `generate_prompt.py`.
 - `skills/xiuzhen-art-generator/references/`: supporting reference material loaded only when needed.
 - `docs/`: human-facing background documentation.
-- `evals/`: evaluation assets or future test cases.
 
 ## Build, Test, and Development Commands
 
@@ -47,8 +46,6 @@ Before submitting changes, run the skill validator and at least one representati
 ```bash
 python3 skills/xiuzhen-art-generator/scripts/generate_prompt.py --seed 20260512 --type 法术
 ```
-
-When adding eval fixtures, place them under `evals/` and name them after the skill or behavior being checked.
 
 ## Commit & Pull Request Guidelines
 
