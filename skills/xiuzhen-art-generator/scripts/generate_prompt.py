@@ -1136,7 +1136,7 @@ def naming_scale_note(style: str, realm: str, explicit: bool) -> tuple[str, ...]
 def build_prompt(draw: Draw) -> str:
     realm = REALM_CONTEXT[draw.realm]
     lines = [
-        "你是一个专写修真/仙侠设定的创作代理。只依据本提示生成，不要引用外部对话。",
+        "你是一个专写修真/仙侠设定的创作代理。具备极高的古汉语文学水平和世界观架构能力充满想象力和逻辑推演能力。",
         "",
         "任务：生成一件完整的修真设定，类型为「{kind}」。".format(kind=draw.kind),
         "基调：{rarity}，适配境界：{realm}。".format(rarity=draw.rarity, realm=draw.realm),
@@ -1152,15 +1152,6 @@ def build_prompt(draw: Draw) -> str:
         f"- 作品适配：{realm['fit']}。",
         "",
         "核心模型：法门 = 天位(动力/力量来源，可多项式组合) x 地位(媒介/承载方式，可复合) x 人位(目的/作用，可多目标)。",
-        "",
-        "命名方案：",
-        f"- 文体气质：{draw.naming['style']}（{draw.naming['texture']}）",
-        f"- 适合对象：{draw.naming['fit']}",
-        f"- 气质词根：{'、'.join(draw.naming['tokens'])}",
-        f"- 风味例子：{'、'.join(draw.naming['examples'])}",
-        f"- 推荐后缀池：{'、'.join(draw.naming['suffixes'])}",
-        f"- 推荐模板：{draw.naming['pattern']}",
-        f"- 命名避坑：{draw.naming['avoid']}",
     ]
     if draw.diagnostics:
         lines.extend(["", "自动合理化诊断："])
@@ -1202,10 +1193,31 @@ def build_prompt(draw: Draw) -> str:
     lines.extend(
         [
             "",
+            "命名资料（只用于后段「诸名」，不要压过机制正文）：",
+            f"- 文体气质：{draw.naming['style']}（{draw.naming['texture']}）",
+            f"- 适合对象：{draw.naming['fit']}",
+            f"- 气质词根：{'、'.join(draw.naming['tokens'])}",
+            f"- 风味例子：{'、'.join(draw.naming['examples'])}",
+            f"- 推荐后缀池：{'、'.join(draw.naming['suffixes'])}",
+            f"- 推荐模板：{draw.naming['pattern']}",
+            f"- 诸名数量：默认写 {draw.naming['name_count']} 个，最低 3 个；按贴合度排序，不要称为候选，不强行定唯一正名。",
+            f"- 异名语境：{'；'.join(draw.naming['registers'])}",
+            f"- 命名避坑：{draw.naming['avoid']}",
+        ]
+    )
+
+    lines.extend(
+        [
+            "",
             "生成要求：",
             "- 这些要素来自扩展 PMEST 八分面：本体、属性、过程、互作、场域、时序、符号、目的；也可简称体、性、化、缘、域、时、识、愿。允许继续细分，但细分必须服务机制。",
-            "- 先给一个符合类型的名称。不要默认命名为 XX经；只有根本传承、顶级经文或刻意古典风才使用 经。优先按命名方案选择器型、招式、图谱、真解、秘录、剑诀、神通等不同结构。",
-            "- 名称要有文体/语体来源，像从诗、骚、乐府、骈赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、算经、历法、医书、兵书、道佛科仪、志怪话本、农书水经、棋谱营造等古老文本里长出来，而不是古风词堆叠。每个名字体现至少一个来源、形制、功能、意象、境界或机制。",
+            "- 输出重心必须符合修真小说世界观设定的比重：天位动力学与复合结构约占 45%-55%，施展/效果/代价/境界约占 25%-35%，诸名约占 10%-15%，设定集正文负责收束。不要让命名解释占据开头或最长篇幅。",
+            "- 先立设定总览、核心三位、天位动力学和复合结构，再写诸名。名称是世界内流传层，不是正文主结构。",
+            "- 「诸名」至少三个，默认五个，按与类型、机制、境界、文体和流传语境的贴合度排序。不要把它们称为候选，也不要强行指定唯一正名；万物在宗门、坊市、敌人口耳、修士手札、典籍和后世传说中本就有多种叫法。",
+            "- 每个名字后只附一句短说明，写清谁会这样叫、取法什么文体或语体、为什么贴合本设定；说明必须短于机制段落。不要默认命名为 XX经；只有根本传承、顶级经文或刻意古典风才使用 经。",
+            "- 名称要有文体/语体来源，像从诗、骚、乐府、骈赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、算经、历法、医书、兵书、道佛科仪、志怪话本、农书水经、棋谱营造、题跋问答、行旅手札等文本里长出来，而不是古风词堆叠。每个名字体现至少一个来源、形制、功能、意象、境界、机制或流传语境。",
+            "- 反对浅层掉书袋。不要只把古书词、典故词、生僻字贴在一起；要吸收文体的真实功能：诏敕有命令落下的压力，方志有地理物产和异闻口吻，医书有辨证、脉象和药性手感，题跋问答有具体人事和留白，乡谈笔记有像亲眼听来的怪事。",
+            "- 至少一个名字可以尝试浅白见深：用平淡日常、行旅小记、器物记名、问答题跋、乡谈笔记或僧道手札的低姿态语气承载高阶仙意。关键是具体场景、人物关系、留白和大义隐伏，不要靠宏大词自夸。",
             "- 文体/语体来源不等于世界内来历。默认不要因为名称取法甲骨、金文、诗骚、山海经、道佛科仪或古书语气，就把作品写成上古遗物、仙古残篇、仙人真传、遗迹出土或禁忌神物；只有基调明确为「上古失传」「仙古残篇」或用户指定相关来历时，才使用这种背景。",
             "- 避免九霄、归墟、灭世、镇魔、弑神、无上、玄天、神霄这类高频玄幻词连续堆叠；除非用户指定该风格。",
             "- 默认目标是小说可用率，不是全池真随机。凡是自动合理化诊断中写出的降尺度、浅层表达、补配限制，都必须体现在最终设定里。",
@@ -1245,29 +1257,26 @@ def build_prompt(draw: Draw) -> str:
             "- 设定集正文必须像小说资料条目，不像提示词解析。不要出现任何元说明、判据名、提示词小标题、抽样诊断或世界观大纲原句；要用具体物象、动作、资源、禁忌和后果来表现。",
             "",
             "按以下结构输出：",
-            "1. 名称",
-            "2. 命名来源与文体气质",
-            "3. 类型",
-            "4. 核心三位",
-            "5. 天位动力学",
-            "6. 多要素结构与纯化取舍",
-            "7. 原理",
-            "8. 形制或修炼/施展方式",
+            "1. 设定总览（类型、境界、基调、核心用途，用一小段定调）",
+            "2. 核心三位",
+            "3. 天位动力学（逐天位写来源、增长、衰竭、失控、度量）",
+            "4. 复合结构与纯化取舍",
+            "5. 地位媒介与施展/修炼方式",
             *(
-                ["9. 功法等阶链（总纲、逐阶特殊之处、配套术法、递进/拆分/合一路径）"]
+                ["6. 功法等阶链（总纲、逐阶特殊之处、配套术法、递进/拆分/合一路径）"]
                 if draw.kind == "功法"
                 else []
             ),
-            f"{10 if draw.kind == '功法' else 9}. 效果",
+            f"{7 if draw.kind == '功法' else 6}. 人位用途与效果",
             (
-                f"{11 if draw.kind == '功法' else 10}. 修炼门槛与修士风险"
+                f"{8 if draw.kind == '功法' else 7}. 修炼门槛、修士风险与反噬"
                 if draw.kind == "剑法"
-                else f"{11 if draw.kind == '功法' else 10}. 限制与代价"
+                else f"{8 if draw.kind == '功法' else 7}. 限制、代价与反噬"
             ),
-            f"{12 if draw.kind == '功法' else 11}. 境界适配与等阶差距",
-            f"{13 if draw.kind == '功法' else 12}. 失控或反噬",
-            f"{14 if draw.kind == '功法' else 13}. 适配场景",
-            f"{15 if draw.kind == '功法' else 14}. 设定集正文",
+            f"{9 if draw.kind == '功法' else 8}. 境界适配与等阶差距",
+            f"{10 if draw.kind == '功法' else 9}. 适配场景",
+            f"{11 if draw.kind == '功法' else 10}. 诸名（按贴合度排序，至少三个；每个名字只附一句短说明）",
+            f"{12 if draw.kind == '功法' else 11}. 设定集正文",
         ]
     )
     return "\n".join(lines)
@@ -1657,6 +1666,27 @@ def build_naming(
     if biased_suffixes:
         suffix_pool = biased_suffixes
     suffixes = tuple(rng.sample(suffix_pool, k=min(8, len(suffix_pool))))
+    registers = [
+        "宗门玉册或谱录中的题名，重制度、传承和等阶",
+        "修士手札、题跋或行旅小记里的私称，重亲历、具体场景和留白",
+        "坊市、弟子或散修口耳相传的俗称，短促好记，便于小说中使用",
+        "敌人、受术者或旁观者给出的畏称，重后果、压迫感和误读",
+        "后世评话、地方志或志怪笔记中的异名，重故事、地理和传闻",
+    ]
+    if kind == "法宝":
+        registers.insert(1, "器主、炼器师或旧藏目录里的器名，重形制、材料和器物手感")
+    elif kind in {"法术", "神通", "剑法"}:
+        registers.insert(1, "施展时的口令、招式名或战场短称，重动作、声势和临场识别")
+    elif kind in {"功法", "秘籍"}:
+        registers.insert(1, "卷首、分篇、残本或授徒时使用的篇名，重修炼路径和文本形态")
+    elif kind == "百艺":
+        registers.insert(1, "匠人、医家、丹师或阵师操作时使用的工名，重步骤和手艺触感")
+    if style in public_writing_styles:
+        registers.append("章表、公文、方志或史传中的记录名，重制度、地理和事功")
+    elif style in ritual_styles:
+        registers.append("科仪、祭告、符箓或清规中的仪式名，重生效条件和禁忌")
+    elif style in craft_styles:
+        registers.append("工书、医案、谱录或月令中的操作名，重物候、尺度和辨证")
     return {
         "style": style,
         "fit": profile["fit"],
@@ -1665,6 +1695,8 @@ def build_naming(
         "examples": tuple(rng.sample(profile["examples"], k=min(4, len(profile["examples"])))),
         "suffixes": suffixes,
         "pattern": rng.choice(patterns or list(pool["patterns"])),
+        "name_count": 5,
+        "registers": tuple(dict.fromkeys(registers[:6])),
         "avoid": pool["avoid"],
     }
 
