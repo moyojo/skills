@@ -52,7 +52,3 @@ python3 skills/xiuzhen-art-generator/scripts/generate_prompt.py --seed 20260512 
 This repository currently has no commit history to infer conventions from. Use concise conventional-style commits going forward, such as `feat: add realm eval cases` or `fix: preserve seeded prompt output`.
 
 Pull requests should include a short summary, changed skill paths, validation commands run, and sample output when generation behavior changes. Link related issues when applicable. Include screenshots only for UI or rendered documentation changes.
-
-## Agent-Specific Instructions
-
-Do not symlink environment-local Codex state between Windows and WSL. Use WSL Bash commands by default in this repository. Keep skill resources portable and avoid absolute paths inside skill content unless documenting a local validation command.
