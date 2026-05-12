@@ -1,22 +1,22 @@
-# Naming Reference
+# 命名参考
 
-Use this reference to avoid repetitive names such as `XX经`. Names should fit type, realm, style, and function.
+使用本参考避免反复生成 `XX经` 一类名字。名称应同时适配类型、境界、文体来源和功能。
 
-## General Rules
+## 通用规则
 
-- Do not default to `XX经`. Use `经` only when the work is truly a foundational scripture, top inheritance, or deliberately classic style.
-- Match type first: manuals, spells, treasures, divine abilities, sword arts, and craft lineages should not share the same suffix pool.
-- Prefer names with one concrete image, one mechanism hint, or one provenance clue.
-- Low-realm names can be plain and practical. High-realm names can be grand, taboo, mythic, or layered.
-- Avoid bloated strings of `神/仙/天/玄/无上`; one strong word is usually better than many weak ones.
-- Prefer names that feel rooted in a literary or discourse mode: ritual songs, bronze inscriptions, sao poetry, yuefu, Tang poetry, ci/qu, fu, memorial prose, official documents, classics of calculation, medical books, military books, religious ritual texts, strange tales, craft manuals, or local records.
-- Do not copy a source title mechanically. Borrow its khí质: diction, implied scene, rhythm, social use, emotional temperature, and object world.
+- 不要默认 `XX经`。只有根本经文、顶级传承或刻意取古典经书气质时才使用 `经`。
+- 先匹配类型：功法、法术、法宝、神通、剑法、百艺传承不应共用同一套后缀。
+- 名称最好含有一个具体意象、一个机制暗示或一个来历线索。
+- 低境界名称可以朴素实用；高境界名称可以宏大、禁忌、神话化或分层。
+- 避免堆叠 `神/仙/天/玄/无上`。一个有力的字往往胜过多个空泛大词。
+- 优先让名字扎根在文体或语体中：礼乐、金文、骚体、乐府、唐诗、词曲、赋、祭文、公文、算经、医书、兵书、宗教科仪、志怪、工书、方志等。
+- 不要机械照抄文体题名，要借它的气质：词汇、隐含场景、节奏、社会用途、情绪温度和器物世界。
 
-## Naming Source Map
+## 命名源流地图
 
-Choose a source before choosing words. The source should shape what objects exist in the name, what rhythm the name has, and how much the name explains.
+先选来源，再选词。来源应决定名字里会出现什么器物、具有什么节奏、解释机制到什么程度。
 
-| Source | Texture | Good for | Examples |
+| 来源 | 气质 | 适合 | 例子 |
 |---|---|---|---|
 | 诗经国风 / 粗纯 | 草木、鸟兽、劳作、道路、原始巫性 | 巫器、妖术、野神法 | 白茅束、葛藟索、蒹葭隔水、卷耳迷途 |
 | 雅颂礼乐 | 宗庙、礼乐、肃穆、祖灵 | 祭器、宗门正法 | 清庙玉磬、玄鸟告命符、肃雍步 |
@@ -92,81 +92,81 @@ Choose a source before choosing words. The source should shape what objects exis
 | 谱录品评 | 等第、清赏、鉴别 | 鉴别法宝、灵物品第 | 照品镜、清赏录、辨香识鬼术 |
 | 营造工匠 | 尺寸、榫卯、宫室、机关 | 机关法宝、洞府禁制 | 鲁班尺、斗拱藏雷、榫卯锁山 |
 
-## Style Selection Rules
+## 风格选择规则
 
-- If the user asks for “古雅” without a direction, choose a concrete source instead of vaguely archaizing.
-- If the object is a 法宝, anchor the name in an object, document, instrument, vessel, weapon, tool, charm, or ritual implement.
-- If the object is a 神通/术法, it may be a phrase, order, motion, question, vow, omen, sound, or action. It does not always need `术/法`.
-- If the object is a 秘籍/功法, it may be a 卷、篇、真解、谱、录、图、章、牒、策、议、问、答、手札、工书, not only 经/诀.
-- If the name reads like an academic label, shorten it and convert one abstraction into a concrete object or action.
-- If the name reads like a game skill, remove generic words such as 神、仙、玄、天、无上、灭世、镇魔 and replace them with a source-specific object or textual form.
+- 用户只说“古雅”而不给方向时，选择一个具体来源，不要泛泛古风化。
+- 如果对象是法宝，名称要落在器物、文书、仪器、容器、兵器、工具、符契或仪轨用具上。
+- 如果对象是神通/术法，名称可以是短句、号令、动作、问句、誓词、征兆、声音或行为，不一定要带 `术/法`。
+- 如果对象是秘籍/功法，名称可以是卷、篇、真解、谱、录、图、章、牒、策、议、问、答、手札、工书，不只限于经/诀。
+- 如果名字像学术标签，就缩短它，并把一个抽象词改成具体器物或动作。
+- 如果名字像游戏技能，就去掉神、仙、玄、天、无上、灭世、镇魔等泛词，改用来源特有的器物或文本形态。
 
 ## 功法 / 法门 / 秘籍
 
-Suffix pool:
+后缀池：
 
-- Foundational or top inheritance: 经、典、宝典、大典、真典、金章
-- Layered or incomplete: 篇、卷、真解、残卷、上卷、下卷、秘录
-- Practice method: 功、诀、决、法、术、秘术、心法、真功
-- Body/soul forms: 身、体、胎、魂、神、金身、魔功
-- Transformative forms: 变、化、转、炼、观想图
+- 根本或顶级传承：经、典、宝典、大典、真典、金章
+- 分层或残缺文本：篇、卷、真解、残卷、上卷、下卷、秘录
+- 修炼方法：功、诀、决、法、术、秘术、心法、真功
+- 身魂形态：身、体、胎、魂、神、金身、魔功
+- 转化形态：变、化、转、炼、观想图
 
-Examples and styles:
+例子与风格：
 
-- Practical/Fanren style: 长春功、青元剑诀、大衍决、玄阴经、惊蛰十二变
-- High inheritance: 无始经、乱古经、不灭天功、吞天魔功、原始金章
-- Body refinement: 九转玄功、八九玄功、不灭金身诀、梵圣真魔功
-- Layered manual: 紫微日月飞仙真解、九幽玄冥炼魂录、某某上卷·筑基篇
+- 实用凡人流：长春功、青元剑诀、大衍决、玄阴经、惊蛰十二变
+- 顶级传承：无始经、乱古经、不灭天功、吞天魔功、原始金章
+- 炼体方向：九转玄功、八九玄功、不灭金身诀、梵圣真魔功
+- 分层秘籍：紫微日月飞仙真解、九幽玄冥炼魂录、某某上卷·筑基篇
 
 ## 法宝 / 器物
 
-Use concrete object names whenever possible.
+尽量使用具体器型。
 
-Object suffix pool:
+器物后缀池：
 
-- Weapon: 剑、刀、枪、戟、斧、锤、棍、鞭、索、环、针、尺、锥
-- Seal/control: 印、镜、钟、铃、幡、旗、塔、图、阵图、符
-- Vessel/craft: 鼎、瓶、炉、舟、轮、珠、盘、囊、袋、如意
-- Defense/wearable: 甲、罩、冠、簪、衣、袍、莲台
-- Rank words: 法器、灵器、法宝、古宝、灵宝、通天灵宝、玄天之宝
+- 兵器：剑、刀、枪、戟、斧、锤、棍、鞭、索、环、针、尺、锥
+- 镇封/控制：印、镜、钟、铃、幡、旗、塔、图、阵图、符
+- 容器/工艺：鼎、瓶、炉、舟、轮、珠、盘、囊、袋、如意
+- 防御/穿戴：甲、罩、冠、簪、衣、袍、莲台
+- 位阶词：法器、灵器、法宝、古宝、灵宝、通天灵宝、玄天之宝
 
-Examples:
+例子：
 
 - 青竹蜂云剑、玄天斩灵剑、掌天瓶、虚天鼎、风雷翅、黑风旗
 - 诛仙四剑、太极图、盘古幡、混元金斗、二十四定海珠、十二品业火红莲
 
 ## 神通 / 术法 / 秘技
 
-Prefer short, visual, action-heavy names.
+优先使用短促、有画面、有动作感的名称。
 
-Suffix and structure pool:
+后缀与结构池：
 
-- Technique: 术、法、秘、诀、咒、禁、神通、大神通、秘技
-- Action/body: 掌、指、拳、爪、剑、印、式、眼、瞳、翼、身、遁
-- Change: 变、化、劫、灭、光、影、轮
+- 技法：术、法、秘、诀、咒、禁、神通、大神通、秘技
+- 动作/身体：掌、指、拳、爪、剑、印、式、眼、瞳、翼、身、遁
+- 变化：变、化、劫、灭、光、影、轮
 
-Examples:
+例子：
 
 - 遮天手、摘星手、六道轮回拳、天帝拳、真龙搏杀术、一气化三清
 - 三昧真火、五行遁术、纵地金光法、惊蛰十二变
 
 ## 剑法 / 剑修
 
-Do not always use `剑经`. Choose by level and focus:
+不要总用 `剑经`。按层级和重点选择：
 
-- Low/practical: 剑诀、剑法、剑式、剑招、剑气、剑步
-- Mid/high: 剑章、剑谱、剑图、剑录、剑意、剑心诀、剑典
-- Top/dao: 剑道、剑纲、剑藏、剑碑、剑印、某某剑经
+- 低阶/实用：剑诀、剑法、剑式、剑招、剑气、剑步
+- 中高阶：剑章、剑谱、剑图、剑录、剑意、剑心诀、剑典
+- 顶级/近道：剑道、剑纲、剑藏、剑碑、剑印、某某剑经
 
-Examples:
+例子：
 
 - 青元剑诀、紫霄剑经、赤松剑意、天外飞仙
-- For composite sword paths, the name may encode one branch: `剑势`, `剑胆`, `剑心`, `剑意`, not necessarily all six.
+- 复合剑道中，名称可以只编码一个分支，如 `剑势`、`剑胆`、`剑心`、`剑意`，不必强行写满六纲。
 
-## Naming Templates
+## 命名模板
 
-- `[provenance/place] + [image] + [suffix]`: 昆仑紫微星辰真解、九幽玄冥炼魂录
-- `[number/layer] + [creature/image] + [change/body]`: 惊蛰十二变、九转金身诀
-- `[function verb] + [cosmic object] + [object]`: 掌天瓶、镇狱玄钟、斩灵剑
-- `[attribute] + [action] + [technique]`: 玄冰冻魂指、九幽黄泉指
-- Poetic/idiom form: 一气化三清、答桑下乞儿问、落霞飞仙诀
+- `[来历/地名] + [意象] + [后缀]`：昆仑紫微星辰真解、九幽玄冥炼魂录
+- `[数字/层次] + [神兽/意象] + [变化/身魂]`：惊蛰十二变、九转金身诀
+- `[功能动词] + [天地对象] + [器型]`：掌天瓶、镇狱玄钟、斩灵剑
+- `[属性] + [动作] + [技法]`：玄冰冻魂指、九幽黄泉指
+- 诗句/成语式：一气化三清、答桑下乞儿问、落霞飞仙诀

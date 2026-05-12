@@ -12,7 +12,6 @@ This repository contains GitHub/agent skills. Each skill is a self-contained dir
 skills/
 └── xiuzhen-art-generator/
     ├── SKILL.md
-    ├── agents/openai.yaml
     ├── references/
     └── scripts/
 ```

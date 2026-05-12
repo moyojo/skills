@@ -1,76 +1,103 @@
-# Realm System Reference
+# 境界体系参考
 
-Use this reference to keep artifacts, spells, methods, and manuals consistent with common xiuzhen power scale.
+使用本参考让法宝、法术、功法、秘籍与常见修真力量尺度保持一致。
 
-## Core World Assumptions
+## 核心世界观假设
 
-- World layers often scale as 凡界/下界 -> 仙界 -> higher realms. Higher realms have denser spiritual energy, richer resources, stronger rules, and harsher competition.
-- Cultivation pursues 长生、证道、逍遥. It is both practical resource competition and ideal pursuit of dao.
-- Realm equals status, bargaining power, and danger. A large realm gap is usually a heavenly chasm.
-- Sect, clan, loose cultivator, righteous path, demonic path, dynasty, demon race, and hidden holy land can coexist. 正/魔 is often resource and method conflict rather than pure good/evil.
-- Resources matter: spirit stones, herbs, treasures, manuals, caves, inheritances, pills, arrays, and opportunities shape most conflicts.
-- High realm does not always mean public office. Many high-rank cultivators are loose cultivators, hidden cultivators, wanderers, debt-avoiders, dao-seekers, or reclusive old monsters who value freedom more than sect authority.
+- 世界层级常见为凡界/下界 -> 仙界 -> 更高界域。越高界域灵气越浓、资源越丰、规则越强，竞争也越残酷。
+- 修炼追求长生、证道、逍遥。它既是现实的资源竞争，也是对大道的理想追求。
+- 境界意味着地位、谈判能力和危险程度。一个大境界通常就是天堑。
+- 宗门、家族、散修、正道、魔道、王朝、妖族、隐世圣地可以并存。正/魔往往是资源与方法冲突，不是单纯善恶二分。
+- 资源非常重要：灵石、灵药、法宝、秘籍、洞府、传承、丹药、阵法和机缘会塑造大多数冲突。
+- 高境界不等于一定担任公开公职。许多高阶修士是散修、隐修、游方修士、避债避劫者、求道者或闭关老怪，他们可能比宗门权位更重视自由。
 
-## Realm Scale
+## 境界尺度
 
 ### 练气
 
-- Status: outer disciple, servant-disciple, loose cultivator bottom tier, labor force, disposable scout.
-- Lifespan: roughly mortal to 100-150 years.
-- Scale: can use talismans, simple spells, low-grade tools, minor spirit herbs; still vulnerable to mundane armies or beasts in groups.
-- Output fit: basic survival, detection, minor attack/defense, cultivation foundation, trade craft. Avoid strategic sect-level effects.
+- 身份：外门弟子、杂役弟子、底层散修、劳力、一次性斥候。
+- 寿元：大致接近凡人到 100-150 岁。
+- 尺度：可使用符箓、简单法术、低阶器具、小灵草；面对凡俗军阵或兽群仍然脆弱。
+- 适配输出：基础生存、侦测、小型攻防、修炼根基、低阶百艺。避免战略级宗门效果。
 
 ### 筑基
 
-- Status: inner disciple, formal cultivator, small clan core, small sect elder candidate.
-- Lifespan: roughly 200-300 years.
-- Scale: stable foundation, flight/escape tools, personal cave, small team leadership, local influence.
-- Output fit: personal signature methods, clan inheritance, small formation control, reliable combat or craft specialization.
+- 身份：内门弟子、正式修士、小家族核心、小宗门长老候选。
+- 寿元：大致 200-300 岁。
+- 尺度：道基稳定，可用飞遁/逃命器具，拥有个人洞府、小队领导力和地方影响。
+- 适配输出：个人标志法门、家族传承、小型阵法控制、可靠战斗手段或百艺专长。
 
 ### 金丹
 
-- Status: elder, true disciple peak, clan ancestor, local hegemon, can found or guard a small sect.
-- Lifespan: roughly 500-1000+ years.
-- Scale: golden core pressure, region-level reputation, serious treasure ownership, can crush low ranks unless outnumbered with arrays/treasures.
-- Output fit: named法宝, sect elder arts, local-domain suppression, strong combat/craft methods with clear strategic value.
+- 身份：宗门长老、真传顶层、家族老祖、地方霸主，可开宗立派或镇守小宗门。
+- 寿元：大致 500-1000 年以上。
+- 尺度：具备金丹威压、地域声望和正经法宝；低阶若无数量、阵法或宝物支持，通常难以抗衡。
+- 适配输出：具名法宝、长老级法门、地方压制、具有明确战略价值的战斗或百艺方法。
 
 ### 元婴
 
-- Status: great sect elder or ancestor, but also credible as a powerful loose cultivator, wandering old monster, hidden cave master, oath-bound guest elder, or debt-avoiding recluse.
-- Lifespan: thousand years or more; nascent soul can leave body and may seize a body.
-- Scale: high-end deterrent and personal freedom. Their arts should have high-rank weight, but may serve individual goals: long retreat, soul escape, avoiding heavenly secrets, crossing dangerous regions, breaking pursuit, cutting karma, preserving incarnation, bargaining with powers.
-- Output fit: soul projection, large-area or long-distance control, high-grade escape/protection, cave-dwelling defense, incarnation methods, oath/karma manipulation, rare treasure refinement, breaking major arrays, or strategic personal survival. Support can be personal, but not petty convenience.
+- 身份：大宗长老或老祖，也可以是强大散修、游方老怪、隐洞主人、客卿、避债避劫的闭关修士。
+- 寿元：千年以上；元婴可离体，也可能夺舍。
+- 尺度：高端威慑与个人自由并存。相关法门必须有高阶分量，但可以服务个人目标：长期闭关、元婴逃生、避天机、穿越险地、摆脱追杀、斩因果、保化身、与大势力周旋。
+- 适配输出：元婴出窍、大范围或远距离控制、高阶逃遁/防护、洞府防御、化身法、誓约/因果操作、稀有法宝炼制、破大阵，或战略级个人生存。辅助可以偏个人，但不能只是日常小便利。
 
 ### 化神
 
-- Status: superpower ancestor, grand elder, hidden regional pillar, or solitary dao-seeker whose presence changes a region's risk calculus.
-- Lifespan: several thousand years.
-- Scale: affects a domain's politics, survival, or forbidden zones; begins touching laws, dao marks, spirit transformation, divine sense pressure.
-- Output fit: domain influence, law-like effects, cross-region travel or deterrence, near-mythic inheritance, world-rule interaction, avoiding calamity or severing old karmic ties.
+- 身份：超级势力老祖、太上长老、隐世区域支柱，或足以改变一域风险格局的独行求道者。
+- 寿元：数千年。
+- 尺度：影响一域政治、生存或禁地格局；开始触及法则、道痕、元神变化、神识威压。
+- 适配输出：法域影响、类法则效果、跨地域远行或威慑、近神话传承、世界规则交互、避灾或斩断旧因果。
 
 ### 炼虚 / 合体 / 大乘
 
-- Status: peak old monsters, sect foundation, near ascension, usually hidden.
-- Lifespan: very long; often measured by millennia.
-- Scale: close to ascension; their actions can reshape regions, suppress clans, decide wars, or touch void/world boundaries.
-- Output fit: realm-spanning methods, void/space/body-dao integration, sect destiny treasures, ascension preparation, catastrophic backlash.
+- 身份：顶尖老怪、宗门底蕴、接近飞升序列，通常隐世。
+- 寿元：极长，常以千年计。
+- 尺度：接近飞升，出手可重塑地域、镇压族群、决定战争，或触及虚空/界面边界。
+- 适配输出：跨域法门、虚空/空间/身道统合、宗门命运级重器、飞升准备、灾难性反噬。
 
 ### 渡劫 / 真仙+
 
-- Status: legendary or upper-world beings in most lower-world stories.
-- Scale: should be rare, mythic, or only partially represented by projection, remnant, inheritance, or fragment.
+- 身份：多数下界故事中属于传说或上界存在。
+- 尺度：应当稀有、神话化，或只通过投影、残念、传承、碎片局部出现。
 
-## Gap Rules
+## 境界差距规则
 
-- One large realm is a major chasm. Lower ranks can only challenge higher ranks through numbers, arrays, terrain, poison, ambush, superior treasure, taboo secret art, or plot-level opportunity.
-- Same large realm but different small stage can still be significant, yet talent and treasure can reverse it.
-- High realm pressure should affect social behavior: low ranks call them 前辈/老祖, avoid direct offense, and treat casual help as a major favor.
-- High realm artifacts should not be trivial convenience tools. Even support-oriented arts must have high-rank stakes, high-grade resource requirements, major opportunity cost, or a meaningful relation to long life, freedom, dao pursuit, enemies, karma, sects, domains, or calamities.
+- 一个大境界就是重大天堑。低阶只有依靠数量、阵法、地形、毒、伏击、强宝、禁忌秘术或剧情级机缘，才可能挑战高阶。
+- 同一大境界内的小阶段差距也明显，但天赋与法宝可能逆转。
+- 高境界威压应影响社交行为：低阶称前辈/老祖，避免直接冒犯，并把随手相助视作大恩。
+- 高境界法宝或法门不应是琐碎便利工具。即使偏辅助，也必须有高阶风险、高阶资源需求、重大机会成本，或与长生、自由、求道、仇敌、因果、宗门、法域、灾劫存在有意义的关系。
 
-## Artifact And Method Fit
+## 法宝与法门适配
 
-- 练气/筑基: practical, personal, limited scope, affordable materials.
-- 金丹: named, reliable, combat-relevant or craft-relevant, local authority.
-- 元婴: support is allowed, but not trivial support. Make it soul-scale, survival-scale, escape-scale, karma-scale, cave-defense-scale, sect-scale, war-scale, or lineage-scale.
-- 化神+: law-facing, domain-facing, freedom-facing, calamity-facing, rare, dangerous, often politically destabilizing.
-- 大乘+: legendary, ascension-facing, world-boundary-facing.
+- 练气/筑基：实用、个人、范围有限、材料可负担。
+- 金丹：具名、可靠，与战斗或百艺强相关，能体现地方权威。
+- 元婴：允许辅助，但不能是琐碎辅助。应进入魂魄尺度、生存尺度、逃遁尺度、因果尺度、洞府防御尺度、宗门尺度、战争尺度或传承尺度。
+- 化神以上：面向法则、法域、自由、灾劫；稀有、危险，常会造成政治不稳定。
+- 大乘以上：传说级、飞升向、界面边界向。
+
+## 功法等阶链
+
+高阶功法不是只在高阶才有内容。若目标境界高于练气，输出时应回写从总纲到目标境界的完整修炼链，让读者看出低阶如何铺路、高阶为何成立。
+
+### 写法要求
+
+- 总纲：先说明此功法到底把什么提升为修行主轴，例如以气养形、以名立契、以剑分界、以梦炼魂、以时序调火候。总纲必须能解释每个等阶为何属于同一部功法。
+- 逐阶特点：每一阶都要有独立修炼重心、标志性效果、配套术法或应用法门、限制代价。低阶不应只是“威力更小”，而应承担根基、媒介、分支、校准、护身、索敌、蓄势、成丹、护婴等不同任务。
+- 靠拢目标：每一阶都要说明它如何向目标境界靠拢。元婴功法至少写总纲、练气、筑基、金丹、元婴；化神功法还要写化神，依此类推。
+- 配套术法：每阶至少给一项配套术法、仪轨、身法、护法、炼器/炼丹/阵禁应用或常用战斗/修炼手段。配套术法应由本阶机制自然长出。
+- 代价连续性：代价也应递进。低阶代价可以是资源、经脉、时间、情绪或体质门槛；高阶代价应进入因果、神魂、寿元、道途、法域、灾劫或失控风险。
+
+### 结构类型
+
+- 递进式：同类效果逐阶强化、精密化、道化。例：练气只会感应风息，筑基可借风遁形，金丹能以风势成域，元婴让元婴寄于风隙远遁。
+- 拆分式：每阶修一支不同能力，高阶再合成完整道途。例：练气修听，筑基修步，金丹修阵，元婴把听、步、阵合成远距离避劫法。
+- 先拆后合式：低阶分修气、形、神、器、术、势等支脉，中阶建立君臣佐使，高阶由父级概念统摄，形成“万支归一”的效果。
+
+### 常见等阶职责
+
+- 练气：引气、辨性、开感官、立基本循环、养出最小媒介，配低阶侦测/护身/小术。
+- 筑基：稳道基、固媒介、定主辅结构，配身法、护法、基础攻击或百艺专长。
+- 金丹：结成核心权柄，能压缩、统筹或封存前两阶所得，配本命术、丹域雏形、镇压/破阵/炼宝法。
+- 元婴：让神魂、元婴、化身、远遁、生存或因果操作成为核心，配出窍、护婴、避劫、洞府防护、断追索或高阶传承术。
+- 化神：将元婴经验外化为法域、道痕、类法则或神识威压，配领域、跨域感应、规则干涉或灾劫应对。
+- 炼虚以上：处理虚空、界面、身道合一、飞升准备或宗族命运级后果，配界域、替劫、镇族或渡劫法。

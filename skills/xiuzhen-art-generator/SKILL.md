@@ -1,34 +1,38 @@
 ---
 name: xiuzhen-art-generator
-description: Generate controlled prompts for xiuzhen/cultivation-world creative writing. Use this whenever the user asks to create, randomize, brainstorm, design, or refine a 法术, 功法, 秘籍, 法宝, 神通, 百艺, 修真职业, cultivation art, spell, manual, treasure, or related xianxia system by random or constrained random generation.
+description: 生成修真/仙侠设定的受控随机提示词，并据此创作法术、功法、秘籍、法宝、神通、百艺、修真职业或相关体系。用户要求创建、随机生成、有限条件随机、构思、设计或优化修真法门时使用本技能。
 ---
 
-# Xiuzhen Art Generator
+# 修真百艺生成器
 
-Use this skill to generate or write a xiuzhen spell, cultivation method, manual, or magic treasure. The element table is not a fixed taxonomy of the world; it is a sampling aid derived from recurring human categories for understanding reality.
+使用本技能生成或创作修真世界中的法术、功法、秘籍、法宝、神通、百艺或相关设定。要素表不是世界的封闭分类，而是从人类反复用来理解世界的底层范畴中抽出的采样工具。
 
-The core model is:
+核心模型：
 
 ```text
 法门 = 天位(动力/力量来源) x 地位(媒介/承载方式) x 人位(目的/作用)
 ```
 
-## Workflow
+## 工作流
 
-1. Read `references/elements.md` only when you need the full element table or category notes. Read `references/realm-system.md` when the request involves realm fit, power scale, social status, sect role, or why a work suits a specific cultivation stage. Read `references/naming.md` when names feel repetitive or the user asks for naming style.
-2. Run `scripts/generate_prompt.py` to pick or constrain 天位、地位、人位. Each role can contain one or more elements; the script assigns every element a skill degree, output ceiling, optional local refinement, and a composite-structure role for heaven elements.
-3. Use the generated prompt in the current context and produce the final work directly.
-4. Include the seed and selected elements when useful for reproducibility.
+1. 先判断当前任务需要哪些引用文件，但不要把它们当作互斥选项。
+   - 生成任何修真设定时，先读 `references/elements.md`。
+   - 只要涉及境界、力量尺度、身份地位、宗门角色、适配阶段或大境界差距，再一起读 `references/realm-system.md`。
+   - 只要涉及命名、后缀、文体来源或名字风格，再一起读 `references/naming.md`。
+   - 如果这次任务同时要做“设定内容 + 境界约束 + 命名”，这三份参考要一起读完再动手，不要读到一份就提前下结论。
+2. 运行 `scripts/generate_prompt.py` 抽取或约束天位、地位、人位。每一位都可以包含一个或多个要素；脚本会为每个要素分配技艺程度、出力上限、局部细分，并为天位分配复合结构角色。
+3. 在当前上下文中直接使用生成的提示词，产出最终设定。
+4. 需要复现时，附上 seed 和已选要素。
 
-## Quick Start
+## 快速开始
 
-Generate a fully random prompt:
+生成完全随机提示词：
 
 ```bash
 python3 scripts/generate_prompt.py
 ```
 
-Generate a specific type:
+指定类型：
 
 ```bash
 python3 scripts/generate_prompt.py --type 法宝
@@ -36,33 +40,33 @@ python3 scripts/generate_prompt.py --type 功法 --realm 金丹
 python3 scripts/generate_prompt.py --type 功法 --realm 元婴
 ```
 
-Constrain individual dimensions:
+约束单独维度：
 
 ```bash
 python3 scripts/generate_prompt.py --heaven 愿 --earth 梦 --human 净化
 python3 scripts/generate_prompt.py --heaven 剑 --heaven 分 --earth 形 --human 灭 --human 感应
 ```
 
-Use a seed for reproducibility:
+使用 seed 复现：
 
 ```bash
 python3 scripts/generate_prompt.py --seed 20260512 --type 法术
 ```
 
-Add user conditions without changing the core random draw:
+追加用户条件：
 
 ```bash
 python3 scripts/generate_prompt.py --condition "偏医毒蛊疫，不要纯攻击" --rarity 失传
 ```
 
-Bias the random pool toward a 百艺 family or inferred theme:
+将随机池偏向某个百艺门类或推断主题：
 
 ```bash
 python3 scripts/generate_prompt.py --theme 魂梦心识 --type 秘籍
 python3 scripts/generate_prompt.py --condition "偏魂梦心识，不要纯攻击"
 ```
 
-Choose a literary naming style:
+指定文体命名来源：
 
 ```bash
 python3 scripts/generate_prompt.py --type 法宝 --name-style 祭文悲怆
@@ -73,40 +77,52 @@ python3 scripts/generate_prompt.py --type 神通 --name-style 边塞诗
 python3 scripts/generate_prompt.py --type 秘籍 --name-style 丹书火候
 ```
 
-Generate a multi-heaven or purified path:
+生成多天位或纯化路径：
 
 ```bash
 python3 scripts/generate_prompt.py --type 功法 --heaven 剑 --heaven 边界 --heaven 义 --composition-mode 多天位
 python3 scripts/generate_prompt.py --type 剑法 --heaven 剑 --heaven 分 --heaven 灭 --composition-mode 纯化
 ```
 
-## Generation Rules
+## 生成规则
 
-- Treat 天位 as the most important dimension. It must explain a real dynamics structure: power source, growth method, depletion point, runaway form, and measurement method. A word pasted into flavor text is not a valid 天位.
-- Distinguish the real 天位 from the visible topic. A 灵植 art is usually not powered by `生长` unless “growth itself creates power”; it may instead be powered by 灵力, 藏, 等级, 时序, 愿, or another element while 生长/积蓄 acts as medium.
-- Treat 地位 as the medium. It can be a body part, artifact material, ritual, symbol, dream, formation, name, number, contract, beast, plant, landscape, or other carrier.
-- Treat 人位 as the purpose. It should define what the art does, not just its visual flavor.
-- Allow multiple elements in any role. Multi-heaven methods are stronger only when their power sources form a coherent polynomial combination; more 天位 can also make a method impure, unstable, costly, or blocked at higher realms.
-- Treat main/auxiliary heavens as only one simple composite pattern. Stronger composite heavens often need a more concrete parent concept that unifies several base heavens, such as 剑统摄分、边界、义、观、感应 into a sword path rather than merely adding them together.
-- For composite heavens, identify each heaven's structural role: 统摄父级、核心纲领、供能主源、辅助供能、分支天位、制衡天位、纯化候选、残留/借势. Explain the parent concept before explaining its children.
-- Composite heavens are not necessarily binary, and a named parent concept does not always require every branch. Each parent concept can have a different branch count; 剑 has six common纲目, but ordinary sword arts can use only one to three, while higher realms are more likely to integrate more branches.
-- Track heaven quality as well as count. `1.00` means normal quality for the current realm; values below 1 are loose, crude, or unstable; values above 1 are refined, high-ceiling, or near-dao. High count with low quality can be worse than fewer high-quality heavens.
-- Tie count and quality to realm: low ranks can pick heavens loosely, middle ranks should show 君臣佐使 or clear hierarchy, high ranks should show branch discipline, and top ranks can approach 铸天为一 with many high-quality heavens under one perfect parent structure.
-- For advanced or purified forms, explicitly consider whether removing or weakening one 天位 makes the method stronger by reducing drag, contradiction, or dependency.
-- Treat the six categories in `references/elements.md` as recurring bottom-level human categories: existence, change, order, relation, cognition, and value. They are expandable; choose a listed element directly when it is already precise, or refine it once into a context-specific subelement when the user request needs novelty or sharper mechanics.
-- Use `--theme` or theme words in `--condition` to bias the random pool toward a 百艺 family. Conditions should not remain decorative; they should influence either the sampled elements or the generated mechanism.
-- Match realm scale without forcing sect office. 练气/筑基 works should stay personal and practical; 金丹 works can define local authority; 元婴 works should have high-rank weight but may serve a loose cultivator's freedom, escape, retreat, karma-cutting, soul survival, or cave defense; 化神+ works should touch domains, laws, calamity, world boundaries, or dao pursuit.
-- Assign separate random values for `技艺程度` and `出力上限`. High skill with low output should feel subtle and precise; low skill with high output should feel dangerous and wasteful.
-- If the user provides constraints, honor them first and randomize the remaining dimensions.
-- Avoid producing only a name and flavor text. The final generated work should expose mechanism, activation, limits, backlash, cultivation/use requirements, and one concrete scene or use case.
-- Avoid repetitive naming. Do not default to `XX经`; choose names by type. 法宝 should usually have a concrete器型, 神通/术法 should be short and action-heavy, 秘籍 can be 篇/卷/真解/图/谱/录/问/答/章/牒/策, and 剑法 can be 剑诀/剑式/剑谱/剑意/剑心诀 unless it is truly a root-level 剑经.
-- Use a literary or discourse source before choosing words. Good names should feel like they grew out of an old textual mode, not like generic archaic decoration. The naming map includes 诗经国风、雅颂礼乐、楚辞骚体、甲骨卜辞、金文钟鼎、汉乐府、古诗十九首、建安风骨、魏晋玄言、游仙诗、志怪、六朝骈文、盛唐空灵、李白豪逸、王维山水、边塞诗、晚唐苦吟、婉约词、豪放词、元曲、竹枝歌谣、赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、诸子、算经、历法、律吕、河洛、医书、本草、丹书、史传、方志、山海经、兵书、道教科仪、佛经、密教、禅宗公案、传奇话本、公案小说、农书月令、水经、茶香琴谱、棋谱、谱录品评、营造工匠.
-- When no `--name-style` is specified, let the script choose a source that creates texture. When the user specifies a source, obey it, but still match the type: a 法宝 needs a concrete object or document-form carrier; a 神通 may be a phrase, gesture, order, or action; a 秘籍 may be a scroll, chart, register, commentary, memorial, strategy, formula, ritual, or craft note.
-- Avoid museum-label or paper-title names. `三垣推步盘` works because it is an object and a procedure; `基于历法推步的高阶命数法宝` does not.
+- 先按需把相关参考文件读全，再生成。不要只读其中一个就开始输出，尤其不要把命名、境界和要素拆成互不相干的三次读取。
+- 天位是最重要的维度。它必须解释真实的动力学结构：力量来源、增长方式、衰竭点、失控形态和度量方法。只把一个词贴进氛围描写，不算有效天位。
+- 区分真实天位和表面题材。灵植法门通常不一定以 `生长` 为天位，除非“生长本身产生力量”；它也可能由灵力、藏、等级、时序、愿等要素供能，而生长、积蓄只是媒介。
+- 地位是媒介。它可以是身体部位、器物材料、仪轨、符号、梦境、阵法、名号、数、契约、灵兽、灵植、山川等承载方式。
+- 人位是目的。它应当定义法门实际要做什么，而不是只提供视觉风味。
+- 任一角色都允许包含多个要素。多天位只有在力量来源形成连贯的多项式组合时才更强；更多天位也可能让法门变浊、不稳、昂贵，或在高境界受阻。
+- 主辅天位只是最简单的复合模式。更成熟的复合天位常需要一个更具象、更复杂的父级概念来统摄多个基础天位，例如剑可以统摄分、边界、义、观、感应，而不是简单相加。
+- 处理复合天位时，要标明每个天位的结构角色：统摄父级、核心纲领、供能主源、辅助供能、分支天位、制衡天位、纯化候选、残留/借势。先解释父级概念，再解释子分支。
+- 复合天位不必是二元结构，命名父级概念也不代表每个分支都必须齐全。不同父级概念可以有不同分支数量；剑有常见六纲，但普通剑法可能只取一到三纲，高阶法门才更可能统合更多分支。
+- 写剑修、剑法或以 `剑` 为天位时，必须先把剑定义为「聚力成锋、分断界限、承担决断、化志为行」。剑性六纲不是六个酷炫标签：剑气考验以何力量收束为形体，剑势考验以何局势划分界限，剑胆考验以何意义承担阻力，剑心考验以何本心守持剑性，剑意考验以何意志形塑斩击，剑道考验以何自性自成锋刃。
+- 六纲可以有浅层/庸俗化理解。低阶、低质量或缺少上下文时，可以写属性剑气、蓄势、勇气爆发、道心坚定、剑招意境、无形斩等通俗形态；只有某纲达到境界/质量门槛，或用户上下文明确牵引对应问题时，才展开本质考验。不要在练气小剑法里强行写满近道六纲。
+- 同时追踪天位数量和质量。`1.00` 表示当前境界的正常质量；低于 1 表示松散、粗糙或不稳；高于 1 表示精炼、高上限或近道。低质量的多天位可能不如少数高质量天位。
+- 数量和质量要与境界挂钩：低阶可以松散取用天位；中阶应有君臣佐使或清晰层级；高阶应纲目分明；顶阶才自然接近铸天为一，在完满父级结构下容纳多个高质量天位。
+- 对进阶或纯化形态，要明确考虑削弱或移除某个天位是否会因减少拖累、矛盾或依赖而更强。
+- `references/elements.md` 中六大类是反复出现的底层人类范畴：存在、变化、秩序、关系、认知、价值。它们可以扩展；现有要素足够精确时直接使用，需要新意或更清楚机制时再细分一次。
+- 使用 `--theme` 或 `--condition` 中的主题词来偏置百艺随机池。条件不能停留在装饰层面，必须影响抽样要素或最终机制。
+- 匹配境界尺度，但不要强迫高阶修士担任宗门公职。练气、筑基应偏个人和实用；金丹可形成地方权威；元婴应有高阶分量，但可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、护元婴或洞府防护；化神以上应触及法域、法则、灾劫、界面边界或求道。
+- 写功法时，必须说明功法等阶链。目标境界高于练气时，不能只写最高阶效果；要从总纲开始，逐阶写到目标境界，例如元婴功法要写总纲、练气、筑基、金丹、元婴。每阶都要有自己的特殊之处、修炼重心、配套术法或应用法门、限制代价，并说明它如何向最高阶靠拢。
+- 功法等阶链可以是递进式、拆分式或先拆后合式。递进式应让同类效果逐阶强化、精密化、道化；拆分式应让不同等阶各掌一支能力，并在高阶合一；先拆后合式则低阶分修气、身、魂、器、术、势等分支，高阶用父级概念收束。不要把低阶只写成“弱化版”，也不要让每一阶做同一件事。
+- `技艺程度` 和 `出力上限` 分开理解。高技艺低出力应显得精细、微妙；低技艺高出力应显得粗暴、危险。
+- 用户给出条件时，先满足条件，再随机剩余维度。
+- 不要只产出名字和风味文本。最终设定应暴露机制、启动方式、限制、反噬、修炼或使用门槛，以及一个具体使用场景。
+- 避免重复命名。不要默认 `XX经`；按类型选名。法宝通常应有具体器型，神通/术法应短促有动作感，秘籍可用篇、卷、真解、图、谱、录、问、答、章、牒、策，剑法可用剑诀、剑式、剑谱、剑意、剑心诀，除非确实是根本级剑经。
+- 命名前先选文体或语体来源。好名字应像从古老文本中生长出来，而不是泛泛堆砌古风词。命名地图包括诗经国风、雅颂礼乐、楚辞骚体、甲骨卜辞、金文钟鼎、汉乐府、古诗十九首、建安风骨、魏晋玄言、游仙诗、志怪、六朝骈文、盛唐空灵、李白豪逸、王维山水、边塞诗、晚唐苦吟、婉约词、豪放词、元曲、竹枝歌谣、赋、祭诔、碑铭、奏疏、诏敕、檄移、论说、诸子、算经、历法、律吕、河洛、医书、本草、丹书、史传、方志、山海经、兵书、道教科仪、佛经、密教、禅宗公案、传奇话本、公案小说、农书月令、水经、茶香琴谱、棋谱、谱录品评、营造工匠。
+- 未指定 `--name-style` 时，让脚本选择一个能产生质感的来源。用户指定来源时必须服从，但仍要匹配类型：法宝需要具体器物或文书形态；神通可以是短语、手势、号令或动作；秘籍可以是卷、图、谱、录、章、牒、策、议、手札、工书、仪轨等。
+- 避免博物馆标签式或论文题目式命名。`三垣推步盘` 可用，因为它既是器物也是程序；`基于历法推步的高阶命数法宝` 不可用。
 
-## Output Contract
+## 参考文件读取约定
 
-Return:
+- `references/elements.md`：默认必读。它提供抽样空间和底层范畴，不读它就容易只剩风格词。
+- `references/realm-system.md`：只要输出里要解释境界、尺度、身份、宗门位置、资源层级或大境界差距，就和 `elements.md` 一起读。
+- `references/naming.md`：只要要命名，就和前两者一起读。命名不是最后随手补的标签，而是要和类型、境界、机制一起定。
+- 这三份参考之间是分工关系，不是替代关系。不要因为某一份已经包含部分信息，就跳过另外两份。
+
+## 输出约定
+
+返回：
 
 - 名称
 - 命名来源与文体气质
@@ -118,6 +134,7 @@ Return:
 - 多要素结构：父级概念、分支组合、冲突、纯化取舍
 - 原理
 - 形制或修炼/施展方式
+- 功法等阶链：总纲、逐阶特殊之处、配套术法、递进/拆分/合一路径。仅当类型为功法时必填。
 - 效果
 - 限制与代价
 - 境界适配与等阶差距
@@ -125,16 +142,17 @@ Return:
 - 适配场景
 - 一段可直接放入小说设定集的正文
 
-## Evaluation Rubric
+## 评分标准
 
-Score generated results out of 10:
+对生成结果按以下维度评分：
 
-- 天位动力学, 0-3: each 天位 has source, growth, depletion, runaway, measurement, and no decorative power words.
-- 复合天位结构, 0-2: composite heavens are unified by a meaningful parent concept or explicit structure; main/auxiliary is used only when appropriate.
-- 天位数量与质量, 0-1: heaven count and quality match realm and maturity; not every composite is binary or all-branch complete.
-- 多要素结构, 0-2: multiple 天/地/人 elements combine coherently, with conflicts, drag, or pure-form tradeoffs explained.
-- 范畴与细分, 0-2: elements are treated as bottom-category lenses and refined only when the refinement improves mechanics.
-- 条件遵守, 0-2: user constraints affect sampling and output, including theme and targeting requirements.
-- 境界适配, 0-1: realm identity, status, freedom/sect orientation, resource scale, and inter-realm gap are plausible.
-- 可用性, 0-1: final result is usable in fiction with limits, costs, backlash, and scene use.
-- 命名, 0-2: name is type-appropriate, avoids `XX经` defaulting and high-frequency word stacks, and clearly inherits texture from a literary/discourse source without becoming a museum label.
+- 天位动力学，0-3：每个天位都有来源、增长、衰竭、失控、度量，且不是装饰性力量词。
+- 复合天位结构，0-2：复合天位由有意义的父级概念或明确结构统摄；主辅只在合适时使用。
+- 天位数量与质量，0-1：天位数量、质量与境界和成熟度匹配；不是所有复合都写成二元结构或全分支齐备。
+- 多要素结构，0-2：多个天/地/人要素组合连贯，并解释冲突、拖累或纯化取舍。
+- 范畴与细分，0-2：要素被当作底层范畴镜头使用，只在能改善机制时细分。
+- 条件遵守，0-2：用户约束实际影响抽样和输出，包括主题、索敌等要求。
+- 境界适配，0-1：境界身份、地位、散修/宗门取向、资源尺度和大境界差距合理。
+- 功法等阶链，0-2：高阶功法能回写总纲与低阶效果；每阶有独立特点、配套术法和向目标境界靠拢的路径；能区分递进、拆分或先拆后合结构。
+- 可用性，0-1：最终结果能直接用于小说设定，具有限制、代价、反噬和场景。
+- 命名，0-2：名称符合类型，不默认 `XX经`，不堆高频玄幻词，并能继承文体/语体来源的质感而不变成博物馆标签。

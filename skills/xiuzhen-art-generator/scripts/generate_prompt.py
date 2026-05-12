@@ -98,6 +98,7 @@ ELEMENTS = {
 
 TYPES = ("法术", "功法", "秘籍", "法宝", "神通", "百艺", "剑法")
 REALMS = ("练气", "筑基", "金丹", "元婴", "化神", "炼虚", "合体", "大乘")
+REALM_RANK = {realm: index for index, realm in enumerate(REALMS)}
 REALM_CONTEXT = {
     "练气": {
         "status": "外门弟子、底层散修、宗门劳力或侦察炮灰",
@@ -147,6 +148,16 @@ REALM_CONTEXT = {
         "scale": "凡界巅峰，牵涉飞升、天劫、界面规则和族群存亡",
         "fit": "适合飞升准备、界面边界、天劫应对、镇族镇宗终极底蕴",
     },
+}
+REALM_STAGE_FOCUS = {
+    "练气": "引气、辨性、开感官、立基本循环、养出最小媒介；配低阶侦测、护身或小术。",
+    "筑基": "稳道基、固媒介、定主辅结构；配身法、护法、基础攻击或百艺专长。",
+    "金丹": "结成核心权柄，压缩、统筹或封存前两阶所得；配本命术、丹域雏形、镇压、破阵或炼宝法。",
+    "元婴": "让神魂、元婴、化身、远遁、生存或因果操作成为核心；配出窍、护婴、避劫、洞府防护或断追索术。",
+    "化神": "将元婴经验外化为法域、道痕、类法则或神识威压；配领域、跨域感应、规则干涉或灾劫应对。",
+    "炼虚": "处理虚空、界面与法则缝隙；配跨域、开界、避界灾或虚实转化法。",
+    "合体": "身与道、法与域高度合一；配身道合一、领域合一、镇族镇宗或族运宗运级法门。",
+    "大乘": "面向飞升、天劫、界面规则和族群存亡；配替劫、飞升准备、镇界或渡劫法。",
 }
 RARITIES = ("坊市常见", "宗门秘传", "旁门异术", "上古失传", "仙古残篇")
 COMPOSITION_MODES = ("单纯", "多天位", "多媒介", "多目的", "复合法门", "纯化")
@@ -800,13 +811,58 @@ COMPOSITE_PARENT_MODELS = {
         "definition": "剑作为复合父级天位，不是单纯兵器或金属锋刃，而是聚力成锋、分断界限、承担决断、化志为行。",
         "branches": ("剑气", "剑势", "剑胆", "剑心", "剑意", "剑道"),
         "branch_notes": {
-            "剑气": "以何力量束为锋",
+            "剑气": "以何力量收束为形体",
             "剑势": "以何局势划分界限",
             "剑胆": "以何意义承担阻力",
             "剑心": "以何本心守持剑性",
             "剑意": "以何意志形塑斩击",
             "剑道": "以何自性自成锋刃",
         },
+    },
+}
+
+SWORD_BRANCH_MODELS = {
+    "剑气": {
+        "vulgar": "属性剑气、灵力外放、把力量拉成剑芒",
+        "essence": "考验以何力量收束为形体：力量不是颜色或属性，而是被约束成可承压、可转折、可离体的锋刃形体",
+        "min_realm": "筑基",
+        "quality": 0.9,
+        "contexts": ("气", "形", "质", "灵力", "场势", "剑气", "剑形", "收束", "成形", "器"),
+    },
+    "剑势": {
+        "vulgar": "蓄势、压迫感、高手气场、开打前摆出威风",
+        "essence": "考验以何局势划分界限：势不是气氛，而是把进退、生死、敌我、虚实切成必须顺剑而行的局面",
+        "min_realm": "金丹",
+        "quality": 1.15,
+        "contexts": ("边界", "方位", "中心", "时序", "因果", "局势", "阵", "军", "势", "界限"),
+    },
+    "剑胆": {
+        "vulgar": "勇敢、爆种、遇强则强、临阵不退",
+        "essence": "考验以何意义承担阻力：胆不是热血，而是用义、愿、罪、功、守护或决断承受代价与反压",
+        "min_realm": "金丹",
+        "quality": 1.2,
+        "contexts": ("义", "愿", "罪", "功", "德", "信", "守护", "决断", "阻力", "誓"),
+    },
+    "剑心": {
+        "vulgar": "道心坚定、性格冷硬、心无杂念",
+        "essence": "考验以何本心守持剑性：心不是性格标签，而是在诱惑、恐惧、名利、情债中维持何者仍可称为剑",
+        "min_realm": "元婴",
+        "quality": 1.35,
+        "contexts": ("心", "本心", "情", "欲", "名", "利", "忘", "悟", "道心", "守持"),
+    },
+    "剑意": {
+        "vulgar": "剑招变成山河风雷、意境特效、远程斩击",
+        "essence": "考验以何意志形塑斩击：意不是画面，而是令斩击按某种意志取得形状、方向、尺度和终点",
+        "min_realm": "元婴",
+        "quality": 1.5,
+        "contexts": ("意", "志", "观", "悟", "言", "象", "山河", "形塑", "斩击", "尺度"),
+    },
+    "剑道": {
+        "vulgar": "无形斩、无招胜有招、见什么都能斩",
+        "essence": "考验以何自性自成锋刃：道不是万能斩击，而是修士自性与剑性合一，自己成为分断世界的锋刃规则",
+        "min_realm": "化神",
+        "quality": 1.8,
+        "contexts": ("自性", "性", "道", "边界", "分", "悟", "虚", "实", "法则", "铸道"),
     },
 }
 
@@ -1063,10 +1119,13 @@ def build_prompt(draw: Draw) -> str:
     for item in draw.heavens:
         model = COMPOSITE_PARENT_MODELS.get(item.name)
         if model:
-            branches = "、".join(
-                f"{branch}={model['branch_notes'][branch]}" for branch in model["branches"]
-            )
-            parent_guides.append(f"{model['definition']} 常见纲目不是固定必齐，而是随境界取用：{branches}。")
+            if item.name == "剑":
+                parent_guides.append(format_sword_parent_guide(item, draw, model))
+            else:
+                branches = "、".join(
+                    f"{branch}={model['branch_notes'][branch]}" for branch in model["branches"]
+                )
+                parent_guides.append(f"{model['definition']} 常见纲目不是固定必齐，而是随境界取用：{branches}。")
     if parent_guides:
         lines.extend(["", "复合父级提示："])
         lines.extend(f"- {guide}" for guide in parent_guides)
@@ -1076,6 +1135,9 @@ def build_prompt(draw: Draw) -> str:
     if draw.conditions:
         lines.extend(["", "用户或随机附加条件："])
         lines.extend(f"- {condition}" for condition in draw.conditions)
+
+    if draw.kind == "功法":
+        lines.extend(format_cultivation_method_chain(draw))
 
     lines.extend(
         [
@@ -1089,6 +1151,7 @@ def build_prompt(draw: Draw) -> str:
             "- 天位数量与质量要匹配境界和复合成熟度：低阶可以随意选取一两个粗糙天位；中阶应有君臣佐使或主次制衡；高阶应纲目分明；顶阶才追求铸天为一、结构完美、质量顶级。",
             "- 天位质量以1.00为同境界正常水平，可高可低，不是比例上限。低质天位可能拖累结构；高质天位可以越阶支撑，但必须有代价。",
             "- 复合天位不是简单权重相加。先判断是否存在更具象、更复杂的统摄父级概念，如剑、丹、阵、符、医、兵等；若存在，先定义父级概念的本质，再说明它如何统筹多个基础天位。",
+            "- 写剑修或剑法时，必须把剑先理解为「聚力成锋、分断界限、承担决断、化志为行」的复合父级。剑性六纲的深浅由提示中的判定决定：浅层时可以写成属性剑气、蓄势、勇气、道心、剑招意境、无形斩等通俗理解；深层时必须进入对应本质考验，不得把六纲只写成装饰词。",
             "- 对每个天位使用给定复合结构角色：统摄父级、核心纲领、供能主源、辅助供能、分支天位、制衡天位、纯化候选、残留/借势。主辅只是最简单的特例，不得把所有复合结构都写成主辅权重。",
             "- 解释多天位如何在父级概念下组合：统摄、分支、相乘、相加、互补、制衡、冲突、纯化。若组合不纯，说明代价。",
             "- 若组合模式为「纯化」，必须说明哪一个天位被削弱、舍弃、上收为父级概念、下放为地位/人位或保留为残留，以及为什么这样反而更强。",
@@ -1096,6 +1159,15 @@ def build_prompt(draw: Draw) -> str:
             "- 让人位决定实际用途。攻击型法术若没有明确范围攻击设定，必须说明索敌、瞄准或避开己方的机制。",
             "- 匹配境界尺度但保留修士个人追求：高阶作品必须有高阶分量、资源消耗、风险或道途意义；元婴及以上可以是护宗镇城，也可以服务散修的逍遥、远遁、避劫、闭关、断因果、保命、护元婴或求道自由，不能只写成日常小便利。",
             "- 说明该作品为什么适合此境界，以及低一大境界为何难以承受或完整使用，高一大境界为何可能嫌其不足或需纯化升级。",
+            *(
+                [
+                    "- 因类型为功法，必须写功法等阶链：先写总纲，再从练气逐阶写到目标境界。每阶都要有独立修炼重心、标志性效果、配套术法或应用法门、限制代价，并说明它如何向目标境界靠拢。",
+                    "- 功法等阶链要判断自身属于递进式、拆分式或先拆后合式：递进式让同类效果逐阶强化；拆分式让每阶各掌一支能力，高阶合一；先拆后合式先分修气、身、魂、器、术、势等支脉，中高阶建立君臣佐使并由父级概念统摄。",
+                    "- 不要把低阶只写成最高阶的弱化版。低阶应承担根基、媒介、校准、索敌、护身、蓄势、结丹准备、护婴准备等功能中的至少一种。",
+                ]
+                if draw.kind == "功法"
+                else []
+            ),
             "- 同时体现技艺程度与出力上限：高技艺低出力偏精细，低技艺高出力偏粗暴危险。",
             "- 给出限制、代价、反噬和至少一个适配场景。",
             "",
@@ -1108,15 +1180,35 @@ def build_prompt(draw: Draw) -> str:
             "6. 多要素结构与纯化取舍",
             "7. 原理",
             "8. 形制或修炼/施展方式",
-            "9. 效果",
-            "10. 限制与代价",
-            "11. 境界适配与等阶差距",
-            "12. 失控或反噬",
-            "13. 适配场景",
-            "14. 设定集正文",
+            *(
+                ["9. 功法等阶链（总纲、逐阶特殊之处、配套术法、递进/拆分/合一路径）"]
+                if draw.kind == "功法"
+                else []
+            ),
+            f"{10 if draw.kind == '功法' else 9}. 效果",
+            f"{11 if draw.kind == '功法' else 10}. 限制与代价",
+            f"{12 if draw.kind == '功法' else 11}. 境界适配与等阶差距",
+            f"{13 if draw.kind == '功法' else 12}. 失控或反噬",
+            f"{14 if draw.kind == '功法' else 13}. 适配场景",
+            f"{15 if draw.kind == '功法' else 14}. 设定集正文",
         ]
     )
     return "\n".join(lines)
+
+
+def format_cultivation_method_chain(draw: Draw) -> list[str]:
+    target_index = REALM_RANK[draw.realm]
+    stages = REALMS[: target_index + 1]
+    stage_lines = [f"- {stage}：{REALM_STAGE_FOCUS[stage]}" for stage in stages]
+    return [
+        "",
+        "功法等阶链要求：",
+        "- 先写总纲：说明此功法把哪些天位、地位、人位收束为同一条修行主轴，为什么各阶都属于同一部功法。",
+        "- 选择结构类型：递进式、拆分式、先拆后合式三者择一或混合，但必须解释选择理由。",
+        "- 逐阶写到目标境界；每阶都要有自己的特殊之处、修炼重心、配套术法或应用法门、限制代价，并说明如何向最高阶靠拢。",
+        "- 低阶不能只是最高阶效果的缩水版；它们应承担根基、媒介、分支、校准、护身、索敌、蓄势、成丹、护婴、法域准备等不同职责。",
+        *stage_lines,
+    ]
 
 
 def format_element(item: ElementDraw) -> str:
@@ -1133,6 +1225,54 @@ def format_element(item: ElementDraw) -> str:
         f"{structure_text}"
         f"技艺程度 {item.skill_degree}/100「{item.skill_label}」；"
         f"出力上限 {item.output_ceiling}/100「{item.output_label}」）"
+    )
+
+
+def sword_branch_depth(
+    branch: str,
+    realm: str,
+    parent_quality: float,
+    conditions: tuple[str, ...],
+    selected_names: tuple[str, ...],
+) -> tuple[str, str, str]:
+    model = SWORD_BRANCH_MODELS[branch]
+    text = " ".join((*conditions, *selected_names))
+    context_hit = any(token in text for token in model["contexts"])
+    realm_ready = REALM_RANK[realm] >= REALM_RANK[model["min_realm"]]
+    quality_ready = parent_quality >= model["quality"]
+    if realm_ready and (quality_ready or context_hit):
+        return "深层", model["essence"], "境界、质量或上下文足以触及本质考验。"
+    reason = []
+    if not realm_ready:
+        reason.append(f"未到{model['min_realm']}")
+    if not quality_ready:
+        reason.append(f"父级剑天位质量低于{model['quality']:.2f}")
+    if not context_hit:
+        reason.append("缺少对应上下文牵引")
+    return "浅层", model["vulgar"], "、".join(reason) + "，故暂按通俗/庸俗理解处理。"
+
+
+def format_sword_parent_guide(
+    item: ElementDraw,
+    draw: Draw,
+    model: dict[str, object],
+) -> str:
+    selected_names = tuple(element.name for element in (*draw.heavens, *draw.earths, *draw.humans, *draw.extras))
+    branch_lines = []
+    for branch in model["branches"]:
+        level, interpretation, reason = sword_branch_depth(
+            branch,
+            draw.realm,
+            item.quality,
+            draw.conditions,
+            selected_names,
+        )
+        branch_lines.append(f"{branch}[{level}]：{interpretation}（{reason}）")
+    branches = "；".join(branch_lines)
+    return (
+        f"{model['definition']} 剑性六纲是成熟地图，不是必填清单；"
+        f"低阶、低质或缺少上下文时应按浅层剑法理解，只有某纲达到境界/质量门槛或被上下文牵引时才展开本质。"
+        f"本次六纲判定：{branches}。"
     )
 
 
@@ -1164,6 +1304,8 @@ def build_draw(args: argparse.Namespace) -> Draw:
     realm = args.realm or rng.choice(REALMS)
     rarity = args.rarity or rng.choice(RARITIES)
     fixed_heavens = parse_csv(args.heaven)
+    if kind == "剑法" and "剑" not in fixed_heavens:
+        fixed_heavens.insert(0, "剑")
     fixed_earths = parse_csv(args.earth)
     fixed_humans = parse_csv(args.human)
     fixed_total = len(fixed_heavens) + len(fixed_earths) + len(fixed_humans)

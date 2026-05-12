@@ -7,7 +7,6 @@ This repository stores Codex/agent skills. Each skill lives under `skills/<skill
 - `skills/xiuzhen-art-generator/SKILL.md`: main skill instructions and workflow.
 - `skills/xiuzhen-art-generator/scripts/`: executable helper scripts, currently `generate_prompt.py`.
 - `skills/xiuzhen-art-generator/references/`: supporting reference material loaded only when needed.
-- `skills/xiuzhen-art-generator/agents/`: agent configuration, such as `openai.yaml`.
 - `docs/`: human-facing background documentation.
 - `evals/`: evaluation assets or future test cases.
 
@@ -28,6 +27,12 @@ The validation command checks skill packaging. The script commands smoke-test ra
 Use Markdown for skill instructions and references. Keep headings descriptive, examples runnable, and instructions concise. Skill directories use kebab-case, for example `xiuzhen-art-generator`.
 
 Python scripts should target Python 3, use 4-space indentation, type hints where practical, and avoid unnecessary dependencies. Prefer explicit CLI flags with `argparse`; keep outputs deterministic when a `--seed` option is supplied.
+
+## Skill 语言与文化语境
+
+当 skill 面向中文创作、世界观构建、仙侠、修真或其他中文文化材料时，非代码内容默认使用简体中文。这包括 `SKILL.md`、参考 Markdown、agent prompt、eval 描述、评分标准和面向用户的示例。
+
+代码标识符、CLI 参数、文件路径和机器读取的 schema key 可以保留英文以维持兼容性。不要因为项目其他部分使用英文，就把概念性说明也写成英文；中文措辞本身就是提示词语境的一部分，会引导模型进入更合适的文化和文学表达。
 
 ## Testing Guidelines
 

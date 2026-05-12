@@ -1,4 +1,0 @@
-interface:
-  display_name: "Xiuzhen Art Generator"
-  short_description: "Generate xiuzhen arts and treasures"
-  default_prompt: "Use $xiuzhen-art-generator to generate a random cultivation spell, method, manual, or magic treasure."

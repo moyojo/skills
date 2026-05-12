@@ -1,16 +1,16 @@
-# Xiuzhen Element Reference
+# 修真要素参考
 
-Use these elements as the sampling pool for 天位、地位、人位. The model is based on three dimensions: power source, medium, and purpose.
+这些要素用于抽取天位、地位、人位。模型的三维分别是：力量来源、承载媒介、作用目的。
 
-The real core is not this exact list. These elements come from recurring human categories for understanding the world: existence, change, order, relation, cognition, and value. The list can be expanded, and every listed element can be refined into narrower subelements when the concrete art needs a sharper mechanism.
+真正的核心不是这张固定列表，而是这些要素背后的底层范畴：存在、变化、秩序、关系、认知、价值。这些范畴是人类理解世界时反复使用的框架。列表可以扩展，每个已列要素也可以在具体法门需要更清楚机制时继续细分。
 
-Selection rule:
+选择规则：
 
-- Use an existing element directly when it is already mechanically precise.
-- Refine once when the element is too broad for the requested art, such as `名 -> 真名/封号/咒名`, `数 -> 比例/周期/极限`, `梦 -> 入梦/梦占/梦中修行`.
-- Invent a new sibling element only when it clearly belongs to one of the underlying categories and can still be explained through 天地人.
+- 现有要素已经足够精确时，直接使用。
+- 要素对当前法门过宽时，细分一次，例如 `名 -> 真名/封号/咒名`，`数 -> 比例/周期/极限`，`梦 -> 入梦/梦占/梦中修行`。
+- 只有当新要素明确属于某个底层范畴，并且仍能通过天地人解释时，才创造同级新要素。
 
-## Categories
+## 范畴
 
 ### 存在
 
@@ -100,7 +100,7 @@ Selection rule:
 - 名：声望、封号、真名、名分。
 - 权：统御、王朝、官职、号令。
 
-## Common 百艺 Types
+## 常见百艺门类
 
 - 丹药食养：炼丹、汤药、药浴、香药、灵膳、灵酿、膏散、露华、采芝
 - 器械工巧：炼器、机关、傀儡、铭文、篆刻、陶埏、玉作、织造、鉴物
@@ -115,9 +115,9 @@ Selection rule:
 - 兵备战策：兵械、甲胄、军阵、旗鼓、战策、斥候、守御、行军、演武
 - 艺道通玄：琴艺、棋艺、书艺、丹青、诗咏、歌咏、舞仪、茶艺、花艺
 
-## 天位 Notes
+## 天位说明
 
-天位 is an element promoted into a power source. Always define:
+天位是被提升为力量来源的要素。必须定义：
 
 - 来源：力量从何而来。
 - 增长：什么条件会让力量变强。
@@ -125,87 +125,88 @@ Selection rule:
 - 失控：力量过载时会如何扭曲。
 - 度量：修士如何测量或比较它。
 
-## 天位 Case Types
+## 天位案例类型
 
-Good 天位 explanations bind mechanics to the element. Bad explanations either paste a topic into flavor text or confuse medium/purpose with power source.
+好的天位解释会把机制绑定到要素本身。坏的解释要么只是把题材贴进氛围文本，要么把媒介/目的误当成力量来源。
 
-### Case 1: Visible Topic Is Not Necessarily 天位
+### 案例 1：表面题材不一定是天位
 
-灵植 example:
+灵植例子：
 
-- Bad: “这是灵植，所以天位是生长。灵植长得越久越强。” This fails because mature spiritual plants should not become powerless after growth completes.
-- Good A: 天位 is `气/灵力` as a supply source; `生/长/藏` are 地位. Power comes from accumulated spiritual energy, while growth rings and medicinal structure merely store and route it.
-- Good B: 天位 is `藏` as the core structure; the plant is strong because unspent potency is sealed and compressed. The strongest point is “将熟未熟”; once fully harvested or exposed,藏势泄尽.
-- Good C: 天位 is `等级` or `时序` as an authority structure; “百年/千年/万年” matters because age marks rank, cycle completion, or calendrical authority, not because time is decorative flavor.
+- 反例：“这是灵植，所以天位是生长。灵植长得越久越强。”问题在于成熟灵植不应因为停止生长就失去力量。
+- 正例 A：天位是 `气/灵力`，作为供能来源；`生/长/藏` 是地位。力量来自积累的灵气，年轮和药性结构只是储存与导流的媒介。
+- 正例 B：天位是 `藏`，作为核心结构；灵植强是因为未耗尽的药势被封存压缩。最强点在“将熟未熟”；一旦完全采收或暴露，藏势泄尽。
+- 正例 C：天位是 `等级` 或 `时序`，作为权威结构；“百年/千年/万年”有意义，是因为年岁标记位阶、周期完成或历法权柄，而不是因为时间只是装饰风味。
 
-Rule: ask whether the proposed 天位 itself creates power. If it only describes appearance, material, stage, or target, move it to 地位 or 人位.
+规则：判断候选天位是否自身产生力量。如果它只描述外观、材料、阶段或目标，就移到地位或人位。
 
-### Case 2: Same Art, Different 天位 Attribution
+### 案例 2：同一法术可以有不同天位归属
 
-A fire spell can have different real 天位:
+火系法术可以有不同的真实天位：
 
-- `气/灵力` main heaven, 火 as medium: ordinary fireball. Power rises with spiritual energy supply; fire shape is just carrier.
-- `化` main heaven, 火 as expression: power comes from transformation differential. Strongest when one state becomes another, such as poison to ash or cold to heat.
-- `显` main heaven, 火 as revelation: power peaks when hidden corruption is exposed by flame; after truth is clear, power declines.
-- `灭` main heaven, 火 as purpose: power is driven by ending, rot, and annihilation; flame is only the visible killing form.
+- `气/灵力` 为主天位，火为媒介：普通火球。力量随灵力供给增长，火形只是承载。
+- `化` 为主天位，火为表现：力量来自状态转化的差值。毒变灰、寒转热这类转化发生时最强。
+- `显` 为主天位，火为揭示：火焰暴露隐藏腐败时力量达到峰值；真相显明后力量下降。
+- `灭` 为主天位，火为目的：力量由终结、腐朽、湮灭驱动；火只是可见杀伤形态。
 
-Rule: do not choose 天位 from the special effect. Choose it from the force that grows, exhausts, and goes out of control.
+规则：不要从特效里选天位，要从会增长、衰竭、失控的力量结构里选。
 
-### Case 3: Composite Heaven Structures
+### 案例 3：复合天位结构
 
-Main/auxiliary power is only one simple structure. Complex methods often create a concrete parent concept that governs several base heavens.
+主辅供能只是最简单的结构。复杂法门常会形成一个具象父级概念，用它统摄多个基础天位。
 
-- Main/auxiliary: `气/灵力` is the supply, `火` is the carrier, `灭` is the purpose. Simple and useful, but not enough for sword paths or mature dao systems.
-- Parent concept: `剑` can govern `分`、`边界`、`义`、`观`、`感应` because sword is not just a metal blade; it is “聚力成锋、分断界限、承担决断、化志为行”.
-- Branch structure: under the parent `剑`, `剑气` asks what power is shaped into edge, `剑势` asks what situation draws the boundary, `剑胆` asks what meaning bears resistance, `剑心` asks what self holds sword nature, `剑意` asks what will shapes the strike, and `剑道` asks what self-nature becomes edge.
-- Branch count: six sword branches are a mature map, not a required checklist. A low-grade sword art may only touch 剑气; a 金丹 sword method may combine 剑气、剑势、剑心; a top sword path may integrate all six until they no longer feel separate.
-- Quality: 1.00 means normal quality for the current realm. Below 1 is crude, borrowed, unstable, or low-purity; above 1 is refined, high-ceiling, or near-dao. Quality can exceed 1 and is not a percentage.
-- Constraint structure: `藏` and `显` can coexist only if the method explains the phase transition from hidden pressure to revelation. Otherwise one should become a pure-form target or be removed.
-- Residual structure: a weakened heaven can remain as a trigger, measurement, taboo, or failure mode rather than a power source.
+- 主辅结构：`气/灵力` 是供给，`火` 是载体，`灭` 是目的。简单有效，但不足以支撑剑道或成熟道统。
+- 父级概念：`剑` 可以统摄 `分`、`边界`、`义`、`观`、`感应`，因为剑不只是金属锋刃，而是“聚力成锋、分断界限、承担决断、化志为行”。
+- 分支结构：在 `剑` 这个父级下，`剑气` 问何种力量被收束为形体，`剑势` 问何种局势划分界限，`剑胆` 问何种意义承担阻力，`剑心` 问何种本心守持剑性，`剑意` 问何种意志形塑斩击，`剑道` 问何种自性自成锋刃。
+- 分支数量：剑道六纲是成熟地图，不是必填清单。低阶剑法可能只触及剑气；金丹剑法可能组合剑气、剑势、剑心；顶级剑道才可能统合六纲直到不再彼此分离。
+- 深浅判定：六纲各自有庸俗层与本质层。低阶、低质或缺少上下文时，剑气可只是属性剑芒，剑势可只是蓄势压迫，剑胆可只是勇气爆发，剑心可只是道心坚定，剑意可只是剑招意境，剑道可只是无形斩。达到境界/质量门槛或被上下文牵引时，才进入上面的“考验”句式。
+- 质量：1.00 表示当前境界的正常质量。低于 1 表示粗糙、借来、不稳或低纯度；高于 1 表示精炼、高上限或近道。质量可以超过 1，不是百分比。
+- 约束结构：`藏` 与 `显` 只有在法门解释了从隐藏压力到显露的相变时才能共存。否则应把其中一个变成纯化目标或移除。
+- 残留结构：被削弱的天位可以作为触发器、度量、禁忌或失败模式保留，而不再作为力量来源。
 
-Rule: when several heavens look unrelated, either find a more concrete parent concept that truly unifies them, or admit they are additive/conflicting and pay the cost. Do not pretend a list is a dao. Count and quality must fit the realm.
+规则：多个天位看似无关时，要么找到真正能统摄它们的具象父级概念，要么承认它们只是相加或冲突，并付出代价。不要把清单伪装成大道。数量和质量必须适配境界。
 
-## Realm-Based Heaven Count And Quality
+## 按境界决定天位数量与质量
 
-- 练气：usually 1 rough heaven. It may be randomly chosen or borrowed, with low coherence.
-- 筑基：1-2 heavens. A rough hierarchy begins to appear.
-- 金丹：2-3 heavens. 君臣佐使 or main/branch/support relations should be visible.
-- 元婴：2-4 heavens. The structure should support soul, escape, domain, inheritance, or old-monster survival needs.
-- 化神：3-5 heavens. Parent concepts and law-facing branches become important.
-- 炼虚/合体：4-7 heavens. The method should show integration, pruning, and high-quality branches.
-- 大乘：5-8 heavens. Only here should “铸天为一” or near-complete parent structures appear naturally.
+- 练气：通常 1 个粗糙天位，可以随机取用或借势，连贯性较低。
+- 筑基：1-2 个天位，开始出现粗略层级。
+- 金丹：2-3 个天位，应能看出君臣佐使或主干/分支/支援关系。
+- 元婴：2-4 个天位，结构应能支撑魂魄、远遁、法域、传承或老怪级生存需求。
+- 化神：3-5 个天位，父级概念和面向法则的分支开始重要。
+- 炼虚/合体：4-7 个天位，应体现统合、裁剪和高质量分支。
+- 大乘：5-8 个天位，只有到这里才自然出现“铸天为一”或近乎完整的父级结构。
 
-### Case 4: Purification Can Beat More Power Sources
+### 案例 4：纯化可能胜过更多力量源
 
-More 天位 usually means more available power, but also more growth conditions, depletion points, measurements, and failure modes.
+更多天位通常意味着更多可用力量，但也意味着更多增长条件、衰竭点、度量方式和失败模式。
 
-- Before purification: `剑` as parent concept includes `感应` and `义`, making a sword path excellent in allied battle because it finds enemies and protects vows.
-- Higher stage problem: 感应 drags in too many relationships, fears, oaths, bloodlines, and debts; the sword hesitates.
-- After purification: `感应` is reduced to 地位 or targeting method, while `义` is absorbed into 剑心/剑胆. Less breadth, cleaner decision, sharper strike.
+- 纯化前：`剑` 作为父级概念包含 `感应` 与 `义`，使剑道在盟友战中擅长索敌和护誓。
+- 高阶问题：感应拖入太多关系、恐惧、誓约、血脉和债务，剑因此迟疑。
+- 纯化后：`感应` 降为地位或索敌方式，`义` 被吸收进剑心/剑胆。广度减少，决断更清，斩击更锐。
 
-Rule: purification is not weakening for no reason. It trades breadth for coherence, fewer contradictions, and a higher ceiling under stricter conditions.
+规则：纯化不是无理由削弱，而是用广度换取连贯性、更少矛盾，以及更严格条件下的更高上限。
 
-## Multi-Element Roles
+## 多要素角色
 
-Any role can contain multiple elements.
+任一角色都可以包含多个要素。
 
 - 多天位：多个力量源共同供能。强，但要求它们的增长、衰竭、失控和度量能互相换算或互相制衡。
 - 多地位：多个媒介共同承载，如剑身、剑势、阵纹、真名、血脉。
 - 多人位：多个目的同时成立，如攻击还要索敌、封印还要净化、治疗还要诊断。
 
-Multi-heaven methods are not automatically better. They may be:
+多天位法门并不自动更好。它们可能是：
 
-- Polynomial: two or more 天位 multiply each other, such as `边界 x 分 x 义` forming a sword path that grows when a righteous decision draws a clean line.
-- Additive: each 天位 contributes separately but does not refine the others.
-- Conflicting: one 天位's growth condition drains another, such as `藏` needs not-yet-revealed pressure while `显` grows at revelation.
-- Dragged: a weak or impure 天位 raises maintenance cost and blocks higher realm advancement.
-- Purified: removing or weakening a 天位 reduces power sources but makes the method sharper, more stable, or closer to 道.
+- 多项式：两个或更多天位彼此相乘，例如 `边界 x 分 x 义` 形成剑道，在义理决断划出清晰界限时增长。
+- 相加式：每个天位分别贡献力量，但不彼此精炼。
+- 冲突式：一个天位的增长条件会消耗另一个天位，例如 `藏` 需要尚未揭开的压力，`显` 却在揭示时增长。
+- 拖累式：弱质或不纯天位提高维护成本，阻挡更高境界晋升。
+- 纯化式：移除或削弱一个天位会减少力量源，却让法门更锋利、更稳定或更接近道。
 
-For attack arts, add at least one medium or purpose element for targeting, such as 感应、观、听、因果、方位、名, unless the art is intentionally self-targeting or area-based.
+攻击型法门至少要加入一个用于索敌的媒介或目的要素，例如感应、观、听、因果、方位、名。除非该法门故意自指或本就是范围攻击。
 
-## Theme Bias
+## 主题偏置
 
-Use a theme as a preferred sampling pool, not a hard cage. If the user asks for a 百艺 family, pick most open dimensions from that family first, then leave room for contrast or surprise.
+主题是优先采样池，不是硬笼子。用户要求某个百艺门类时，优先从该门类抽取大多数开放维度，再保留少量对照或意外。
 
 - 丹药食养：生、长、化、质、尝、净化
 - 器械工巧：形、质、实、化、名、律令
