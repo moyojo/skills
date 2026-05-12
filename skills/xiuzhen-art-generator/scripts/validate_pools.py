@@ -11,6 +11,8 @@ from pool_parser import parse_pool_file
 ROOT = Path(__file__).resolve().parents[1]
 POOL_PATH = ROOT / "data" / "pools.md"
 REQUIRED_FACETS = ("本体", "属性", "过程", "互作", "场域", "时序", "符号", "目的")
+MIN_ELEMENTS_PER_FACET = 30
+MIN_REFINEMENTS_PER_ELEMENT = 6
 
 
 def validate_refs(label: str, refs: tuple[str, ...], known: set[str]) -> None:
@@ -29,15 +31,25 @@ def main() -> None:
         raise SystemExit(f"pools.md missing required facets: {', '.join(missing)}")
 
     known: set[str] = set()
+    seen: dict[str, str] = {}
     for facet, items in elements.items():
         if not items:
             raise SystemExit(f"Facet {facet} has no elements.")
+        if facet in REQUIRED_FACETS and len(items) < MIN_ELEMENTS_PER_FACET:
+            raise SystemExit(
+                f"Facet {facet} needs at least {MIN_ELEMENTS_PER_FACET} elements, found {len(items)}."
+            )
         for name, meaning in items.items():
+            if name in seen:
+                raise SystemExit(f"Element name {name} appears in both {seen[name]} and {facet}.")
+            seen[name] = facet
             if not meaning:
                 raise SystemExit(f"Element {facet}.{name} needs a meaning.")
             refs = data["refinements"].get(name, ())
-            if not refs:
-                raise SystemExit(f"Element {facet}.{name} needs at least one refinement.")
+            if len(refs) < MIN_REFINEMENTS_PER_ELEMENT:
+                raise SystemExit(
+                    f"Element {facet}.{name} needs at least {MIN_REFINEMENTS_PER_ELEMENT} refinements, found {len(refs)}."
+                )
             known.add(name)
 
     known.update(data["custom_elements"])
