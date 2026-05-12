@@ -57,6 +57,7 @@ MAINTENANCE_CONTEXT_PATTERNS = (
 TYPES = ("法术", "功法", "秘籍", "法宝", "神通", "百艺", "剑法")
 REALMS = ("练气", "筑基", "金丹", "元婴", "化神", "炼虚", "合体", "大乘")
 RANDOM_MODES = ("usable", "force")
+SWORD_BRANCHES = tuple(SWORD_BRANCH_MODELS)
 REALM_RANK = {realm: index for index, realm in enumerate(REALMS)}
 REALM_CONTEXT = {
     "练气": {
@@ -897,6 +898,7 @@ def make_element(
     realm: str,
     forced: bool = False,
     structure_role: str | None = None,
+    composite_branch: str | None = None,
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> ElementDraw:
     elements = all_elements()
@@ -913,13 +915,13 @@ def make_element(
     else:
         skill_degree = rng.randint(1, 100)
         output_ceiling = rng.randint(1, 100)
-    composite_branch = None
+    chosen_composite_branch = composite_branch
     diagnostics: list[str] = []
     if role.startswith("天位") and name in CUSTOM_ELEMENTS:
         structure_role = structure_role or "道形统合"
         model = COMPOSITE_PARENT_MODELS.get(name)
-        if model:
-            composite_branch = rng.choice(model["branches"])
+        if model and chosen_composite_branch is None:
+            chosen_composite_branch = rng.choice(model["branches"])
     elif role.startswith("天位"):
         structure_role = structure_role or "供能主源"
     else:
@@ -942,7 +944,7 @@ def make_element(
         structure_role=structure_role,
         quality=quality,
         quality_label=quality_label(quality) if role.startswith("天位") else "质量不适用",
-        composite_branch=composite_branch,
+        composite_branch=chosen_composite_branch,
         skill_label=label(skill_degree),
         output_label=label(output_ceiling),
         forced=forced,
@@ -958,6 +960,7 @@ def choose_element(
     excluded: set[str],
     realm: str,
     structure_role: str | None = None,
+    composite_branch: str | None = None,
     preferred: tuple[str, ...] = (),
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> ElementDraw:
@@ -965,7 +968,16 @@ def choose_element(
         if fixed in excluded:
             raise SystemExit(f"Element '{fixed}' is excluded but was fixed as {role}.")
         used.add(fixed)
-        return make_element(role, fixed, rng, realm, forced=True, structure_role=structure_role, quality_range=quality_range)
+        return make_element(
+            role,
+            fixed,
+            rng,
+            realm,
+            forced=True,
+            structure_role=structure_role,
+            composite_branch=composite_branch,
+            quality_range=quality_range,
+        )
 
     fallback_choices = [name for name in all_elements() if name not in used and name not in excluded]
     if not fallback_choices:
@@ -978,7 +990,15 @@ def choose_element(
     else:
         name = rng.choice(fallback_choices)
     used.add(name)
-    return make_element(role, name, rng, realm, structure_role=structure_role, quality_range=quality_range)
+    return make_element(
+        role,
+        name,
+        rng,
+        realm,
+        structure_role=structure_role,
+        composite_branch=composite_branch,
+        quality_range=quality_range,
+    )
 
 
 def heaven_structure_roles(names: list[str], mode: str) -> list[str]:
@@ -1012,17 +1032,31 @@ def choose_many(
     excluded: set[str],
     realm: str,
     structure_roles: tuple[str | None, ...] = (),
+    composite_branches: dict[str, str] | None = None,
     preferred: tuple[str, ...] = (),
     quality_range: tuple[float, float] = (0.5, 1.5),
 ) -> tuple[ElementDraw, ...]:
+    composite_branches = composite_branches or {}
     draws: list[ElementDraw] = []
     for index, name in enumerate(fixed):
         structure_role = structure_roles[index] if index < len(structure_roles) else None
-        draws.append(choose_element(role, rng, name, used, excluded, realm, structure_role, quality_range=quality_range))
+        draws.append(
+            choose_element(
+                role,
+                rng,
+                name,
+                used,
+                excluded,
+                realm,
+                structure_role,
+                composite_branches.get(name),
+                quality_range=quality_range,
+            )
+        )
     while len(draws) < count:
         index = len(draws)
         structure_role = structure_roles[index] if index < len(structure_roles) else None
-        draws.append(choose_element(role, rng, None, used, excluded, realm, structure_role, preferred, quality_range))
+        draws.append(choose_element(role, rng, None, used, excluded, realm, structure_role, None, preferred, quality_range))
     return tuple(draws)
 
 
@@ -1649,6 +1683,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
     quality_range = complexity["quality"]
     heaven_names_for_roles = fixed_heavens + [""] * max(0, heaven_count - len(fixed_heavens))
     heaven_roles = tuple(heaven_structure_roles(heaven_names_for_roles, composition_mode))
+    composite_branches = {"剑": args.sword_branch} if args.sword_branch else {}
     heavens = choose_many(
         "天位/动力",
         rng,
@@ -1658,6 +1693,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
         excluded,
         realm,
         heaven_roles,
+        composite_branches,
         preferred,
         quality_range,
     )
@@ -1707,6 +1743,7 @@ def build_draw(args: argparse.Namespace) -> Draw:
         "include": tuple(parse_csv(args.include)),
         "exclude": tuple(parse_csv(args.exclude)),
         "extra_count": args.extra_count,
+        "sword_branch": args.sword_branch,
     }
 
     draft = Draw(
@@ -1943,6 +1980,7 @@ def main() -> None:
     parser.add_argument("--earth-count", type=int, help="Minimum number of 地位 elements.")
     parser.add_argument("--human-count", type=int, help="Minimum number of 人位 elements.")
     parser.add_argument("--composition-mode", choices=COMPOSITION_MODES, help="How multiple elements should combine.")
+    parser.add_argument("--sword-branch", choices=SWORD_BRANCHES, help="Required focus branch for the 剑 composite heaven, such as 剑意.")
     parser.add_argument("--theme", choices=THEMES, help="Preferred xiuzhen art family/theme.")
     parser.add_argument("--name-style", choices=NAME_STYLES, help="Literary naming style.")
     parser.add_argument("--random-mode", choices=RANDOM_MODES, help="Random strategy for unspecified fields.")
@@ -1953,6 +1991,13 @@ def main() -> None:
     parser.add_argument("--include", action="append", help="Comma-separated required extra elements.")
     parser.add_argument("--exclude", action="append", help="Comma-separated excluded elements.")
     parser.add_argument("--extra-count", type=int, default=0, help="Number of random extra elements.")
+    parser.add_argument(
+        "--continue",
+        "--omit-context",
+        dest="continuation",
+        action="store_true",
+        help="Continuation mode: omit bundled reference Markdown already present in the conversation.",
+    )
     parser.add_argument("--json", action="store_true", help="Debug/integration only: output machine-readable JSON instead of the creative prompt.")
     args = parser.parse_args()
 
@@ -1979,8 +2024,12 @@ def main() -> None:
 
     print(f"Seed: {draw.seed}")
     print()
-    print(build_reference_context())
-    print()
+    if args.continuation:
+        print("接着生成模式：已省略创作上下文包；沿用本会话此前生成器输出过的修真百艺参考上下文。")
+        print()
+    else:
+        print(build_reference_context())
+        print()
     print("===== BEGIN generated-request =====")
     print(textwrap.dedent(draw.prompt).strip())
     print("===== END generated-request =====")

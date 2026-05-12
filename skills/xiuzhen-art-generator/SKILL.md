@@ -15,11 +15,15 @@ description: 生成修真/仙侠设定的受控随机提示词，并据此创作
 
 ## 工作流
 
-1. 常规生成时不要由 agent 读取 `references/*.md` 或 `data/pools.md`。脚本会从这些资料中提取创作上下文，去掉维护命令、文件路径说明、维护手册和池格式手册后一次性输出。
-2. 运行 `scripts/generate_prompt.py` 抽取或约束天位、地位、人位。默认随机策略是小说可用率加权；用户要求“完全随机”“强随机”“force random”或“全池随机”时使用 `--force-random`。普通创作流程使用文本输出，不用 `--json`；文本输出包含“创作上下文包 + 本次抽样提示词”，必须整体作为创作依据。
-3. 用户显式指定的 `--heaven`、`--earth`、`--human`、`--name-style`、`--type`、`--realm` 是硬约束，必须保留。若强制项与境界冲突，只能写成误读、残式、低阶入口、旁门代价、局部小术或高阶传承的浅层用法。
-4. 在当前上下文中直接使用生成器打印的完整提示词，产出最终设定。
-5. 需要复现时，附上 seed、强制参数和自动合理化诊断。
+1. 首次常规生成时不要由 agent 读取 `references/*.md` 或 `data/pools.md`。脚本会从这些资料中提取创作上下文，去掉维护命令、文件路径说明、维护手册和池格式手册后一次性输出。
+2. 运行脚本前先确定本技能目录，也就是当前 `SKILL.md` 所在目录。不要假定当前工作目录就是技能目录。推荐用 `python3 "$SKILL_DIR/scripts/generate_prompt.py" ...`，其中 `SKILL_DIR` 是包含本 `SKILL.md` 的目录；也可以先 `cd "$SKILL_DIR"` 再运行 `python3 scripts/generate_prompt.py ...`。
+3. 运行 `generate_prompt.py` 抽取或约束天位、地位、人位。默认随机策略是小说可用率加权；用户要求“完全随机”“强随机”“force random”或“全池随机”时使用 `--force-random`。普通创作流程使用文本输出，不用 `--json`；首次文本输出包含“创作上下文包 + 本次抽样提示词”，必须整体作为创作依据。
+4. 同一会话里后续生成、用户说“接着生成”“继续”“再来一个”“换一个”或此前脚本已经输出过完整上下文时，运行脚本必须加 `--continue`（等价 `--omit-context`），省略重复参考 Markdown，只使用新的 `generated-request`。
+5. 后续生成不要靠自然语言反复强调已经出现过的世界观上下文；把用户的新要求、延续条件和避重方向尽量转成脚本参数，例如 `--type`、`--realm`、`--theme`、`--rarity`、`--name-style`、`--composition-mode`、`--condition`、`--include`、`--exclude`、`--heaven-count`、`--earth-count`、`--human-count`。若用户要求“别重复上次”，优先把上次核心天/地/人或不想再见的意象放进 `--exclude`，把仍需延续的剧情、门派、角色定位或功能偏向放进 `--condition`。
+6. 用户显式指定的 `--heaven`、`--earth`、`--human`、`--sword-branch`、`--name-style`、`--type`、`--realm` 是硬约束，必须保留。若强制项与境界冲突，只能写成误读、残式、低阶入口、旁门代价、局部小术或高阶传承的浅层用法。
+7. 用户要求剑经、剑修、剑法或“必须有剑意/剑势/剑心/剑胆/剑气/剑道”时，不要把这些剑性六纲写成 `--human`、`--earth` 或普通 `--heaven` 要素，除非池里确有同名普通要素。应使用 `--heaven 剑`，并用 `--sword-branch 剑意` 这类参数固定本次侧重纲目；其余语义继续放进 `--condition`。
+8. 在当前上下文中直接使用生成器打印的完整提示词，产出最终设定。`--continue` 输出省略的是参考 Markdown，不是本次抽样提示词；仍要完整遵循新的 `generated-request`。
+9. 需要复现时，附上 seed、强制参数、是否使用 `--continue` 和自动合理化诊断。
 
 调试、维护池子、排查抽样、扩展范畴或用户明确要求解释资料来源时，才读取参考文件：
 
@@ -33,23 +37,27 @@ description: 生成修真/仙侠设定的受控随机提示词，并据此创作
 ## 快速开始
 
 ```bash
-python3 scripts/generate_prompt.py
-python3 scripts/generate_prompt.py --type 法宝
-python3 scripts/generate_prompt.py --type 功法 --realm 元婴
-python3 scripts/generate_prompt.py --seed 20260512 --type 法术
-python3 scripts/generate_prompt.py --condition "偏医毒蛊疫，不要纯攻击" --rarity 失传
-python3 scripts/generate_prompt.py --theme 魂梦心识 --type 秘籍
-python3 scripts/generate_prompt.py --type 法宝 --name-style 祭文悲怆
-python3 scripts/generate_prompt.py --type 剑法 --heaven 剑 --heaven 分 --heaven 灭 --composition-mode 纯化
-python3 scripts/generate_prompt.py --force-random
-python3 scripts/generate_prompt.py --type 秘籍 --realm 金丹 --force-random
+SKILL_DIR=/path/to/xiuzhen-art-generator
+python3 "$SKILL_DIR/scripts/generate_prompt.py"
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 法宝
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 功法 --realm 元婴
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --seed 20260512 --type 法术
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --condition "偏医毒蛊疫，不要纯攻击" --rarity 失传
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --theme 魂梦心识 --type 秘籍
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 法宝 --name-style 祭文悲怆
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 剑法 --heaven 剑 --heaven 分 --heaven 灭 --composition-mode 纯化
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 功法 --realm 元婴 --heaven 剑 --sword-branch 剑意 --condition "剑经，直指元婴"
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --force-random
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --type 秘籍 --realm 金丹 --force-random
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --continue --type 法术 --realm 金丹 --condition "接着上一批宗门秘传生成，偏防护和追索"
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --continue --type 剑法 --realm 金丹 --exclude 藏,蓄势 --condition "别重复上次蓄势剑路，仍适合长老级斗法"
 ```
 
 约束三位：
 
 ```bash
-python3 scripts/generate_prompt.py --heaven 愿 --earth 梦 --human 净化
-python3 scripts/generate_prompt.py --heaven 剑 --heaven 分 --earth 形 --human 灭 --human 感应
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --heaven 愿 --earth 梦 --human 净化
+python3 "$SKILL_DIR/scripts/generate_prompt.py" --heaven 剑 --heaven 分 --earth 形 --human 灭 --human 感应
 ```
 
 ## 生成原则
