@@ -62,7 +62,7 @@ npx skills add . --skill xiuzhen-art-generator --agent codex --yes
 $xiuzhen-art-generator 生成一个金丹境剑法，偏追索、破障和宗门秘传风格
 ```
 
-下面展示几组实际生成结果。相同请求在不同会话中可能因为随机抽样与模型发挥而变化；需要复现结构化提示词时，可使用脚本的 `--seed` 参数。
+下面展示几组 Codex 使用该 skill 生成后的结果。相同请求在不同会话中可能因为随机抽样与模型发挥而变化。
 
 ### 示例一：金丹境追索破障法术
 
