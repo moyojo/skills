@@ -27,18 +27,14 @@ npx skills add https://github.com/moyojo/skills --list
 安装到当前项目，供 Codex 在该项目内使用：
 
 ```bash
-npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --copy --yes
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --yes
 ```
-
-这会把 skill 安装到当前项目的 `.agents/skills/xiuzhen-art-generator/`。`--copy` 会复制文件而不是创建符号链接，适合 Windows 或不希望依赖符号链接的环境。
 
 安装为全局 Codex skill，供所有项目使用：
 
 ```bash
-npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --global --copy --yes
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --global --yes
 ```
-
-Codex 的全局安装位置通常是 `~/.codex/skills/xiuzhen-art-generator/`。
 
 查看已安装 skills：
 
@@ -49,13 +45,13 @@ npx skills list --agent codex
 更新时重新运行同一条 GitHub 安装命令即可：
 
 ```bash
-npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --copy --yes
+npx skills add https://github.com/moyojo/skills --skill xiuzhen-art-generator --agent codex --yes
 ```
 
 如果是在本仓库内开发或调试，也可以从本地目录安装当前工作区版本：
 
 ```bash
-npx skills add . --skill xiuzhen-art-generator --agent codex --copy --yes
+npx skills add . --skill xiuzhen-art-generator --agent codex --yes
 ```
 
 ## 使用
